@@ -1,5 +1,5 @@
 {
-  "name": "eslint-plugin-dprint",
+  "name": "@phaphoso/eslint-plugin-dprint",
   "version": "0.4.0",
   "description": "An ESLint plugin that fixes code with dprint",
   "engines": {

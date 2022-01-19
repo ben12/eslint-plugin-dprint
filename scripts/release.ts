@@ -37,7 +37,7 @@ try {
     sh(`git commit -m "${commitMessage}"`)
     sh(`git tag "v${version}"`)
     sh(`git push "${originUrl}" "v${version}"`)
-    sh("npm publish")
+    sh("npm publish --access=public")
 } finally {
     // Clean
     rm(".git")
