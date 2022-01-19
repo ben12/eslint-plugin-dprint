@@ -1,6 +1,6 @@
+import createDebug from "debug"
 import fs from "fs"
 import path from "path"
-import createDebug from "debug"
 
 const debug = createDebug("eslint:plugin-dprint")
 
