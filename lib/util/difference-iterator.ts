@@ -46,6 +46,7 @@ export class DifferenceIterator {
     /** Iterate differences. */
     private *iterate(): Generator<Diff> {
         while (this.i < this.changes.length) {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const change = this.changeAt(this.i)!
 
             if (change.added) {

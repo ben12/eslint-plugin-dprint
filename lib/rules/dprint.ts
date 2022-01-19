@@ -1,4 +1,4 @@
-import { TSESLint } from "@typescript-eslint/experimental-utils"
+import { TSESLint } from "@typescript-eslint/utils"
 import path from "path"
 import configSchema from "../dprint/config-schema.json"
 import { format } from "../dprint/typescript"
@@ -109,7 +109,6 @@ export const dprint = rule({
     name: "dprint",
     meta: {
         docs: {
-            category: "Stylistic Issues",
             description: "Format code with dprint",
             recommended: "error",
         },

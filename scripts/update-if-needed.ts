@@ -206,7 +206,6 @@ async function main(): Promise<string> {
     return calculateUpdateKind(current.version, latest.version)
 }
 
-// eslint-disable-next-line @mysticatea/ts/no-floating-promises
 main()
     .catch(error => {
         console.error(error)
