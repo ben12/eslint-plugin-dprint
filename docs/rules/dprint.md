@@ -1,4 +1,4 @@
-# dprint/dprint
+# @phaphoso/dprint/dprint
 
 > Format code with [dprint].
 
@@ -10,7 +10,7 @@ Run [dprint] to format code.
 
 ```jsonc
 {
-  "dprint/dprint": [
+  "@phaphoso/dprint/dprint": [
     "error",
     {
       "config": {
