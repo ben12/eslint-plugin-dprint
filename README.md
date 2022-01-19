@@ -2,9 +2,6 @@
 
 [![npm version](https://img.shields.io/npm/v/@phaphoso/eslint-plugin-dprint.svg)](https://www.npmjs.com/package/@phaphoso/eslint-plugin-dprint)
 [![Downloads/month](https://img.shields.io/npm/dm/@phaphoso/eslint-plugin-dprint.svg)](http://www.npmtrends.com/@phaphoso/eslint-plugin-dprint)
-[![Build Status](https://github.com/rmobis/eslint-plugin-dprint/workflows/CI/badge.svg)](https://github.com/rmobis/eslint-plugin-dprint/actions)
-[![codecov](https://codecov.io/gh/rmobis/eslint-plugin-dprint/branch/master/graph/badge.svg)](https://codecov.io/gh/rmobis/eslint-plugin-dprint)
-[![Dependency Status](https://david-dm.org/rmobis/eslint-plugin-dprint.svg)](https://david-dm.org/rmobis/eslint-plugin-dprint)
 
 > This is an updated fork of mysticatea/eslint-plugin-dprint. Some things are still being adjusted.
 
@@ -76,7 +73,7 @@ Please use GitHub's Issues/PRs.
 
 [dprint]: https://github.com/dprint/dprint
 [npm]: https://www.npmjs.com/
-[typescript-0.32.4.wasm]: lib/dprint/typescript-0.32.4.wasm
+[typescript-0.62.0.wasm]: lib/dprint/typescript-0.62.0.wasm
 [@phaphoso/dprint/dprint]: docs/rules/dprint.md
 [plugin:@phaphoso/dprint/disable-conflict-rules]: https://github.com/rmobis/eslint-plugin-dprint/blob/master/lib/configs/disable-conflict-rules.ts
 [plugin:@phaphoso/dprint/recommended]: https://github.com/rmobis/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts
