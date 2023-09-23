@@ -1,9 +1,9 @@
 # eslint-plugin-dprint
 
-[![npm version](https://img.shields.io/npm/v/@phaphoso/eslint-plugin-dprint.svg)](https://www.npmjs.com/package/@phaphoso/eslint-plugin-dprint)
-[![Downloads/month](https://img.shields.io/npm/dm/@phaphoso/eslint-plugin-dprint.svg)](http://www.npmtrends.com/@phaphoso/eslint-plugin-dprint)
+[![npm version](https://img.shields.io/npm/v/@ben.12/eslint-plugin-dprint.svg)](https://www.npmjs.com/package/@ben.12/eslint-plugin-dprint)
+[![Downloads/month](https://img.shields.io/npm/dm/@ben.12/eslint-plugin-dprint.svg)](http://www.npmtrends.com/@ben.12/eslint-plugin-dprint)
 
-> This is an updated fork of mysticatea/eslint-plugin-dprint. Some things are still being adjusted.
+> This is an updated fork of ben12/eslint-plugin-dprint. Some things are still being adjusted.
 
 The plugin that runs [dprint] to format code in ESLint.
 
@@ -12,10 +12,8 @@ The plugin that runs [dprint] to format code in ESLint.
 Use [npm] or a compatible tool.
 
 ```
-$ npm install -D eslint @phaphoso/eslint-plugin-dprint
+$ npm install -D eslint @ben.12/eslint-plugin-dprint
 ```
-
-- `@phaphoso/eslint-plugin-dprint` contains [typescript-0.62.0.wasm] because that will be not likely published to [npm] repository.
 
 ## 📖 Usage
 
@@ -23,9 +21,9 @@ Write your ESLint configuration. For example:
 
 ```js
 module.exports = {
-  extends: ["eslint:recommended", "plugin:@phaphoso/dprint/recommended"],
+  extends: ["eslint:recommended", "plugin:@ben12/dprint/recommended"],
   rules: {
-    "@phaphoso/dprint/dprint": [
+    "@ben12/dprint/dprint": [
       "error",
       {
         config: {
@@ -44,16 +42,16 @@ Then run ESLint with `--fix`!
 
 | Rule                      | Description                |
 | :------------------------ | :------------------------- |
-| [@phaphoso/dprint/dprint] | Format code with [dprint]. |
+| [@ben12/dprint/dprint] | Format code with [dprint]. |
 
 ### Available Configs
 
 | Config                                           | Description                                                                                   |
 | :----------------------------------------------- | :-------------------------------------------------------------------------------------------- |
-| [plugin:@phaphoso/dprint/disable-conflict-rules] | Disable rules where are conflicted with the [@phaphoso/dprint/dprint] rule.                             |
-| [plugin:@phaphoso/dprint/recommended]            | Enable the [@phaphoso/dprint/dprint] rule along with the [plugin:@phaphoso/dprint/disable-conflict-rules] preset. |
+| [plugin:@ben12/dprint/disable-conflict-rules] | Disable rules where are conflicted with the [@ben12/dprint/dprint] rule.                             |
+| [plugin:@ben12/dprint/recommended]            | Enable the [@ben12/dprint/dprint] rule along with the [plugin:@ben12/dprint/disable-conflict-rules] preset. |
 
-- Put the [plugin:@phaphoso/dprint/recommended] or [plugin:@phaphoso/dprint/disable-conflict-rules] config into the last of your `extends` list in order to ensure disabling conflict rules where came from other base configurations.
+- Put the [plugin:@ben12/dprint/recommended] or [plugin:@ben12/dprint/disable-conflict-rules] config into the last of your `extends` list in order to ensure disabling conflict rules where came from other base configurations.
 
 ## 📰 Changelog
 
@@ -74,6 +72,6 @@ Please use GitHub's Issues/PRs.
 [dprint]: https://github.com/dprint/dprint
 [npm]: https://www.npmjs.com/
 [typescript-0.62.0.wasm]: lib/dprint/typescript-0.62.0.wasm
-[@phaphoso/dprint/dprint]: docs/rules/dprint.md
-[plugin:@phaphoso/dprint/disable-conflict-rules]: https://github.com/rmobis/eslint-plugin-dprint/blob/master/lib/configs/disable-conflict-rules.ts
-[plugin:@phaphoso/dprint/recommended]: https://github.com/rmobis/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts
+[@ben12/dprint/dprint]: docs/rules/dprint.md
+[plugin:@ben12/dprint/disable-conflict-rules]: https://github.com/rmobis/eslint-plugin-dprint/blob/master/lib/configs/disable-conflict-rules.ts
+[plugin:@ben12/dprint/recommended]: https://github.com/rmobis/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts

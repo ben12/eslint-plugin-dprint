@@ -1,10 +1,9 @@
-import { TSESLint } from "@typescript-eslint/utils"
+import { ESLintUtils, TSESLint } from "@typescript-eslint/utils"
 import path from "path"
 import configSchema from "../dprint/config-schema.json"
 import { format } from "../dprint/typescript"
 import { Diff, DifferenceIterator } from "../util/difference-iterator"
 import { hasLinebreak, isWhitespace } from "../util/predicate"
-import { rule } from "../util/rule"
 
 /** The message IDs. */
 type MessageId = (typeof dprint) extends TSESLint.RuleModule<infer T, any, any>
@@ -15,6 +14,10 @@ type Message = {
     messageId: MessageId
     data: Record<string, string>
 }
+
+const createRule = ESLintUtils.RuleCreator(ruleName =>
+    `https://github.com/ben12/eslint-plugin-dprint/blob/master/docs/rules/${ruleName}.md`
+)
 
 /**
  * Count line breaks in the head whitespace sequence.
@@ -105,12 +108,12 @@ function createMessage(d: Diff): Message {
     }
 }
 
-export const dprint = rule({
+export const dprint = createRule({
     name: "dprint",
     meta: {
         docs: {
             description: "Format code with dprint",
-            recommended: "error",
+            recommended: "recommended",
         },
         fixable: "code",
         messages: {
@@ -131,7 +134,7 @@ export const dprint = rule({
             type: "array",
             items: [{
                 type: "object",
-                properties: { config: configSchema },
+                properties: { config: configSchema as any},
                 additionalProperties: false,
             }],
             additionalItems: false,

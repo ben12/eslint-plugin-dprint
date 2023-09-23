@@ -25,8 +25,8 @@ jobs:
       if: ${{ success() && steps.updateStep.outputs.updated == "yes" }}
     - name: Version Bump
       run: |
-        git config user.name mysticatea
-        git config user.email public@mysticatea.dev
+        git config user.name ben12
+        git config user.email public@ben12.dev
         git add .
         git commit -m "🚀 update dprint-plugin-typescript"
         npm version ${{ steps.updateStep.outputs.kind }}

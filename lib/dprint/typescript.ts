@@ -1,6 +1,6 @@
 import createDebug from "debug"
 import fs from "fs"
-import path from "path"
+import dprint from "@dprint/typescript"
 
 const debug = createDebug("eslint:plugin-dprint")
 
@@ -8,7 +8,7 @@ const debug = createDebug("eslint:plugin-dprint")
 declare let WebAssembly: any
 
 // Load `dprint-plugin-typescript`.
-const TSPluginPath = path.join(__dirname, "typescript-0.62.0.wasm")
+const TSPluginPath = dprint.getPath()
 const TSPluginModule = new WebAssembly.Module(fs.readFileSync(TSPluginPath))
 const TSPluginInstance = new WebAssembly.Instance(TSPluginModule, {})
 const TSPlugin = TSPluginInstance.exports

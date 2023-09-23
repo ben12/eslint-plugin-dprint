@@ -1,5 +1,5 @@
 export const disableConflictRules = {
-    plugins: ["@phaphoso/dprint"],
+    plugins: ["@ben12/dprint"],
     rules: {
         "array-bracket-newline": "off",
         "array-bracket-spacing": "off",
