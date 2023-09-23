@@ -3,7 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/@ben.12/eslint-plugin-dprint.svg)](https://www.npmjs.com/package/@ben.12/eslint-plugin-dprint)
 [![Downloads/month](https://img.shields.io/npm/dm/@ben.12/eslint-plugin-dprint.svg)](http://www.npmtrends.com/@ben.12/eslint-plugin-dprint)
 
-> This is an updated fork of ben12/eslint-plugin-dprint. Some things are still being adjusted.
+> This is an updated fork of mysticatea/eslint-plugin-dprint. Some things are still being adjusted.
 
 The plugin that runs [dprint] to format code in ESLint.
 
@@ -55,7 +55,7 @@ Then run ESLint with `--fix`!
 
 ## 📰 Changelog
 
-See [GitHub Releases](https://github.com/rmobis/eslint-plugin-dprint/releases).
+See [GitHub Releases](https://github.com/ben12/eslint-plugin-dprint/releases).
 
 ## ❤️ Contributing
 
@@ -71,7 +71,6 @@ Please use GitHub's Issues/PRs.
 
 [dprint]: https://github.com/dprint/dprint
 [npm]: https://www.npmjs.com/
-[typescript-0.62.0.wasm]: lib/dprint/typescript-0.62.0.wasm
 [@ben12/dprint/dprint]: docs/rules/dprint.md
-[plugin:@ben12/dprint/disable-conflict-rules]: https://github.com/rmobis/eslint-plugin-dprint/blob/master/lib/configs/disable-conflict-rules.ts
-[plugin:@ben12/dprint/recommended]: https://github.com/rmobis/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts
+[plugin:@ben12/dprint/disable-conflict-rules]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/disable-conflict-rules.ts
+[plugin:@ben12/dprint/recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts
