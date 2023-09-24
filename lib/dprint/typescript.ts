@@ -1,6 +1,6 @@
+import dprint from "@dprint/typescript"
 import createDebug from "debug"
 import fs from "fs"
-import dprint from "@dprint/typescript"
 
 const debug = createDebug("eslint:plugin-dprint")
 

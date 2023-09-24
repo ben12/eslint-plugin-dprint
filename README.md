@@ -1,7 +1,7 @@
 # eslint-plugin-dprint
 
-[![npm version](https://img.shields.io/npm/v/@ben.12/eslint-plugin-dprint.svg)](https://www.npmjs.com/package/@ben.12/eslint-plugin-dprint)
-[![Downloads/month](https://img.shields.io/npm/dm/@ben.12/eslint-plugin-dprint.svg)](http://www.npmtrends.com/@ben.12/eslint-plugin-dprint)
+[![npm version](https://img.shields.io/npm/v/@ben_12/eslint-plugin-dprint.svg)](https://www.npmjs.com/package/@ben_12/eslint-plugin-dprint)
+[![Downloads/month](https://img.shields.io/npm/dm/@ben_12/eslint-plugin-dprint.svg)](http://www.npmtrends.com/@ben_12/eslint-plugin-dprint)
 
 > This is an updated fork of mysticatea/eslint-plugin-dprint. Some things are still being adjusted.
 
@@ -12,7 +12,7 @@ The plugin that runs [dprint] to format code in ESLint.
 Use [npm] or a compatible tool.
 
 ```
-$ npm install -D eslint @ben.12/eslint-plugin-dprint
+$ npm install -D eslint @ben_12/eslint-plugin-dprint
 ```
 
 ## 📖 Usage
@@ -21,9 +21,9 @@ Write your ESLint configuration. For example:
 
 ```js
 module.exports = {
-  extends: ["eslint:recommended", "plugin:@ben12/dprint/recommended"],
+  extends: ["eslint:recommended", "plugin:@ben_12/dprint/recommended"],
   rules: {
-    "@ben12/dprint/dprint": [
+    "@ben_12/dprint/dprint": [
       "error",
       {
         config: {
@@ -42,16 +42,16 @@ Then run ESLint with `--fix`!
 
 | Rule                      | Description                |
 | :------------------------ | :------------------------- |
-| [@ben12/dprint/dprint] | Format code with [dprint]. |
+| [@ben_12/dprint/dprint] | Format code with [dprint]. |
 
 ### Available Configs
 
 | Config                                           | Description                                                                                   |
 | :----------------------------------------------- | :-------------------------------------------------------------------------------------------- |
-| [plugin:@ben12/dprint/disable-conflict-rules] | Disable rules where are conflicted with the [@ben12/dprint/dprint] rule.                             |
-| [plugin:@ben12/dprint/recommended]            | Enable the [@ben12/dprint/dprint] rule along with the [plugin:@ben12/dprint/disable-conflict-rules] preset. |
+| [plugin:@ben_12/dprint/disable-conflict-rules] | Disable rules where are conflicted with the [@ben_12/dprint/dprint] rule.                             |
+| [plugin:@ben_12/dprint/recommended]            | Enable the [@ben_12/dprint/dprint] rule along with the [plugin:@ben_12/dprint/disable-conflict-rules] preset. |
 
-- Put the [plugin:@ben12/dprint/recommended] or [plugin:@ben12/dprint/disable-conflict-rules] config into the last of your `extends` list in order to ensure disabling conflict rules where came from other base configurations.
+- Put the [plugin:@ben_12/dprint/recommended] or [plugin:@ben_12/dprint/disable-conflict-rules] config into the last of your `extends` list in order to ensure disabling conflict rules where came from other base configurations.
 
 ## 📰 Changelog
 
@@ -71,6 +71,6 @@ Please use GitHub's Issues/PRs.
 
 [dprint]: https://github.com/dprint/dprint
 [npm]: https://www.npmjs.com/
-[@ben12/dprint/dprint]: docs/rules/dprint.md
-[plugin:@ben12/dprint/disable-conflict-rules]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/disable-conflict-rules.ts
-[plugin:@ben12/dprint/recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts
+[@ben_12/dprint/dprint]: docs/rules/dprint.md
+[plugin:@ben_12/dprint/disable-conflict-rules]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/disable-conflict-rules.ts
+[plugin:@ben_12/dprint/recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts

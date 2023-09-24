@@ -55,10 +55,8 @@ tester.run("dprint", dprint, {
         {
             filename: path.join(__dirname, "test.ts"),
             parser: require.resolve("@typescript-eslint/parser"),
-            code:
-                'type TypeScriptPlugin = typeof import("dprint-plugin-typescript").TypeScriptPlugin;\n',
-            output:
-                'type TypeScriptPlugin =\n    typeof import("dprint-plugin-typescript").TypeScriptPlugin;\n',
+            code: 'type TypeScriptPlugin = typeof import("dprint-plugin-typescript").TypeScriptPlugin;\n',
+            output: 'type TypeScriptPlugin =\n    typeof import("dprint-plugin-typescript").TypeScriptPlugin;\n',
             options: [{ config: { useTabs: false, indentWidth: 4, lineWidth: 80 } }],
             errors: [{
                 messageId: "requireLinebreak",
@@ -70,10 +68,8 @@ tester.run("dprint", dprint, {
         {
             filename: path.join(__dirname, "test.ts"),
             parser: require.resolve("@typescript-eslint/parser"),
-            code:
-                'type TFormatFileText =\n    typeof import("@dprint/core").formatText;\n',
-            output:
-                'type TFormatFileText = typeof import("@dprint/core").formatText;\n',
+            code: 'type TFormatFileText =\n    typeof import("@dprint/core").formatText;\n',
+            output: 'type TFormatFileText = typeof import("@dprint/core").formatText;\n',
             options: [{ config: { useTabs: false, indentWidth: 4, lineWidth: 80 } }],
             errors: [{
                 messageId: "extraLinebreak",

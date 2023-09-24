@@ -1,5 +1,7 @@
 /.dprint-plugins
 /.nyc_output
+/.vscode/*
+!/.vscode/settings.json
 /coverage
 /dist
 /node_modules

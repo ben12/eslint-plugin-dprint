@@ -1,6 +1,6 @@
 {
-  "name": "@ben.12/eslint-plugin-dprint",
-  "version": "0.6.0",
+  "name": "@ben_12/eslint-plugin-dprint",
+  "version": "0.6.1",
   "description": "An ESLint plugin that fixes code with dprint",
   "engines": {
     "node": ">=18.0.0"
@@ -19,6 +19,7 @@
     "diff": "^4.0.2"
   },
   "devDependencies": {
+    "@ben_12/eslint-plugin-dprint": "^0.6.1",
     "@types/debug": "^4.1.5",
     "@types/diff": "^5.0.0",
     "@types/node": "^18.0.0",
@@ -55,7 +56,7 @@
     "eslintplugin",
     "dprint"
   ],
-  "author": "Toru Nagashima <public@ben12.dev>",
+  "author": "Benoît Moreau <public@ben12.dev>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ben12/eslint-plugin-dprint/issues"

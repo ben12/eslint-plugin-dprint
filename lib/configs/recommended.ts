@@ -1,9 +1,9 @@
 import { disableConflictRules } from "./disable-conflict-rules"
 
 export const recommended = {
-    plugins: ["@ben12/dprint"],
+    plugins: ["@ben_12/dprint"],
     rules: {
         ...disableConflictRules.rules,
-        "@ben12/dprint/dprint": "warn",
+        "@ben_12/dprint/dprint": "warn",
     },
 }

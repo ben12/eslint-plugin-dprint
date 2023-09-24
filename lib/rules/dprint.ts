@@ -6,9 +6,7 @@ import { Diff, DifferenceIterator } from "../util/difference-iterator"
 import { hasLinebreak, isWhitespace } from "../util/predicate"
 
 /** The message IDs. */
-type MessageId = (typeof dprint) extends TSESLint.RuleModule<infer T, any, any>
-    ? T
-    : never
+type MessageId = (typeof dprint) extends TSESLint.RuleModule<infer T, any, any> ? T : never
 /** The message. */
 type Message = {
     messageId: MessageId
@@ -134,7 +132,7 @@ export const dprint = createRule({
             type: "array",
             items: [{
                 type: "object",
-                properties: { config: configSchema as any},
+                properties: { config: configSchema as any },
                 additionalProperties: false,
             }],
             additionalItems: false,
@@ -162,10 +160,12 @@ export const dprint = createRule({
             }
 
             // Generate lint reports
-            for (const d of DifferenceIterator.iterate(
-                fileText,
-                formattedText,
-            )) {
+            for (
+                const d of DifferenceIterator.iterate(
+                    fileText,
+                    formattedText,
+                )
+            ) {
                 const loc = d.type === "add"
                     ? sourceCode.getLocFromIndex(d.range[0])
                     : {

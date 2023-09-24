@@ -1,5 +1,5 @@
 import fs from "fs"
-import https from "https";
+import https from "https"
 import path from "path"
 import { sh, stdoutOf } from "./lib/utils"
 
@@ -17,23 +17,23 @@ type LatestReleaseInfo = {
 
 /**
  * Read the current version information.
- * It's came from `lib/dprint/typescript-X.Y.X.wasm` file's name.
  */
 function readCurrentVersion(): CurrentVersionInfo {
-    return {version: stdoutOf("npm ls --depth=0 | grep @dprint/typescript | sed -E 's/.*?@([^@]+)$/\\1/g'")}
+    return { version: stdoutOf("npm ls --depth=0 | grep @dprint/typescript | sed -E 's/.*?@([^@]+)$/\\1/g'") }
 }
 
 /**
  * Read the latest release information.
- * It's came from `https://github.com/dprint/plugins` repository.
+ * It's came from `https://github.com/dprint/dprint-plugin-typescript` repository.
  */
 function readLatestVersion(): LatestReleaseInfo {
     const version = stdoutOf("npm view @dprint/typescript version")
     if (version.matchAll(/\d+\.\d+\.\d+/g)) {
-        const schema = `https://raw.githubusercontent.com/dprint/dprint-plugin-typescript/${version}/deployment/schema.json`
+        const schema =
+            `https://raw.githubusercontent.com/dprint/dprint-plugin-typescript/${version}/deployment/schema.json`
         return {
             version: version,
-            configSchemaPath: schema
+            configSchemaPath: schema,
         }
     }
 
@@ -48,14 +48,15 @@ function readLatestVersion(): LatestReleaseInfo {
 async function updateConfigSchema(srcPath: string): Promise<void> {
     console.log("Update %o", path.relative(process.cwd(), ConfigSchemaPath))
 
-    const originalContent = await new Promise<string>((resolve, fail) => https.get(srcPath, response => {
-        let body = "";
-        response.setEncoding("utf-8");
-        const stream = response.on("data", chunk => body += chunk);
-        stream.on("end", () => resolve(body));
-      })
-      .on("error", () => fail())
-    );
+    const originalContent = await new Promise<string>((resolve, fail) =>
+        https.get(srcPath, response => {
+            let body = ""
+            response.setEncoding("utf-8")
+            const stream = response.on("data", chunk => body += chunk)
+            stream.on("end", () => resolve(body))
+        })
+            .on("error", () => fail())
+    )
     const modifiedContent = originalContent
         .replace(/"\$schema":.+?\n\s*"\$id":.+?\n\s*/u, "")
         .replace(/"const": ([^,\n]+)/gu, '"enum": [$1]')
@@ -122,7 +123,7 @@ main()
             fs.writeFileSync(
                 process.env.GITHUB_OUTPUT,
                 `updated=${updated ? "yes" : "no"}
-kind=${updateKind}`
-            );
+kind=${updateKind}`,
+            )
         }
     })
