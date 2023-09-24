@@ -118,6 +118,11 @@ main()
             updateKind === "minor" ||
             updateKind === "patch"
 
-        console.log("::set-output name=updated::%s", updated ? "yes" : "no")
-        console.log("::set-output name=kind::%s", updateKind)
+        if (process.env.GITHUB_OUTPUT) {
+            fs.writeFileSync(
+                process.env.GITHUB_OUTPUT,
+                `updated=${updated ? "yes" : "no"}
+kind=${updateKind}`
+            );
+        }
     })
