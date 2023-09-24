@@ -1,6 +1,4 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://plugins.dprint.dev/schemas/typescript-0.0.0.json",
   "type": "object",
   "definitions": {
     "useTabs": {
@@ -8,10 +6,10 @@
       "type": "boolean",
       "default": false,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Uses tabs for indentation."
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Uses spaces for indentation."
       }]
     },
@@ -20,13 +18,13 @@
       "type": "string",
       "default": "prefer",
       "oneOf": [{
-        "const": "always",
+        "enum": ["always"],
         "description": "Always uses semi-colons where applicable."
       }, {
-        "const": "prefer",
+        "enum": ["prefer"],
         "description": "Prefers semi-colons, but doesn't add one in certain scenarios such as for the last member of a single-line type literal."
       }, {
-        "const": "asi",
+        "enum": ["asi"],
         "description": "Uses automatic semi-colon insertion. Only adds a semi-colon at the start of some expression statements when necessary. Read more: https://standardjs.com/rules.html#semicolons"
       }]
     },
@@ -35,16 +33,16 @@
       "type": "string",
       "default": "alwaysDouble",
       "oneOf": [{
-        "const": "alwaysDouble",
+        "enum": ["alwaysDouble"],
         "description": "Always uses double quotes."
       }, {
-        "const": "alwaysSingle",
+        "enum": ["alwaysSingle"],
         "description": "Always uses single quotes."
       }, {
-        "const": "preferDouble",
+        "enum": ["preferDouble"],
         "description": "Prefers using double quotes except in scenarios where the string contains more double quotes than single quotes."
       }, {
-        "const": "preferSingle",
+        "enum": ["preferSingle"],
         "description": "Prefers using single quotes except in scenarios where the string contains more single quotes than double quotes."
       }]
     },
@@ -53,11 +51,26 @@
       "type": "string",
       "default": "preferDouble",
       "oneOf": [{
-        "const": "preferDouble",
+        "enum": ["preferDouble"],
         "description": "Prefers using double quotes except in scenarios where the string contains more double quotes than single quotes."
       }, {
-        "const": "preferSingle",
+        "enum": ["preferSingle"],
         "description": "Prefers using single quotes except in scenarios where the string contains more single quotes than double quotes."
+      }]
+    },
+    "quoteProps": {
+      "description": "Change when properties in objects are quoted.",
+      "type": "string",
+      "default": "preserve",
+      "oneOf": [{
+        "enum": ["asNeeded"],
+        "description": "Remove unnecessary quotes around property names."
+      }, {
+        "enum": ["consistent"],
+        "description": "Same as 'asNeeded', but if one property requires quotes then quote them all."
+      }, {
+        "enum": ["preserve"],
+        "description": "Preserve quotes around property names."
       }]
     },
     "jsx.multiLineParens": {
@@ -65,14 +78,41 @@
       "type": "string",
       "default": "prefer",
       "oneOf": [{
-        "const": "never",
+        "enum": ["never"],
         "description": "Never wrap JSX with parentheses."
       }, {
-        "const": "prefer",
+        "enum": ["prefer"],
         "description": "Prefer wrapping with parentheses in most scenarios, except in function arguments and JSX attributes."
       }, {
-        "const": "always",
+        "enum": ["always"],
         "description": "Always wrap JSX with parentheses if it spans multiple lines."
+      }]
+    },
+    "jsx.forceNewLinesSurroundingContent": {
+      "description": "Forces newlines surrounding the content of JSX elements.",
+      "type": "boolean",
+      "default": false,
+      "oneOf": [{
+        "enum": [true],
+        "description": ""
+      }, {
+        "enum": [false],
+        "description": ""
+      }]
+    },
+    "jsx.bracketPosition": {
+      "description": "If the end angle bracket of a jsx open element or self closing element should be on the same or next line when the attributes span multiple lines.",
+      "type": "string",
+      "default": "nextLine",
+      "oneOf": [{
+        "enum": ["maintain"],
+        "description": "Maintains the position of the end angle bracket."
+      }, {
+        "enum": ["sameLine"],
+        "description": "Forces the end angle bracket to be on the same line."
+      }, {
+        "enum": ["nextLine"],
+        "description": "Forces the end angle bracket to be on the next line."
       }]
     },
     "newLineKind": {
@@ -80,16 +120,16 @@
       "type": "string",
       "default": "lf",
       "oneOf": [{
-        "const": "auto",
+        "enum": ["auto"],
         "description": "For each file, uses the last newline kind found in the file."
       }, {
-        "const": "crlf",
+        "enum": ["crlf"],
         "description": "Uses carriage return, line feed."
       }, {
-        "const": "lf",
+        "enum": ["lf"],
         "description": "Uses line feed."
       }, {
-        "const": "system",
+        "enum": ["system"],
         "description": "Uses the system standard (ex. crlf on Windows)."
       }]
     },
@@ -98,17 +138,17 @@
       "type": "string",
       "default": "whenNotSingleLine",
       "oneOf": [{
-        "const": "maintain",
+        "enum": ["maintain"],
         "description": "Uses braces if they're used. Doesn't use braces if they're not used."
       }, {
-        "const": "whenNotSingleLine",
+        "enum": ["whenNotSingleLine"],
         "description": "Uses braces when the body is on a different line."
       }, {
-        "const": "always",
+        "enum": ["always"],
         "description": "Forces the use of braces. Will add them if they aren't used."
       }, {
-        "const": "preferNone",
-        "description": "Forces no braces when when the header is one line and body is one line. Otherwise forces braces."
+        "enum": ["preferNone"],
+        "description": "Forces no braces when the header is one line and body is one line. Otherwise forces braces."
       }]
     },
     "bracePosition": {
@@ -116,16 +156,16 @@
       "type": "string",
       "default": "sameLineUnlessHanging",
       "oneOf": [{
-        "const": "maintain",
+        "enum": ["maintain"],
         "description": "Maintains the brace being on the next line or the same line."
       }, {
-        "const": "sameLine",
+        "enum": ["sameLine"],
         "description": "Forces the brace to be on the same line."
       }, {
-        "const": "nextLine",
+        "enum": ["nextLine"],
         "description": "Forces the brace to be on the next line."
       }, {
-        "const": "sameLineUnlessHanging",
+        "enum": ["sameLineUnlessHanging"],
         "description": "Forces the brace to be on the next line if the same line is hanging, but otherwise uses the same line."
       }]
     },
@@ -134,28 +174,28 @@
       "type": "string",
       "default": "maintain",
       "oneOf": [{
-        "const": "maintain",
+        "enum": ["maintain"],
         "description": "Maintains the position of the expression."
       }, {
-        "const": "sameLine",
+        "enum": ["sameLine"],
         "description": "Forces the whole statement to be on one line."
       }, {
-        "const": "nextLine",
+        "enum": ["nextLine"],
         "description": "Forces the expression to be on the next line."
       }]
     },
     "nextControlFlowPosition": {
       "description": "Where to place the next control flow within a control flow statement.",
       "type": "string",
-      "default": "nextLine",
+      "default": "sameLine",
       "oneOf": [{
-        "const": "maintain",
+        "enum": ["maintain"],
         "description": "Maintains the next control flow being on the next line or the same line."
       }, {
-        "const": "sameLine",
+        "enum": ["sameLine"],
         "description": "Forces the next control flow to be on the same line."
       }, {
-        "const": "nextLine",
+        "enum": ["nextLine"],
         "description": "Forces the next control flow to be on the next line."
       }]
     },
@@ -164,13 +204,13 @@
       "type": "string",
       "default": "onlyMultiLine",
       "oneOf": [{
-        "const": "never",
+        "enum": ["never"],
         "description": "Trailing commas should not be used."
       }, {
-        "const": "always",
+        "enum": ["always"],
         "description": "Trailing commas should always be used."
       }, {
-        "const": "onlyMultiLine",
+        "enum": ["onlyMultiLine"],
         "description": "Trailing commas should only be used in multi-line scenarios."
       }]
     },
@@ -179,13 +219,13 @@
       "type": "string",
       "default": "nextLine",
       "oneOf": [{
-        "const": "maintain",
+        "enum": ["maintain"],
         "description": "Maintains the operator being on the next line or the same line."
       }, {
-        "const": "sameLine",
+        "enum": ["sameLine"],
         "description": "Forces the operator to be on the same line."
       }, {
-        "const": "nextLine",
+        "enum": ["nextLine"],
         "description": "Forces the operator to be on the next line."
       }]
     },
@@ -194,11 +234,26 @@
       "type": "boolean",
       "default": false,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": ""
       }, {
-        "const": false,
+        "enum": [false],
         "description": ""
+      }]
+    },
+    "preferHangingGranular": {
+      "description": "Set to prefer hanging indentation when exceeding the line width instead of making code split up on multiple lines.",
+      "type": "string",
+      "default": "never",
+      "oneOf": [{
+        "enum": ["always"],
+        "description": "Always prefers hanging regardless of the number of elements."
+      }, {
+        "enum": ["onlySingleItem"],
+        "description": "Only prefers hanging if there is a single item."
+      }, {
+        "enum": ["never"],
+        "description": "Never prefers hanging."
       }]
     },
     "preferSingleLine": {
@@ -206,10 +261,34 @@
       "type": "boolean",
       "default": false,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": ""
       }, {
-        "const": false,
+        "enum": [false],
+        "description": ""
+      }]
+    },
+    "forceSingleLine": {
+      "description": "If code should be forced to be on a single line if able.",
+      "type": "boolean",
+      "default": false,
+      "oneOf": [{
+        "enum": [true],
+        "description": ""
+      }, {
+        "enum": [false],
+        "description": ""
+      }]
+    },
+    "forceMultiLineSpecifiers": {
+      "description": "If code import/export specifiers should be forced to be on multiple lines.",
+      "type": "boolean",
+      "default": false,
+      "oneOf": [{
+        "enum": [true],
+        "description": ""
+      }, {
+        "enum": [false],
         "description": ""
       }]
     },
@@ -218,13 +297,13 @@
       "type": "string",
       "default": "caseInsensitive",
       "oneOf": [{
-        "const": "maintain",
+        "enum": ["maintain"],
         "description": "Maintains the current ordering."
       }, {
-        "const": "caseSensitive",
+        "enum": ["caseSensitive"],
         "description": "Alphabetically and case sensitive."
       }, {
-        "const": "caseInsensitive",
+        "enum": ["caseInsensitive"],
         "description": "Alphabetically and case insensitive."
       }]
     },
@@ -233,10 +312,10 @@
       "type": "boolean",
       "default": false,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": ""
       }, {
-        "const": false,
+        "enum": [false],
         "description": ""
       }]
     },
@@ -245,13 +324,13 @@
       "type": "string",
       "default": "maintain",
       "oneOf": [{
-        "const": "force",
+        "enum": ["force"],
         "description": "Forces parentheses."
       }, {
-        "const": "maintain",
+        "enum": ["maintain"],
         "description": "Maintains the current state of the parentheses."
       }, {
-        "const": "preferNone",
+        "enum": ["preferNone"],
         "description": "Prefers not using parentheses when possible."
       }]
     },
@@ -260,10 +339,22 @@
       "type": "boolean",
       "default": false,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Formats with each part on a new line."
       }, {
-        "const": false,
+        "enum": [false],
+        "description": "Maintains the line breaks as written by the programmer."
+      }]
+    },
+    "conditionalExpression.linePerExpression": {
+      "description": "Whether to force a line per expression when spanning multiple lines.",
+      "type": "boolean",
+      "default": true,
+      "oneOf": [{
+        "enum": [true],
+        "description": "Formats with each part on a new line."
+      }, {
+        "enum": [false],
         "description": "Maintains the line breaks as written by the programmer."
       }]
     },
@@ -272,10 +363,10 @@
       "type": "boolean",
       "default": false,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Formats with each part on a new line."
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Maintains the line breaks as written by the programmer."
       }]
     },
@@ -284,13 +375,13 @@
       "type": "string",
       "default": "maintain",
       "oneOf": [{
-        "const": "newLine",
+        "enum": ["newLine"],
         "description": "Forces a new line between members."
       }, {
-        "const": "blankLine",
+        "enum": ["blankLine"],
         "description": "Forces a blank line between members."
       }, {
-        "const": "maintain",
+        "enum": ["maintain"],
         "description": "Maintains whether a newline or blankline is used."
       }]
     },
@@ -299,11 +390,23 @@
       "type": "string",
       "default": "semiColon",
       "oneOf": [{
-        "const": "semiColon",
+        "enum": ["semiColon"],
         "description": "Use semi-colons."
       }, {
-        "const": "comma",
+        "enum": ["comma"],
         "description": "Use commas."
+      }]
+    },
+    "spaceAround": {
+      "description": "Whether to place spaces around enclosed expressions.",
+      "type": "boolean",
+      "default": false,
+      "oneOf": [{
+        "enum": [true],
+        "description": "Ex. `myFunction( true )`"
+      }, {
+        "enum": [false],
+        "description": "Ex. `myFunction(true)`"
       }]
     },
     "spaceSurroundingProperties": {
@@ -311,10 +414,10 @@
       "type": "boolean",
       "default": true,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `{ key: value }`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `{key: value}`"
       }]
     },
@@ -323,10 +426,10 @@
       "type": "boolean",
       "default": true,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `{ key: value }`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `{key: value}`"
       }]
     },
@@ -335,10 +438,10 @@
       "type": "boolean",
       "default": true,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `{ key: value } = obj`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `{key: value} = obj`"
       }]
     },
@@ -347,10 +450,10 @@
       "type": "boolean",
       "default": true,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `type Test = { key: string }`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `type Test = {key: string}`"
       }]
     },
@@ -359,10 +462,10 @@
       "type": "boolean",
       "default": true,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `1 + 2`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `1+2`"
       }]
     },
@@ -371,10 +474,10 @@
       "type": "boolean",
       "default": true,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `//test` -> `// test`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `//test` -> `//test`"
       }]
     },
@@ -383,10 +486,10 @@
       "type": "boolean",
       "default": false,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `constructor ()`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `constructor()`"
       }]
     },
@@ -395,10 +498,10 @@
       "type": "boolean",
       "default": false,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `type MyClassCtor = new () => MyClass;`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `type MyClassCtor = new() => MyClass;`"
       }]
     },
@@ -407,10 +510,10 @@
       "type": "boolean",
       "default": false,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `new (): MyClass;`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `new(): MyClass;`"
       }]
     },
@@ -419,10 +522,10 @@
       "type": "boolean",
       "default": true,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `do {\n} while (condition);`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `do {\n} while(condition);`"
       }]
     },
@@ -431,10 +534,10 @@
       "type": "boolean",
       "default": true,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `export { SomeExport, OtherExport };`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `export {SomeExport, OtherExport};`"
       }]
     },
@@ -443,10 +546,10 @@
       "type": "boolean",
       "default": true,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `for (const prop in obj)`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `for(const prop in obj)`"
       }]
     },
@@ -455,10 +558,10 @@
       "type": "boolean",
       "default": true,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `for (const value of myArray)`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `for(const value of myArray)`"
       }]
     },
@@ -467,10 +570,10 @@
       "type": "boolean",
       "default": true,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `for (let i = 0; i < 5; i++)`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `for(let i = 0; i < 5; i++)`"
       }]
     },
@@ -479,10 +582,10 @@
       "type": "boolean",
       "default": true,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `for (let i = 0; i < 5; i++)`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `for (let i = 0;i < 5;i++)`"
       }]
     },
@@ -491,10 +594,10 @@
       "type": "boolean",
       "default": false,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `function myFunction ()`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `function myFunction()`"
       }]
     },
@@ -503,10 +606,10 @@
       "type": "boolean",
       "default": false,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `function<T> ()`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `function<T>()`"
       }]
     },
@@ -515,10 +618,10 @@
       "type": "boolean",
       "default": false,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `function <T>()`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `function<T>()`"
       }]
     },
@@ -527,10 +630,10 @@
       "type": "boolean",
       "default": false,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `get myProp ()`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `get myProp()`"
       }]
     },
@@ -539,10 +642,10 @@
       "type": "boolean",
       "default": true,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `if (true)`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `if(true)`"
       }]
     },
@@ -551,22 +654,22 @@
       "type": "boolean",
       "default": true,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `import { SomeExport, OtherExport } from \"my-module\";`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `import {SomeExport, OtherExport} from \"my-module\";`"
       }]
     },
-    "jsxElement.spaceBeforeSelfClosingTagSlash": {
+    "jsxSelfClosingElement.spaceBeforeSlash": {
       "description": "Whether to add a space before a JSX element's slash when self closing.",
       "type": "boolean",
       "default": true,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `<Test />`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `<Test/>`"
       }]
     },
@@ -575,10 +678,10 @@
       "type": "boolean",
       "default": false,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `{ myValue }`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `{myValue}`"
       }]
     },
@@ -587,10 +690,10 @@
       "type": "boolean",
       "default": false,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `myMethod ()`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `myMethod()`"
       }]
     },
@@ -599,22 +702,22 @@
       "type": "boolean",
       "default": false,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `set myProp (value: string)`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `set myProp(value: string)`"
       }]
     },
     "taggedTemplate.spaceBeforeLiteral": {
-      "description": "Whether to add a space before the literal in a tagged templte.",
+      "description": "Whether to add a space before the literal in a tagged template.",
       "type": "boolean",
-      "default": true,
+      "default": false,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `html `<element />``"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `html`<element />``"
       }]
     },
@@ -623,10 +726,10 @@
       "type": "boolean",
       "default": false,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `function myFunction() : string`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `function myFunction(): string`"
       }]
     },
@@ -635,10 +738,10 @@
       "type": "boolean",
       "default": true,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `<string> myValue`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `<string>myValue`"
       }]
     },
@@ -647,17 +750,17 @@
       "type": "boolean",
       "default": true,
       "oneOf": [{
-        "const": true,
+        "enum": [true],
         "description": "Ex. `while (true)`"
       }, {
-        "const": false,
+        "enum": [false],
         "description": "Ex. `while(true)`"
       }]
     }
   },
   "properties": {
     "locked": {
-      "description": "Whether the configuration is not allowed to be overriden or extended.",
+      "description": "Whether the configuration is not allowed to be overridden or extended.",
       "type": "boolean"
     },
     "lineWidth": {
@@ -667,7 +770,7 @@
     },
     "indentWidth": {
       "description": "The number of columns for an indent.",
-      "default": 4,
+      "default": 2,
       "type": "number"
     },
     "useTabs": {
@@ -678,6 +781,9 @@
     },
     "quoteStyle": {
       "$ref": "#/definitions/quoteStyle"
+    },
+    "quoteProps": {
+      "$ref": "#/definitions/quoteProps"
     },
     "newLineKind": {
       "$ref": "#/definitions/newLineKind"
@@ -715,6 +821,18 @@
     "binaryExpression.linePerExpression": {
       "$ref": "#/definitions/binaryExpression.linePerExpression"
     },
+    "jsx.bracketPosition": {
+      "$ref": "#/definitions/jsx.bracketPosition"
+    },
+    "jsxOpeningElement.bracketPosition": {
+      "$ref": "#/definitions/jsx.bracketPosition"
+    },
+    "jsxSelfClosingElement.bracketPosition": {
+      "$ref": "#/definitions/jsx.bracketPosition"
+    },
+    "jsx.forceNewLinesSurroundingContent": {
+      "$ref": "#/definitions/jsx.forceNewLinesSurroundingContent"
+    },
     "jsx.quoteStyle": {
       "$ref": "#/definitions/jsx.quoteStyle"
     },
@@ -735,6 +853,45 @@
     },
     "enumDeclaration.memberSpacing": {
       "$ref": "#/definitions/enumDeclaration.memberSpacing"
+    },
+    "spaceAround": {
+      "$ref": "#/definitions/spaceAround"
+    },
+    "arguments.spaceAround": {
+      "$ref": "#/definitions/spaceAround"
+    },
+    "arrayExpression.spaceAround": {
+      "$ref": "#/definitions/spaceAround"
+    },
+    "arrayPattern.spaceAround": {
+      "$ref": "#/definitions/spaceAround"
+    },
+    "doWhileStatement.spaceAround": {
+      "$ref": "#/definitions/spaceAround"
+    },
+    "forInStatement.spaceAround": {
+      "$ref": "#/definitions/spaceAround"
+    },
+    "forOfStatement.spaceAround": {
+      "$ref": "#/definitions/spaceAround"
+    },
+    "forStatement.spaceAround": {
+      "$ref": "#/definitions/spaceAround"
+    },
+    "ifStatement.spaceAround": {
+      "$ref": "#/definitions/spaceAround"
+    },
+    "parameters.spaceAround": {
+      "$ref": "#/definitions/spaceAround"
+    },
+    "switchStatement.spaceAround": {
+      "$ref": "#/definitions/spaceAround"
+    },
+    "tupleType.spaceAround": {
+      "$ref": "#/definitions/spaceAround"
+    },
+    "whileStatement.spaceAround": {
+      "$ref": "#/definitions/spaceAround"
     },
     "spaceSurroundingProperties": {
       "$ref": "#/definitions/spaceSurroundingProperties"
@@ -799,8 +956,8 @@
     "importDeclaration.spaceSurroundingNamedImports": {
       "$ref": "#/definitions/importDeclaration.spaceSurroundingNamedImports"
     },
-    "jsxElement.spaceBeforeSelfClosingTagSlash": {
-      "$ref": "#/definitions/jsxElement.spaceBeforeSelfClosingTagSlash"
+    "jsxSelfClosingElement.spaceBeforeSlash": {
+      "$ref": "#/definitions/jsxSelfClosingElement.spaceBeforeSlash"
     },
     "jsxExpressionContainer.spaceSurroundingExpression": {
       "$ref": "#/definitions/jsxExpressionContainer.spaceSurroundingExpression"
@@ -947,6 +1104,9 @@
     "tryStatement.nextControlFlowPosition": {
       "$ref": "#/definitions/nextControlFlowPosition"
     },
+    "doWhileStatement.nextControlFlowPosition": {
+      "$ref": "#/definitions/nextControlFlowPosition"
+    },
     "arguments.trailingCommas": {
       "$ref": "#/definitions/trailingCommas"
     },
@@ -989,11 +1149,14 @@
     "conditionalExpression.operatorPosition": {
       "$ref": "#/definitions/operatorPosition"
     },
+    "conditionalType.operatorPosition": {
+      "$ref": "#/definitions/operatorPosition"
+    },
     "arguments.preferHanging": {
-      "$ref": "#/definitions/preferHanging"
+      "$ref": "#/definitions/preferHangingGranular"
     },
     "arrayExpression.preferHanging": {
-      "$ref": "#/definitions/preferHanging"
+      "$ref": "#/definitions/preferHangingGranular"
     },
     "arrayPattern.preferHanging": {
       "$ref": "#/definitions/preferHanging"
@@ -1035,7 +1198,7 @@
       "$ref": "#/definitions/preferHanging"
     },
     "parameters.preferHanging": {
-      "$ref": "#/definitions/preferHanging"
+      "$ref": "#/definitions/preferHangingGranular"
     },
     "sequenceExpression.preferHanging": {
       "$ref": "#/definitions/preferHanging"
@@ -1044,13 +1207,13 @@
       "$ref": "#/definitions/preferHanging"
     },
     "tupleType.preferHanging": {
-      "$ref": "#/definitions/preferHanging"
+      "$ref": "#/definitions/preferHangingGranular"
     },
     "typeLiteral.preferHanging": {
       "$ref": "#/definitions/preferHanging"
     },
     "typeParameters.preferHanging": {
-      "$ref": "#/definitions/preferHanging"
+      "$ref": "#/definitions/preferHangingGranular"
     },
     "unionAndIntersectionType.preferHanging": {
       "$ref": "#/definitions/preferHanging"
@@ -1132,6 +1295,18 @@
     },
     "variableStatement.preferSingleLine": {
       "$ref": "#/definitions/preferSingleLine"
+    },
+    "exportDeclaration.forceSingleLine": {
+      "$ref": "#/definitions/forceSingleLine"
+    },
+    "importDeclaration.forceSingleLine": {
+      "$ref": "#/definitions/forceSingleLine"
+    },
+    "exportDeclaration.forceMultiLine": {
+      "$ref": "#/definitions/forceMultiLineSpecifiers"
+    },
+    "importDeclaration.forceMultiLine": {
+      "$ref": "#/definitions/forceMultiLineSpecifiers"
     }
   }
 }

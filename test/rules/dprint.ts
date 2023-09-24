@@ -59,7 +59,7 @@ tester.run("dprint", dprint, {
                 'type TypeScriptPlugin = typeof import("dprint-plugin-typescript").TypeScriptPlugin;\n',
             output:
                 'type TypeScriptPlugin =\n    typeof import("dprint-plugin-typescript").TypeScriptPlugin;\n',
-            options: [{ config: { lineWidth: 80 } }],
+            options: [{ config: { useTabs: false, indentWidth: 4, lineWidth: 80 } }],
             errors: [{
                 messageId: "requireLinebreak",
                 data: {},
@@ -74,7 +74,7 @@ tester.run("dprint", dprint, {
                 'type TFormatFileText =\n    typeof import("@dprint/core").formatText;\n',
             output:
                 'type TFormatFileText = typeof import("@dprint/core").formatText;\n',
-            options: [{ config: { lineWidth: 80 } }],
+            options: [{ config: { useTabs: false, indentWidth: 4, lineWidth: 80 } }],
             errors: [{
                 messageId: "extraLinebreak",
                 data: {},
@@ -101,7 +101,7 @@ tester.run("dprint", dprint, {
         end: sourceCode.getLocFromIndex(d.range[1]),
     };
 `,
-            options: [{ config: { lineWidth: 80 } }],
+            options: [{ config: { useTabs: false, indentWidth: 4, lineWidth: 80 } }],
             errors: [
                 {
                     messageId: "moveCodeToNextLine",
@@ -139,7 +139,7 @@ tester.run("dprint", dprint, {
     };
 `,
             options: [{
-                config: { lineWidth: 80, operatorPosition: "sameLine" },
+                config: { useTabs: false, indentWidth: 4, lineWidth: 80, operatorPosition: "sameLine" },
             }],
             errors: [
                 {

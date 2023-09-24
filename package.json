@@ -3,12 +3,12 @@
   "version": "0.6.0-PRE1",
   "description": "An ESLint plugin that fixes code with dprint",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
-  "main": "lib/index.js",
+  "main": "dist/lib/index.js",
   "type": "commonjs",
   "files": [
-    "lib"
+    "dist"
   ],
   "peerDependencies": {
     "eslint": ">=5.16.0"
