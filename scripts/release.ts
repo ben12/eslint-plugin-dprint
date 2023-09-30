@@ -1,5 +1,5 @@
 import { version as rawVersion } from "../package.json"
-import { cd, rm, sh, stdoutOf } from "./lib/utils"
+import { sh, stdoutOf } from "./lib/utils"
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -9,38 +9,22 @@ import { cd, rm, sh, stdoutOf } from "./lib/utils"
 // Constants
 // ------------------------------------------------------------------------------
 
-const originUrl = stdoutOf("git remote get-url origin")
 const branch = stdoutOf("git symbolic-ref --short HEAD")
 const version = branch === "master" ? rawVersion : `${rawVersion}-${branch}`
 const sha1 = stdoutOf('git log -1 --format="%h"')
-const commitMessage = `🔖 ${version} (built with ${sha1})`
+const commitMessage = `🔖 v${version} (built with ${sha1})`
 
 // ------------------------------------------------------------------------------
 // Main
 // ------------------------------------------------------------------------------
 
-// Push
-sh("git push origin master")
+// Commit new version
+sh("git add .")
+sh(`git commit -m "${commitMessage}"`)
 
-// Delete the tag `npm version` created to use it for the release commit.
-try {
-    sh(`git tag -d "v${rawVersion}"`)
-} catch (ignore) {
-    // Ignore
-}
+// Create the tag
+sh(`git tag "v${version}"`)
 
-// Make the release commit that contains only `dist` directory.
-cd("dist")
-sh("git init")
-try {
-    sh("git add .")
-    sh(`git commit -m "${commitMessage}"`)
-    sh(`git tag "v${version}"`)
-    sh(`git push "${originUrl}" "v${version}"`)
-    sh("npm publish --access=public")
-} finally {
-    // Clean
-    rm(".git")
-    cd("..")
-    sh("git fetch --tags")
-}
+// push it
+sh(`git push`)
+sh(`git push origin "v${version}"`)

@@ -5,10 +5,10 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "main": "lib/index.js",
+  "main": "dist/lib/index.js",
   "type": "commonjs",
   "files": [
-    "lib"
+    "dist"
   ],
   "peerDependencies": {
     "eslint": ">=5.16.0"
@@ -16,7 +16,7 @@
   "dependencies": {
     "@dprint/typescript": "^0.87.1",
     "debug": "^4.1.1",
-    "diff": "^4.0.2",
+    "diff": "^5.0.0",
     "jsonc-parser": "^3.2.0"
   },
   "devDependencies": {
@@ -24,11 +24,9 @@
     "@types/debug": "^4.1.5",
     "@types/diff": "^5.0.0",
     "@types/node": "^18.0.0",
-    "@types/rimraf": "^4.0.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@typescript-eslint/utils": "^6.0.0",
-    "codecov": "^3.7.0",
     "eslint": "^8.50.0",
     "mocha": "^10.0.0",
     "nyc": "^15.0.1",
@@ -38,7 +36,7 @@
     "typescript": "~5.0.0"
   },
   "scripts": {
-    "build": "rimraf dist && tsc -p tsconfig.build.json && shx cp \"{LICENSE,README.md,package.json}\" dist",
+    "build": "rimraf dist && tsc -p tsconfig.build.json",
     "codecov": "nyc report --reporter text-lcov | codecov --pipe --disable=gcov",
     "lint": "eslint --rulesdir scripts/internal-rules \"**/*.ts\"",
     "test": "npm run -s lint && npm run -s test:ci",
@@ -51,6 +49,10 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ben12/eslint-plugin-dprint.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
   },
   "keywords": [
     "eslint",
