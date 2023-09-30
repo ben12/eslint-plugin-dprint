@@ -14,7 +14,7 @@
     "eslint": ">=5.16.0"
   },
   "dependencies": {
-    "@dprint/typescript": "^0.87.1",
+    "@dprint/typescript": "^0.88.1",
     "debug": "^4.1.1",
     "diff": "^5.0.0",
     "jsonc-parser": "^3.2.0"
