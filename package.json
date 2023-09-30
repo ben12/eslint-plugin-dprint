@@ -11,7 +11,7 @@
     "dist"
   ],
   "peerDependencies": {
-    "eslint": ">=5.16.0"
+    "eslint": ">=7.0.0"
   },
   "dependencies": {
     "@dprint/typescript": "^0.88.1",
