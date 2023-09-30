@@ -4,7 +4,6 @@
     "useTabs": {
       "description": "Whether to use tabs (true) or spaces (false).",
       "type": "boolean",
-      "default": false,
       "oneOf": [{
         "enum": [true],
         "description": "Uses tabs for indentation."
@@ -16,7 +15,6 @@
     "semiColons": {
       "description": "How semi-colons should be used.",
       "type": "string",
-      "default": "prefer",
       "oneOf": [{
         "enum": ["always"],
         "description": "Always uses semi-colons where applicable."
@@ -31,7 +29,6 @@
     "quoteStyle": {
       "description": "How to use single or double quotes.",
       "type": "string",
-      "default": "alwaysDouble",
       "oneOf": [{
         "enum": ["alwaysDouble"],
         "description": "Always uses double quotes."
@@ -49,7 +46,6 @@
     "jsx.quoteStyle": {
       "description": "How to use single or double quotes in JSX attributes.",
       "type": "string",
-      "default": "preferDouble",
       "oneOf": [{
         "enum": ["preferDouble"],
         "description": "Prefers using double quotes except in scenarios where the string contains more double quotes than single quotes."
@@ -61,7 +57,6 @@
     "quoteProps": {
       "description": "Change when properties in objects are quoted.",
       "type": "string",
-      "default": "preserve",
       "oneOf": [{
         "enum": ["asNeeded"],
         "description": "Remove unnecessary quotes around property names."
@@ -76,7 +71,6 @@
     "jsx.multiLineParens": {
       "description": "Surrounds the top-most JSX element or fragment in parentheses when it spans multiple lines.",
       "type": "string",
-      "default": "prefer",
       "oneOf": [{
         "enum": ["never"],
         "description": "Never wrap JSX with parentheses."
@@ -91,7 +85,6 @@
     "jsx.forceNewLinesSurroundingContent": {
       "description": "Forces newlines surrounding the content of JSX elements.",
       "type": "boolean",
-      "default": false,
       "oneOf": [{
         "enum": [true],
         "description": ""
@@ -103,7 +96,6 @@
     "jsx.bracketPosition": {
       "description": "If the end angle bracket of a jsx open element or self closing element should be on the same or next line when the attributes span multiple lines.",
       "type": "string",
-      "default": "nextLine",
       "oneOf": [{
         "enum": ["maintain"],
         "description": "Maintains the position of the end angle bracket."
@@ -118,7 +110,6 @@
     "newLineKind": {
       "description": "The kind of newline to use.",
       "type": "string",
-      "default": "lf",
       "oneOf": [{
         "enum": ["auto"],
         "description": "For each file, uses the last newline kind found in the file."
@@ -136,7 +127,6 @@
     "useBraces": {
       "description": "If braces should be used or not.",
       "type": "string",
-      "default": "whenNotSingleLine",
       "oneOf": [{
         "enum": ["maintain"],
         "description": "Uses braces if they're used. Doesn't use braces if they're not used."
@@ -154,7 +144,6 @@
     "bracePosition": {
       "description": "Where to place the opening brace.",
       "type": "string",
-      "default": "sameLineUnlessHanging",
       "oneOf": [{
         "enum": ["maintain"],
         "description": "Maintains the brace being on the next line or the same line."
@@ -172,7 +161,6 @@
     "singleBodyPosition": {
       "description": "Where to place the expression of a statement that could possibly be on one line (ex. `if (true) console.log(5);`).",
       "type": "string",
-      "default": "maintain",
       "oneOf": [{
         "enum": ["maintain"],
         "description": "Maintains the position of the expression."
@@ -187,7 +175,6 @@
     "nextControlFlowPosition": {
       "description": "Where to place the next control flow within a control flow statement.",
       "type": "string",
-      "default": "sameLine",
       "oneOf": [{
         "enum": ["maintain"],
         "description": "Maintains the next control flow being on the next line or the same line."
@@ -202,7 +189,6 @@
     "trailingCommas": {
       "description": "If trailing commas should be used.",
       "type": "string",
-      "default": "onlyMultiLine",
       "oneOf": [{
         "enum": ["never"],
         "description": "Trailing commas should not be used."
@@ -217,7 +203,6 @@
     "operatorPosition": {
       "description": "Where to place the operator for expressions that span multiple lines.",
       "type": "string",
-      "default": "nextLine",
       "oneOf": [{
         "enum": ["maintain"],
         "description": "Maintains the operator being on the next line or the same line."
@@ -232,7 +217,6 @@
     "preferHanging": {
       "description": "Set to prefer hanging indentation when exceeding the line width instead of making code split up on multiple lines.",
       "type": "boolean",
-      "default": false,
       "oneOf": [{
         "enum": [true],
         "description": ""
@@ -244,7 +228,6 @@
     "preferHangingGranular": {
       "description": "Set to prefer hanging indentation when exceeding the line width instead of making code split up on multiple lines.",
       "type": "string",
-      "default": "never",
       "oneOf": [{
         "enum": ["always"],
         "description": "Always prefers hanging regardless of the number of elements."
@@ -259,7 +242,6 @@
     "preferSingleLine": {
       "description": "If code should revert back from being on multiple lines to being on a single line when able.",
       "type": "boolean",
-      "default": false,
       "oneOf": [{
         "enum": [true],
         "description": ""
@@ -271,7 +253,6 @@
     "forceSingleLine": {
       "description": "If code should be forced to be on a single line if able.",
       "type": "boolean",
-      "default": false,
       "oneOf": [{
         "enum": [true],
         "description": ""
@@ -283,7 +264,6 @@
     "forceMultiLineSpecifiers": {
       "description": "If code import/export specifiers should be forced to be on multiple lines.",
       "type": "boolean",
-      "default": false,
       "oneOf": [{
         "enum": [true],
         "description": ""
@@ -295,7 +275,6 @@
     "sortOrder": {
       "description": "The kind of sort ordering to use.",
       "type": "string",
-      "default": "caseInsensitive",
       "oneOf": [{
         "enum": ["maintain"],
         "description": "Maintains the current ordering."
@@ -310,7 +289,6 @@
     "deno": {
       "description": "Top level configuration that sets the configuration to what is used in Deno.",
       "type": "boolean",
-      "default": false,
       "oneOf": [{
         "enum": [true],
         "description": ""
@@ -322,7 +300,6 @@
     "arrowFunction.useParentheses": {
       "description": "Whether to use parentheses around a single parameter in an arrow function.",
       "type": "string",
-      "default": "maintain",
       "oneOf": [{
         "enum": ["force"],
         "description": "Forces parentheses."
@@ -337,7 +314,6 @@
     "binaryExpression.linePerExpression": {
       "description": "Whether to force a line per expression when spanning multiple lines.",
       "type": "boolean",
-      "default": false,
       "oneOf": [{
         "enum": [true],
         "description": "Formats with each part on a new line."
@@ -349,7 +325,6 @@
     "conditionalExpression.linePerExpression": {
       "description": "Whether to force a line per expression when spanning multiple lines.",
       "type": "boolean",
-      "default": true,
       "oneOf": [{
         "enum": [true],
         "description": "Formats with each part on a new line."
@@ -361,7 +336,6 @@
     "memberExpression.linePerExpression": {
       "description": "Whether to force a line per expression when spanning multiple lines.",
       "type": "boolean",
-      "default": false,
       "oneOf": [{
         "enum": [true],
         "description": "Formats with each part on a new line."
@@ -373,7 +347,6 @@
     "enumDeclaration.memberSpacing": {
       "description": "How to space the members of an enum.",
       "type": "string",
-      "default": "maintain",
       "oneOf": [{
         "enum": ["newLine"],
         "description": "Forces a new line between members."
@@ -388,7 +361,6 @@
     "typeLiteral.separatorKind": {
       "description": "The kind of separator to use in type literals.",
       "type": "string",
-      "default": "semiColon",
       "oneOf": [{
         "enum": ["semiColon"],
         "description": "Use semi-colons."
@@ -400,7 +372,6 @@
     "spaceAround": {
       "description": "Whether to place spaces around enclosed expressions.",
       "type": "boolean",
-      "default": false,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `myFunction( true )`"
@@ -412,7 +383,6 @@
     "spaceSurroundingProperties": {
       "description": "Whether to add a space surrounding the properties of single line object-like nodes.",
       "type": "boolean",
-      "default": true,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `{ key: value }`"
@@ -424,7 +394,6 @@
     "objectExpression.spaceSurroundingProperties": {
       "description": "Whether to add a space surrounding the properties of a single line object expression.",
       "type": "boolean",
-      "default": true,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `{ key: value }`"
@@ -436,7 +405,6 @@
     "objectPattern.spaceSurroundingProperties": {
       "description": "Whether to add a space surrounding the properties of a single line object pattern.",
       "type": "boolean",
-      "default": true,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `{ key: value } = obj`"
@@ -448,7 +416,6 @@
     "typeLiteral.spaceSurroundingProperties": {
       "description": "Whether to add a space surrounding the properties of a single line type literal.",
       "type": "boolean",
-      "default": true,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `type Test = { key: string }`"
@@ -460,7 +427,6 @@
     "binaryExpression.spaceSurroundingBitwiseAndArithmeticOperator": {
       "description": "Whether to surround the operator in a binary expression with spaces.",
       "type": "boolean",
-      "default": true,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `1 + 2`"
@@ -472,7 +438,6 @@
     "commentLine.forceSpaceAfterSlashes": {
       "description": "Forces a space after the double slash in a comment line.",
       "type": "boolean",
-      "default": true,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `//test` -> `// test`"
@@ -484,7 +449,6 @@
     "constructor.spaceBeforeParentheses": {
       "description": "Whether to add a space before the parentheses of a constructor.",
       "type": "boolean",
-      "default": false,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `constructor ()`"
@@ -496,7 +460,6 @@
     "constructorType.spaceAfterNewKeyword": {
       "description": "Whether to add a space after the `new` keyword in a constructor type.",
       "type": "boolean",
-      "default": false,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `type MyClassCtor = new () => MyClass;`"
@@ -508,7 +471,6 @@
     "constructSignature.spaceAfterNewKeyword": {
       "description": "Whether to add a space after the `new` keyword in a construct signature.",
       "type": "boolean",
-      "default": false,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `new (): MyClass;`"
@@ -520,7 +482,6 @@
     "doWhileStatement.spaceAfterWhileKeyword": {
       "description": "Whether to add a space after the `while` keyword in a do while statement.",
       "type": "boolean",
-      "default": true,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `do {\n} while (condition);`"
@@ -532,7 +493,6 @@
     "exportDeclaration.spaceSurroundingNamedExports": {
       "description": "Whether to add spaces around named exports in an export declaration.",
       "type": "boolean",
-      "default": true,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `export { SomeExport, OtherExport };`"
@@ -544,7 +504,6 @@
     "forInStatement.spaceAfterForKeyword": {
       "description": "Whether to add a space after the `for` keyword in a \"for in\" statement.",
       "type": "boolean",
-      "default": true,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `for (const prop in obj)`"
@@ -556,7 +515,6 @@
     "forOfStatement.spaceAfterForKeyword": {
       "description": "Whether to add a space after the `for` keyword in a \"for of\" statement.",
       "type": "boolean",
-      "default": true,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `for (const value of myArray)`"
@@ -568,7 +526,6 @@
     "forStatement.spaceAfterForKeyword": {
       "description": "Whether to add a space after the `for` keyword in a \"for\" statement.",
       "type": "boolean",
-      "default": true,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `for (let i = 0; i < 5; i++)`"
@@ -580,7 +537,6 @@
     "forStatement.spaceAfterSemiColons": {
       "description": "Whether to add a space after the semi-colons in a \"for\" statement.",
       "type": "boolean",
-      "default": true,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `for (let i = 0; i < 5; i++)`"
@@ -592,7 +548,6 @@
     "functionDeclaration.spaceBeforeParentheses": {
       "description": "Whether to add a space before the parentheses of a function declaration.",
       "type": "boolean",
-      "default": false,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `function myFunction ()`"
@@ -604,7 +559,6 @@
     "functionExpression.spaceBeforeParentheses": {
       "description": "Whether to add a space before the parentheses of a function expression.",
       "type": "boolean",
-      "default": false,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `function<T> ()`"
@@ -616,7 +570,6 @@
     "functionExpression.spaceAfterFunctionKeyword": {
       "description": "Whether to add a space after the function keyword of a function expression.",
       "type": "boolean",
-      "default": false,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `function <T>()`"
@@ -628,7 +581,6 @@
     "getAccessor.spaceBeforeParentheses": {
       "description": "Whether to add a space before the parentheses of a get accessor.",
       "type": "boolean",
-      "default": false,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `get myProp ()`"
@@ -640,7 +592,6 @@
     "ifStatement.spaceAfterIfKeyword": {
       "description": "Whether to add a space after the `if` keyword in an \"if\" statement.",
       "type": "boolean",
-      "default": true,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `if (true)`"
@@ -652,7 +603,6 @@
     "importDeclaration.spaceSurroundingNamedImports": {
       "description": "Whether to add spaces around named imports in an import declaration.",
       "type": "boolean",
-      "default": true,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `import { SomeExport, OtherExport } from \"my-module\";`"
@@ -664,7 +614,6 @@
     "jsxSelfClosingElement.spaceBeforeSlash": {
       "description": "Whether to add a space before a JSX element's slash when self closing.",
       "type": "boolean",
-      "default": true,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `<Test />`"
@@ -676,7 +625,6 @@
     "jsxExpressionContainer.spaceSurroundingExpression": {
       "description": "Whether to add a space surrounding the expression of a JSX container.",
       "type": "boolean",
-      "default": false,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `{ myValue }`"
@@ -688,7 +636,6 @@
     "method.spaceBeforeParentheses": {
       "description": "Whether to add a space before the parentheses of a method.",
       "type": "boolean",
-      "default": false,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `myMethod ()`"
@@ -700,7 +647,6 @@
     "setAccessor.spaceBeforeParentheses": {
       "description": "Whether to add a space before the parentheses of a set accessor.",
       "type": "boolean",
-      "default": false,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `set myProp (value: string)`"
@@ -712,7 +658,6 @@
     "taggedTemplate.spaceBeforeLiteral": {
       "description": "Whether to add a space before the literal in a tagged template.",
       "type": "boolean",
-      "default": false,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `html `<element />``"
@@ -724,7 +669,6 @@
     "typeAnnotation.spaceBeforeColon": {
       "description": "Whether to add a space before the colon of a type annotation.",
       "type": "boolean",
-      "default": false,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `function myFunction() : string`"
@@ -736,7 +680,6 @@
     "typeAssertion.spaceBeforeExpression": {
       "description": "Whether to add a space before the expression in a type assertion.",
       "type": "boolean",
-      "default": true,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `<string> myValue`"
@@ -748,7 +691,6 @@
     "whileStatement.spaceAfterWhileKeyword": {
       "description": "Whether to add a space after the `while` keyword in a while statement.",
       "type": "boolean",
-      "default": true,
       "oneOf": [{
         "enum": [true],
         "description": "Ex. `while (true)`"
@@ -765,12 +707,10 @@
     },
     "lineWidth": {
       "description": "The width of a line the printer will try to stay under. Note that the printer may exceed this width in certain cases.",
-      "default": 120,
       "type": "number"
     },
     "indentWidth": {
       "description": "The number of columns for an indent.",
-      "default": 2,
       "type": "number"
     },
     "useTabs": {
@@ -994,12 +934,10 @@
     },
     "ignoreNodeCommentText": {
       "description": "The text to use for an ignore comment (ex. `// dprint-ignore`).",
-      "default": "dprint-ignore",
       "type": "string"
     },
     "ignoreFileCommentText": {
       "description": "The text to use for a file ignore comment (ex. `// dprint-ignore-file`).",
-      "default": "dprint-ignore-file",
       "type": "string"
     },
     "forInStatement.useBraces": {

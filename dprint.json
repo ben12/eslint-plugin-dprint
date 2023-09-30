@@ -1,0 +1,16 @@
+{
+    "lineWidth": 120,
+    "typescript": {
+        "indentWidth": 4,
+        "semiColons": "asi",
+        "operatorPosition": "sameLine",
+        "conditionalExpression.operatorPosition": "nextLine",
+        "quoteStyle": "preferDouble"
+    },
+    "excludes": [
+      "**/node_modules"
+    ],
+    "plugins": [
+        "node_modules/@dprint/typescript/plugin.wasm"
+    ]
+}

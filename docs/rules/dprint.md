@@ -13,9 +13,13 @@ Run [dprint] to format code.
   "@ben_12/dprint/dprint": [
     "error",
     {
+      // Use dprint JSON configuration file (default: "dprint.json")
+      // It may be created using `dprint init` command
+      // See also https://dprint.dev/config/
+      "configFile": "dprint.json",
       "config": {
         // The TypeScript configuration of dprint
-        // See also https://github.com/dprint/dprint/blob/457cbb5a2a8ded959e8185bf8528ba2b7241b7dd/packages/dprint-plugin-typescript/lib/dprint-plugin-typescript.d.ts
+        // See also https://dprint.dev/plugins/typescript/config/
       }
     }
   ]

@@ -60,6 +60,7 @@ async function updateConfigSchema(srcPath: string): Promise<void> {
     const modifiedContent = originalContent
         .replace(/"\$schema":.+?\n\s*"\$id":.+?\n\s*/u, "")
         .replace(/"const": ([^,\n]+)/gu, '"enum": [$1]')
+        .replace(/\s*"default": [^,\n]+,?\s*?\n/g, "\n")
 
     fs.writeFileSync(ConfigSchemaPath, modifiedContent)
 }
@@ -87,8 +88,8 @@ function calculateUpdateKind(version1: string, version2: string): string {
  * Main logic.
  */
 async function main(): Promise<string> {
-    const current = await readCurrentVersion()
-    const latest = await readLatestVersion()
+    const current = readCurrentVersion()
+    const latest = readLatestVersion()
 
     if (latest.version === current.version) {
         console.log(

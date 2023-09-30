@@ -8,10 +8,12 @@ tester.run("dprint", dprint, {
         {
             filename: path.join(__dirname, "test.ts"),
             code: 'console.log("hello!");\n',
+            options: [{ configFile: "", config: {} }],
         }, // Non JS/TS file
         {
             filename: path.join(__dirname, "test.json"),
             code: "",
+            options: [{ configFile: "", config: {} }],
         },
     ],
     invalid: [
@@ -19,6 +21,7 @@ tester.run("dprint", dprint, {
             filename: path.join(__dirname, "test.ts"),
             code: "console . log('hello!')",
             output: 'console.log("hello!");\n',
+            options: [{ configFile: "", config: {} }],
             errors: [
                 {
                     messageId: "extraWhitespace",
@@ -57,7 +60,7 @@ tester.run("dprint", dprint, {
             parser: require.resolve("@typescript-eslint/parser"),
             code: 'type TypeScriptPlugin = typeof import("dprint-plugin-typescript").TypeScriptPlugin;\n',
             output: 'type TypeScriptPlugin =\n    typeof import("dprint-plugin-typescript").TypeScriptPlugin;\n',
-            options: [{ config: { useTabs: false, indentWidth: 4, lineWidth: 80 } }],
+            options: [{ configFile: "", config: { useTabs: false, indentWidth: 4, lineWidth: 80 } }],
             errors: [{
                 messageId: "requireLinebreak",
                 data: {},
@@ -70,7 +73,7 @@ tester.run("dprint", dprint, {
             parser: require.resolve("@typescript-eslint/parser"),
             code: 'type TFormatFileText =\n    typeof import("@dprint/core").formatText;\n',
             output: 'type TFormatFileText = typeof import("@dprint/core").formatText;\n',
-            options: [{ config: { useTabs: false, indentWidth: 4, lineWidth: 80 } }],
+            options: [{ configFile: "", config: { useTabs: false, indentWidth: 4, lineWidth: 80 } }],
             errors: [{
                 messageId: "extraLinebreak",
                 data: {},
@@ -97,7 +100,7 @@ tester.run("dprint", dprint, {
         end: sourceCode.getLocFromIndex(d.range[1]),
     };
 `,
-            options: [{ config: { useTabs: false, indentWidth: 4, lineWidth: 80 } }],
+            options: [{ configFile: "", config: { useTabs: false, indentWidth: 4, lineWidth: 80 } }],
             errors: [
                 {
                     messageId: "moveCodeToNextLine",
@@ -135,6 +138,7 @@ tester.run("dprint", dprint, {
     };
 `,
             options: [{
+                configFile: "",
                 config: { useTabs: false, indentWidth: 4, lineWidth: 80, operatorPosition: "sameLine" },
             }],
             errors: [

@@ -1,8 +1,11 @@
 import dprint from "@dprint/typescript"
 import createDebug from "debug"
 import fs from "fs"
+import * as JSONC from "jsonc-parser"
 
 const debug = createDebug("eslint:plugin-dprint")
+
+type ConfigType = string | number | boolean
 
 // eslint-disable-next-line no-shadow -- I'm not sure why, but `@types/node` doesn't contain WebAssembly in spite of it has been supported since 8.0.0.
 declare let WebAssembly: any
@@ -15,7 +18,8 @@ const TSPlugin = TSPluginInstance.exports
 const BufferSize = TSPlugin.get_wasm_memory_buffer_size()
 
 /** Cache to reduce copies of config values. */
-let lastConfig: Record<string, any> | undefined
+let lastConfig: string | undefined
+let lastConfigFile: string | undefined
 
 /**
  * Format the given text with the given config.
@@ -25,13 +29,15 @@ let lastConfig: Record<string, any> | undefined
  * @returns The formatted text or undefined. It's undefined if the formatter doesn't change the text.
  */
 export function format(
+    configFile: string,
     config: Record<string, any>,
     filePath: string,
     fileText: string,
 ): string | undefined {
-    if (config !== lastConfig) {
-        lastConfig = config
-        writeConfig(config)
+    if (JSON.stringify(config) !== lastConfig || configFile !== lastConfigFile) {
+        lastConfig = JSON.stringify(config)
+        lastConfigFile = configFile
+        writeConfig(configFile, config)
     }
     writeFilePath(filePath)
 
@@ -52,20 +58,43 @@ export function format(
     }
 }
 
+function isConfigAllowedType(value: unknown): value is ConfigType {
+    return ["string", "number", "boolean"].includes(typeof value)
+}
+
+function extractConfig(config: any, toConfig: Record<string, any>) {
+    for (const [key, value] of Object.entries(config)) {
+        if (isConfigAllowedType(value)) {
+            toConfig[key] = value
+        }
+    }
+}
+
 /**
  * Write the config to the plugin.
  * @param config The config object.
  */
-function writeConfig(config: Record<string, any>): void {
+function writeConfig(configFile: string, config: Record<string, any>): void {
     TSPlugin.reset_config()
 
     // The setting values must be strings.
-    const pluginConfig: Record<string, string> = {}
-    for (const [key, value] of Object.entries(config)) {
-        pluginConfig[key] = String(value)
+    const globalConfig: Record<string, ConfigType> = {}
+    const pluginConfig: Record<string, ConfigType> = {}
+
+    if (configFile?.length && fs.existsSync(configFile)) {
+        const configFileContent = fs.readFileSync(configFile, { encoding: "utf-8" })
+        const configFileJson = JSONC.parse(configFileContent)
+        extractConfig(configFileJson, globalConfig)
+
+        const typescriptConfig = configFileJson.typescript
+        if (typeof typescriptConfig === "object") {
+            extractConfig(typescriptConfig, pluginConfig)
+        }
     }
 
-    writeString("{}")
+    extractConfig(config, pluginConfig)
+
+    writeString(JSON.stringify(globalConfig))
     TSPlugin.set_global_config()
     writeString(JSON.stringify(pluginConfig))
     TSPlugin.set_plugin_config()

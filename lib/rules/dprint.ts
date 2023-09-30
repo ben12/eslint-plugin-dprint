@@ -132,20 +132,28 @@ export const dprint = createRule({
             type: "array",
             items: [{
                 type: "object",
-                properties: { config: configSchema as any },
+                properties: {
+                    configFile: {
+                        type: "string",
+                        default: "dprint.json",
+                        description: "dprint configuration file (default 'dprint.json')",
+                    },
+                    config: configSchema as any,
+                },
                 additionalProperties: false,
             }],
             additionalItems: false,
         },
         type: "layout",
     },
-    defaultOptions: [{ config: {} }],
+    defaultOptions: [{ configFile: "dprint.json", config: {} }],
 
     create: (context, options) => ({
         Program() {
             const sourceCode = context.getSourceCode()
             const filePath = context.getFilename()
             const fileText = sourceCode.getText()
+            const configFile = (options[0] as any).configFile ?? "dprint.json"
             const config = (options[0] as any).config || {}
 
             // Needs an absolute path
@@ -154,7 +162,7 @@ export const dprint = createRule({
             }
 
             // Does format
-            const formattedText = format(config, filePath, fileText)
+            const formattedText = format(configFile, config, filePath, fileText)
             if (typeof formattedText !== "string") {
                 return
             }

@@ -26,6 +26,10 @@ module.exports = {
     "@ben_12/dprint/dprint": [
       "error",
       {
+        // Use dprint JSON configuration file (default: "dprint.json")
+        // It may be created using `dprint init` command
+        // See also https://dprint.dev/config/
+        configFile: "dprint.json",
         config: {
           // The TypeScript configuration of dprint
           // See also https://dprint.dev/plugins/typescript/config/

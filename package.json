@@ -1,6 +1,6 @@
 {
   "name": "@ben_12/eslint-plugin-dprint",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "An ESLint plugin that fixes code with dprint",
   "engines": {
     "node": ">=18.0.0"
@@ -16,7 +16,8 @@
   "dependencies": {
     "@dprint/typescript": "^0.87.1",
     "debug": "^4.1.1",
-    "diff": "^4.0.2"
+    "diff": "^4.0.2",
+    "jsonc-parser": "^3.2.0"
   },
   "devDependencies": {
     "@ben_12/eslint-plugin-dprint": "^0.6.1",
@@ -61,6 +62,5 @@
   "bugs": {
     "url": "https://github.com/ben12/eslint-plugin-dprint/issues"
   },
-  "homepage": "https://github.com/ben12/eslint-plugin-dprint#readme",
-  "funding": "https://github.com/sponsors/ben12"
+  "homepage": "https://eslint-plugin-dprint.ben12.eu"
 }
