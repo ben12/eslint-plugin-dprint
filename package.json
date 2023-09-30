@@ -20,7 +20,7 @@
     "jsonc-parser": "^3.2.0"
   },
   "devDependencies": {
-    "@ben_12/eslint-plugin-dprint": "^0.6.1",
+    "@ben_12/eslint-plugin-dprint": "^0.7.0",
     "@types/debug": "^4.1.5",
     "@types/diff": "^5.0.0",
     "@types/node": "^18.0.0",
