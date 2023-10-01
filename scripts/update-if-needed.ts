@@ -1,7 +1,7 @@
 import fs from "fs"
 import https from "https"
 import path from "path"
-import { sh, stdoutOf } from "./lib/utils"
+import { setGithubOutput, sh, stdoutOf } from "./lib/utils"
 
 const RootPath = path.resolve(__dirname, "..")
 const LibDprintPath = path.join(RootPath, "lib/dprint")
@@ -106,6 +106,7 @@ async function main(): Promise<string> {
 
     await updateConfigSchema(latest.configSchemaPath)
     sh(`npm install @dprint/typescript@^${latest.version}`)
+    setGithubOutput("dprint_ts_version", latest.version)
     return calculateUpdateKind(current.version, latest.version)
 }
 
@@ -120,11 +121,6 @@ main()
             updateKind === "minor" ||
             updateKind === "patch"
 
-        if (process.env.GITHUB_OUTPUT) {
-            fs.writeFileSync(
-                process.env.GITHUB_OUTPUT,
-                `updated=${updated ? "yes" : "no"}
-kind=${updateKind}`,
-            )
-        }
+        setGithubOutput("updated", updated ? "yes" : "no")
+        setGithubOutput("kind", updateKind)
     })

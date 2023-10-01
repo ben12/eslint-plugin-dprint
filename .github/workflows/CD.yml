@@ -28,11 +28,12 @@ jobs:
         npm run -s lint -- --fix
       if: ${{ success() && steps.updateStep.outputs.updated == 'yes' }}
     - name: Version Bump
+      id: versionStep
       run: |
         git config user.name ben12
         git config user.email ben12@users.noreply.github.com
         git add .
-        git commit -m "🚀 update dprint-plugin-typescript"
+        git commit -m "🚀 update dprint-plugin-typescript to v${{ steps.updateStep.outputs.dprint_ts_version }}"
         npm version ${{ steps.updateStep.outputs.kind }} --no-git-tag-version
       if: ${{ success() && steps.updateStep.outputs.updated == 'yes' }}
     - name: Publish
@@ -40,3 +41,11 @@ jobs:
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       if: ${{ success() && steps.updateStep.outputs.updated == 'yes' }}
+    - name: Create Release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: >-
+        gh release create v${{ steps.versionStep.outputs.version }}
+        --notes "🚀 Update dprint-plugin-typescript to v${{ steps.updateStep.outputs.dprint_ts_version }}"
+        --title "Version ${{ steps.versionStep.outputs.version }}"
+      if: ${{ success() && steps.versionStep.outputs.version }}

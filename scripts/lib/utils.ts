@@ -1,4 +1,5 @@
 import { execSync } from "child_process"
+import { writeFileSync } from "fs"
 
 export const sh = (command: string) => {
     console.log("$", command)
@@ -12,4 +13,13 @@ export const stdoutOf = (command: string) => {
         stdio: ["inherit", "pipe", "inherit"],
     })
         .trim()
+}
+
+export const setGithubOutput = (varName: string, value: string) => {
+    if (process.env.GITHUB_OUTPUT) {
+        writeFileSync(
+            process.env.GITHUB_OUTPUT,
+            `${varName}=${value}\n`,
+        )
+    }
 }

@@ -1,5 +1,5 @@
 import { version as rawVersion } from "../package.json"
-import { sh, stdoutOf } from "./lib/utils"
+import { setGithubOutput, sh, stdoutOf } from "./lib/utils"
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -28,3 +28,7 @@ sh(`git tag "v${version}"`)
 // push it
 sh(`git push`)
 sh(`git push origin "v${version}"`)
+
+if (branch === "master") {
+    setGithubOutput("version", version)
+}

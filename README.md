@@ -1,17 +1,17 @@
 # eslint-plugin-dprint
 
-![GitHub](https://img.shields.io/github/license/ben12/eslint-plugin-dprint)
+[![GitHub](https://img.shields.io/github/license/ben12/eslint-plugin-dprint)](https://github.com/ben12/eslint-plugin-dprint/blob/master/LICENSE)
 [![npm version](https://img.shields.io/npm/v/@ben_12/eslint-plugin-dprint.svg)](https://www.npmjs.com/package/@ben_12/eslint-plugin-dprint)
-[![Downloads/month](https://img.shields.io/npm/dm/@ben_12/eslint-plugin-dprint.svg)](http://www.npmtrends.com/@ben_12/eslint-plugin-dprint)
+[![Downloads/month](https://img.shields.io/npm/dm/@ben_12/eslint-plugin-dprint.svg)](http://www.npmtrends.com/@ben_12/eslint-plugin-dprint)  
+[![node-current](https://img.shields.io/node/v/%40ben_12%2Feslint-plugin-dprint)](https://nodejs.org)
+[![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/%40ben_12%2Feslint-plugin-dprint/peer/eslint)](https://www.npmjs.com/package/eslint)
+[![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/%40ben_12%2Feslint-plugin-dprint/@dprint/typescript)](https://www.npmjs.com/package/@dprint/typescript)
+![npm bundle size](https://img.shields.io/bundlephobia/min/%40ben_12%2Feslint-plugin-dprint)  
 [![Build Status](https://github.com/ben12/eslint-plugin-dprint/workflows/CI/badge.svg)](https://github.com/ben12/eslint-plugin-dprint/actions)
 [![codecov](https://codecov.io/gh/ben12/eslint-plugin-dprint/branch/master/graph/badge.svg)](https://codecov.io/gh/ben12/eslint-plugin-dprint)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ben12_eslint-plugin-dprint&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ben12_eslint-plugin-dprint)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=ben12_eslint-plugin-dprint&metric=code_smells)](https://sonarcloud.io/dashboard?id=ben12_eslint-plugin-dprint)
-[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=ben12_eslint-plugin-dprint&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=ben12_eslint-plugin-dprint)
-
-![node-current](https://img.shields.io/node/v/%40ben_12%2Feslint-plugin-dprint)
-![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/%40ben_12%2Feslint-plugin-dprint/peer/eslint)
-![npm bundle size](https://img.shields.io/bundlephobia/min/%40ben_12%2Feslint-plugin-dprint)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=ben12_eslint-plugin-dprint&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=ben12_eslint-plugin-dprint)  
 
 
 > This is an updated fork of mysticatea/eslint-plugin-dprint. Some things are still being adjusted.
