@@ -1,0 +1,12 @@
+{
+    "lineWidth": 120,
+    "typescript": {
+        "quoteStyle": "preferSingle"
+    },
+    "excludes": [
+      "**/node_modules"
+    ],
+    "plugins": [
+        "node_modules/@dprint/typescript/plugin.wasm"
+    ]
+}
