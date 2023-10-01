@@ -66,7 +66,7 @@ export class DifferenceIterator {
         const next2 = this.changeAt(this.i + 2)
 
         // Merge the sequence "added → removed" as a replacement.
-        if (next1 && next1.removed) {
+        if (next1?.removed) {
             return this.newReplacedDiff(2, next1.value, current.value)
         }
 
@@ -117,7 +117,7 @@ export class DifferenceIterator {
         const next2 = this.changeAt(this.i + 2)
 
         // Merge the sequence "removed → added" as a replacement.
-        if (next1 && next1.added) {
+        if (next1?.added) {
             return this.newReplacedDiff(2, current.value, next1.value)
         }
 
@@ -169,7 +169,7 @@ export class DifferenceIterator {
     }
 
     /** Create a diff object that type is `added`, and advance the cursor. */
-    private newAddedDiff(numChanges: number, newText: string): Diff {
+    private newAddedDiff(numChanges: number, newText: string): AddDiff {
         const range = [this.loc, this.loc] as const
 
         this.i += numChanges
@@ -178,7 +178,7 @@ export class DifferenceIterator {
     }
 
     /** Create a diff object that type is `removed`, and advance the cursor. */
-    private newRemovedDiff(numChanges: number, oldText: string): Diff {
+    private newRemovedDiff(numChanges: number, oldText: string): RemoveDiff {
         const range = [this.loc, this.loc + oldText.length] as const
 
         this.i += numChanges
@@ -192,7 +192,7 @@ export class DifferenceIterator {
         numChanges: number,
         oldText: string,
         newText: string,
-    ): Diff {
+    ): ReplaceDiff {
         const range = [this.loc, this.loc + oldText.length] as const
 
         this.i += numChanges

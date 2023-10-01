@@ -55,7 +55,7 @@ async function updateConfigSchema(srcPath: string): Promise<void> {
             const stream = response.on("data", chunk => body += chunk)
             stream.on("end", () => resolve(body))
         })
-            .on("error", () => fail())
+            .on("error", err => fail(err))
     )
     const modifiedContent = originalContent
         .replace(/"\$schema":.+?\n\s*"\$id":.+?\n\s*/u, "")
