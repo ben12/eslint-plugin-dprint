@@ -11,16 +11,39 @@
     "dist"
   ],
   "peerDependencies": {
+    "@dprint/typescript": "^0.88.1",
+    "@dprint/json": "^0.17.4",
+    "@dprint/markdown": "^0.16.1",
+    "@dprint/toml": "^0.5.4",
+    "@dprint/dockerfile": "^0.3.0",
     "eslint": ">=7.0.0"
   },
+  "peerDependenciesMeta": {
+    "@dprint/typescript": {
+      "optional": true
+    },
+    "@dprint/json": {
+      "optional": true
+    },
+    "@dprint/markdown": {
+      "optional": true
+    },
+    "@dprint/toml": {
+      "optional": true
+    },
+    "@dprint/dockerfile": {
+      "optional": true
+    }
+  },
   "dependencies": {
-    "@dprint/typescript": "^0.88.1",
+    "@dprint/formatter": "^0.2.0",
     "debug": "^4.1.1",
     "diff": "^5.0.0",
     "jsonc-parser": "^3.2.0"
   },
   "devDependencies": {
     "@ben_12/eslint-plugin-dprint": "^0.7.1",
+    "@dprint/typescript": "^0.88.1",
     "@types/debug": "^4.1.5",
     "@types/diff": "^5.0.0",
     "@types/node": "^18.0.0",

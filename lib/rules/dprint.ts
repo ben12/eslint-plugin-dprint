@@ -1,7 +1,7 @@
 import { ESLintUtils, TSESLint } from "@typescript-eslint/utils"
 import path from "path"
 import configSchema from "../dprint/config-schema.json"
-import { format } from "../dprint/typescript"
+import { format } from "../dprint/dprint"
 import { AddDiff, Diff, DifferenceIterator, RemoveDiff, ReplaceDiff } from "../util/difference-iterator"
 import { hasLinebreak, isWhitespace } from "../util/predicate"
 
