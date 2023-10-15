@@ -222,8 +222,8 @@ export const dprintRules: { [name: string]: Rule.RuleModule } = configSchemas.ma
         },
         create: (context) => ({
             Program() {
-                const sourceCode = context.sourceCode
-                const filePath = context.filename
+                const sourceCode = context.sourceCode ?? context.getSourceCode()
+                const filePath = context.filename ?? context.getFilename()
                 const fileText = sourceCode.getText()
                 const options = context.options[0] ?? defaultOptions
                 const configFile = options.configFile ?? "dprint.json"
