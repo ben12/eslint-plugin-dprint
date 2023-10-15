@@ -3,7 +3,7 @@ import path from "path"
 import { dprintRules } from "../../lib/rules/dprint"
 
 const tester = new RuleTester({
-    parser: path.join(__dirname, "../../lib/simple-parser"),
+    parser: require.resolve("@ben_12/eslint-simple-parser"),
 })
 tester.run("dprint/dockerfile", dprintRules.dockerfile, {
     valid: [
