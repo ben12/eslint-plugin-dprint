@@ -8,7 +8,8 @@ import path from "path"
 type ConfigType = string | number | boolean
 
 interface Plugin {
-    getPath(): string
+    getPath?(): string
+    getBuffer?(): Buffer
 }
 
 const plugins = [
@@ -24,9 +25,16 @@ const formatters: Formatter[] = []
 for (const module of plugins) {
     try {
         const plugin = require(module) as Plugin
-        const buffer = fs.readFileSync(plugin.getPath())
-        const formatter = createFromBuffer(buffer)
-        formatters.push(formatter)
+        let buffer: Buffer | undefined = undefined
+        if (plugin.getPath) {
+            buffer = fs.readFileSync(plugin.getPath())
+        } else if (plugin.getBuffer) {
+            buffer = plugin.getBuffer()
+        }
+        if (buffer) {
+            const formatter = createFromBuffer(buffer)
+            formatters.push(formatter)
+        }
     } catch (e) {
         // plugin unavailable
     }
@@ -88,9 +96,9 @@ function setConfig(formatter: Formatter, configKey: string, configFile: string, 
         const configFileJson = JSONC.parse(configFileContent)
         extractConfig(configFileJson, globalConfig)
 
-        const typescriptConfig = configFileJson[configKey]
-        if (typeof typescriptConfig === "object") {
-            extractConfig(typescriptConfig, pluginConfig)
+        const pluginConfigFileJson = configFileJson[configKey]
+        if (typeof pluginConfigFileJson === "object") {
+            extractConfig(pluginConfigFileJson, pluginConfig)
         }
     }
 

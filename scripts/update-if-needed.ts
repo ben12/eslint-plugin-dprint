@@ -1,39 +1,98 @@
 import fs from "fs"
 import https from "https"
+import * as JSONC from "jsonc-parser"
 import path from "path"
 import { setGithubOutput, sh, stdoutOf } from "./lib/utils"
 
 const RootPath = path.resolve(__dirname, "..")
 const LibDprintPath = path.join(RootPath, "lib/dprint")
-const ConfigSchemaPath = path.join(LibDprintPath, "config-schema.json")
+
+enum UpdateKing {
+    major,
+    patch,
+    minor,
+    none,
+}
+
+interface PluginConfig {
+    name: string
+    shortName: string
+    schema: (version: string) => { source: string; destination: string }
+}
+
+const plugins: PluginConfig[] = [
+    {
+        name: "@dprint/dockerfile",
+        shortName: "dockerfile",
+        schema: (version: string) => ({
+            source:
+                `https://raw.githubusercontent.com/dprint/dprint-plugin-dockerfile/${version}/deployment/schema.json`,
+            destination: path.join(LibDprintPath, "dockerfile-config-schema.json"),
+        }),
+    },
+    {
+        name: "@dprint/json",
+        shortName: "json",
+        schema: (version: string) => ({
+            source: `https://raw.githubusercontent.com/dprint/dprint-plugin-json/${version}/deployment/schema.json`,
+            destination: path.join(LibDprintPath, "json-config-schema.json"),
+        }),
+    },
+    {
+        name: "@dprint/markdown",
+        shortName: "markdown",
+        schema: (version: string) => ({
+            source: `https://raw.githubusercontent.com/dprint/dprint-plugin-markdown/${version}/deployment/schema.json`,
+            destination: path.join(LibDprintPath, "markdown-config-schema.json"),
+        }),
+    },
+    {
+        name: "@dprint/toml",
+        shortName: "toml",
+        schema: (version: string) => ({
+            source: `https://raw.githubusercontent.com/dprint/dprint-plugin-toml/${version}/deployment/schema.json`,
+            destination: path.join(LibDprintPath, "toml-config-schema.json"),
+        }),
+    },
+    {
+        name: "@dprint/typescript",
+        shortName: "typescript",
+        schema: (version: string) => ({
+            source:
+                `https://raw.githubusercontent.com/dprint/dprint-plugin-typescript/${version}/deployment/schema.json`,
+            destination: path.join(LibDprintPath, "ts-config-schema.json"),
+        }),
+    },
+]
 
 type CurrentVersionInfo = {
     version: string
 }
 type LatestReleaseInfo = {
     configSchemaPath: string
+    configSchemaDest: string
     version: string
 }
 
 /**
  * Read the current version information.
  */
-function readCurrentVersion(): CurrentVersionInfo {
-    return { version: stdoutOf("npm ls --depth=0 | grep @dprint/typescript | sed -E 's/.*?@([^@]+)$/\\1/g'") }
+function readCurrentVersion(plugin: PluginConfig): CurrentVersionInfo {
+    return { version: stdoutOf(`npm ls --depth=0 | grep ${plugin.name} | sed -E 's/.*?@\\^?([^@]+)$/\\1/g'`) }
 }
 
 /**
  * Read the latest release information.
  * It's came from `https://github.com/dprint/dprint-plugin-typescript` repository.
  */
-function readLatestVersion(): LatestReleaseInfo {
-    const version = stdoutOf("npm view @dprint/typescript version")
+function readLatestVersion(plugin: PluginConfig): LatestReleaseInfo {
+    const version = stdoutOf(`npm view ${plugin.name} version`)
     if (version.matchAll(/\d+\.\d+\.\d+/g)) {
-        const schema =
-            `https://raw.githubusercontent.com/dprint/dprint-plugin-typescript/${version}/deployment/schema.json`
+        const schema = plugin.schema(version)
         return {
             version: version,
-            configSchemaPath: schema,
+            configSchemaPath: schema.source,
+            configSchemaDest: schema.destination,
         }
     }
 
@@ -45,8 +104,8 @@ function readLatestVersion(): LatestReleaseInfo {
  * This function modifies it to adjust JSON Schema v4.
  * @param srcPath The path to the source code of the config schema.
  */
-async function updateConfigSchema(srcPath: string): Promise<void> {
-    console.log("Update %o", path.relative(process.cwd(), ConfigSchemaPath))
+async function updateConfigSchema(srcPath: string, destPath: string): Promise<void> {
+    console.log("Update %o", path.relative(process.cwd(), destPath))
 
     const originalContent = await new Promise<string>((resolve, fail) =>
         https.get(srcPath, response => {
@@ -57,12 +116,30 @@ async function updateConfigSchema(srcPath: string): Promise<void> {
         })
             .on("error", err => fail(err))
     )
-    const modifiedContent = originalContent
-        .replace(/"\$schema":.+?\n\s*"\$id":.+?\n\s*/u, "")
-        .replace(/"const": ([^,\n]+)/gu, '"enum": [$1]')
-        .replace(/\s*"default": [^,\n]+,?\s*?\n/g, "\n")
 
-    fs.writeFileSync(ConfigSchemaPath, modifiedContent)
+    const jsonSchema = JSONC.parse(originalContent)
+    fixConfigSchema(jsonSchema)
+
+    fs.writeFileSync(destPath, JSON.stringify(jsonSchema, undefined, 2))
+}
+
+function fixConfigSchema(jsonSchema: any) {
+    if (typeof jsonSchema === "object") {
+        Object.entries(jsonSchema).forEach(([key, value]) => {
+            if (["$schema", "$id", "default"].includes(key)) {
+                delete jsonSchema[key]
+            } else if ("const" === key) {
+                delete jsonSchema[key]
+                jsonSchema["type"] = typeof value
+                value = [value]
+                jsonSchema["enum"] = value
+            } else {
+                fixConfigSchema(value)
+            }
+        })
+    } else if (Array.isArray(jsonSchema)) {
+        jsonSchema.forEach(value => fixConfigSchema(value))
+    }
 }
 
 /**
@@ -71,56 +148,67 @@ async function updateConfigSchema(srcPath: string): Promise<void> {
  * @param version1 A version text to compare.
  * @param version2 Another vresion text to compare.
  */
-function calculateUpdateKind(version1: string, version2: string): string {
+function calculateUpdateKind(version1: string, version2: string): UpdateKing {
     const [major1, minor1] = version1.split(".")
     const [major2, minor2] = version2.split(".")
 
     if (major1 !== major2) {
-        return "major"
+        return UpdateKing.major
     }
     if (minor1 !== minor2) {
-        return "minor"
+        return UpdateKing.minor
     }
-    return "patch"
+    return UpdateKing.patch
 }
 
 /**
  * Main logic.
  */
-async function main(): Promise<string> {
-    const current = readCurrentVersion()
-    const latest = readLatestVersion()
+async function main(): Promise<UpdateKing> {
+    let kind = UpdateKing.none
+    const updates = []
+    for (const plugin of plugins) {
+        const current = readCurrentVersion(plugin)
+        const latest = readLatestVersion(plugin)
 
-    if (latest.version === current.version) {
+        if (latest.version === current.version) {
+            console.log(
+                "The current version is %o; no update found.",
+                current.version,
+            )
+            continue
+        }
         console.log(
-            "The current version is %o; no update found.",
+            "The current version is %o, the latest release is %o; need to upgrade that.",
             current.version,
+            latest.version,
         )
-        return "none"
-    }
-    console.log(
-        "The current version is %o, the latest release is %o; need to upgrade that.",
-        current.version,
-        latest.version,
-    )
 
-    await updateConfigSchema(latest.configSchemaPath)
-    sh(`npm install @dprint/typescript@^${latest.version}`)
-    setGithubOutput("dprint_ts_version", latest.version)
-    return calculateUpdateKind(current.version, latest.version)
+        await updateConfigSchema(latest.configSchemaPath, latest.configSchemaDest)
+        sh(`npm install --save-peer ${plugin.name}@^${latest.version}`)
+
+        const pKind = calculateUpdateKind(current.version, latest.version)
+        kind = Math.min(kind, pKind)
+
+        if (pKind !== UpdateKing.none) {
+            updates.push(`${plugin.name} to v${latest.version}`)
+        }
+    }
+
+    setGithubOutput("dprint_plugin_updates", updates.join(", "))
+
+    return kind
 }
 
 main()
     .catch(error => {
         console.error(error)
         process.exitCode = 1
-        return "none"
+        return UpdateKing.none
     })
     .then(updateKind => {
-        const updated = updateKind === "major" ||
-            updateKind === "minor" ||
-            updateKind === "patch"
+        const updated = updateKind !== UpdateKing.none
 
         setGithubOutput("updated", updated ? "yes" : "no")
-        setGithubOutput("kind", updateKind)
+        setGithubOutput("kind", UpdateKing[updateKind])
     })

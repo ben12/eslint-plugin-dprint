@@ -3,10 +3,26 @@
     "typescript": {
         "quoteStyle": "preferSingle"
     },
+    "dockerfile": {
+        "newLineKind": "crlf"
+    },
+    "markdown": {
+        "strongKind": "underscores"
+    },
+    "json": {
+        "commentLine.forceSpaceAfterSlashes": false
+    },
+    "toml": {
+        "comment.forceLeadingSpace": false
+    },
     "excludes": [
       "**/node_modules"
     ],
     "plugins": [
-        "node_modules/@dprint/typescript/plugin.wasm"
+        "node_modules/@dprint/typescript/plugin.wasm",
+        "node_modules/@dprint/dockerfile/plugin.wasm",
+        "node_modules/@dprint/markdown/plugin.wasm",
+        "node_modules/@dprint/json/plugin.wasm",
+        "node_modules/@dprint/toml/plugin.wasm"
     ]
 }

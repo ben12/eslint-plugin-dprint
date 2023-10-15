@@ -1,21 +1,44 @@
-import { ESLintUtils, TSESLint } from "@typescript-eslint/utils"
+import { Rule, SourceCode } from "eslint"
+import { JSONSchema4 } from "json-schema"
 import path from "path"
-import configSchema from "../dprint/config-schema.json"
+import dockerfileConfigSchema from "../dprint/dockerfile-config-schema.json"
 import { format } from "../dprint/dprint"
+import jsonConfigSchema from "../dprint/json-config-schema.json"
+import markdownConfigSchema from "../dprint/markdown-config-schema.json"
+import tomlConfigSchema from "../dprint/toml-config-schema.json"
+import tsConfigSchema from "../dprint/ts-config-schema.json"
 import { AddDiff, Diff, DifferenceIterator, RemoveDiff, ReplaceDiff } from "../util/difference-iterator"
 import { hasLinebreak, isWhitespace } from "../util/predicate"
 
+const configSchemas = [
+    { name: "dockerfile", configSchema: dockerfileConfigSchema as JSONSchema4 },
+    { name: "json", configSchema: jsonConfigSchema as JSONSchema4 },
+    { name: "markdown", configSchema: markdownConfigSchema as JSONSchema4 },
+    { name: "toml", configSchema: tomlConfigSchema as JSONSchema4 },
+    { name: "typescript", configSchema: tsConfigSchema as JSONSchema4 },
+]
+
+const messages = {
+    requireLinebreak: "Require line break(s).",
+    extraLinebreak: "Extra line break(s).",
+    requireWhitespace: "Require whitespace(s).",
+    extraWhitespace: "Extra whitespace(s).",
+    requireCode: "Require code {{text}}.",
+    extraCode: "Extra code {{text}}.",
+    replaceWhitespace: "Require tweaking whitespace(s).",
+    replaceCode: "Require code {{newText}} instead of {{oldText}}.",
+    moveCodeToNextLine: "Move code {{text}} to the next line.",
+    moveCodeToPrevLine: "Move code {{text}} to the previous line.",
+    moveCode: "Require tweaking whitespaces around code {{text}}.",
+} as const
+
 /** The message IDs. */
-type MessageId = (typeof dprint) extends TSESLint.RuleModule<infer T, any, any> ? T : never
+type MessageId = keyof typeof messages
 /** The message. */
 type Message = {
     messageId: MessageId
     data: Record<string, string>
 }
-
-const createRule = ESLintUtils.RuleCreator(ruleName =>
-    `https://github.com/ben12/eslint-plugin-dprint/blob/master/docs/rules/${ruleName}.md`
-)
 
 /**
  * Count line breaks in the head whitespace sequence.
@@ -160,99 +183,99 @@ function createMessage(d: Diff): Message {
         createRepaceMessage(d)
 }
 
-export const dprint = createRule({
-    name: "dprint",
-    meta: {
-        docs: {
-            description: "Format code with dprint",
-            recommended: "recommended",
-        },
-        fixable: "code",
-        messages: {
-            requireLinebreak: "Require line break(s).",
-            extraLinebreak: "Extra line break(s).",
-            requireWhitespace: "Require whitespace(s).",
-            extraWhitespace: "Extra whitespace(s).",
-            requireCode: "Require code {{text}}.",
-            extraCode: "Extra code {{text}}.",
-            replaceWhitespace: "Require tweaking whitespace(s).",
-            replaceCode: "Require code {{newText}} instead of {{oldText}}.",
-            moveCodeToNextLine: "Move code {{text}} to the next line.",
-            moveCodeToPrevLine: "Move code {{text}} to the previous line.",
-            moveCode: "Require tweaking whitespaces around code {{text}}.",
-        },
-        schema: {
-            definitions: configSchema.definitions as any,
-            type: "array",
-            items: [{
-                type: "object",
-                properties: {
-                    configFile: {
-                        type: "string",
-                        default: "dprint.json",
-                        description: "dprint configuration file (default 'dprint.json')",
+const defaultOptions = [{ configFile: "dprint.json", config: {} }] as const
+
+export const dprintRules: { [name: string]: Rule.RuleModule } = configSchemas.map((
+    config,
+): { [name: string]: Rule.RuleModule } => ({
+    [config.name]: {
+        meta: {
+            docs: {
+                description: `Format ${config.name} with dprint`,
+                url: `https://github.com/ben12/eslint-plugin-dprint/blob/master/docs/rules/dprint-${config.name}.md`,
+                recommended: true,
+            },
+            fixable: "code",
+            messages,
+            schema: {
+                definitions: config.configSchema.definitions,
+                type: "array",
+                items: [{
+                    type: "object",
+                    properties: {
+                        configFile: {
+                            type: "string",
+                            default: "dprint.json",
+                            description: "dprint configuration file (default 'dprint.json')",
+                        },
+                        config: {
+                            type: "object",
+                            properties: config.configSchema.properties,
+                            additionalProperties: false,
+                        },
                     },
-                    config: configSchema as any,
-                },
-                additionalProperties: false,
-            }],
-            additionalItems: false,
+                    additionalProperties: false,
+                }],
+                additionalItems: false,
+            },
+            type: "layout",
         },
-        type: "layout",
+        create: (context) => ({
+            Program() {
+                const sourceCode = context.sourceCode
+                const filePath = context.filename
+                const fileText = sourceCode.getText()
+                const options = context.options[0] ?? defaultOptions
+                const configFile = options.configFile ?? "dprint.json"
+                const config = options.config || {}
+
+                // Needs an absolute path
+                if (!filePath || !path.isAbsolute(filePath)) {
+                    return
+                }
+
+                // Does format
+                const formattedText = format(configFile, config, filePath, fileText)
+                if (typeof formattedText !== "string") {
+                    return
+                }
+
+                generateLintReports(fileText, formattedText, sourceCode, context)
+            },
+        }),
     },
-    defaultOptions: [{ configFile: "dprint.json", config: {} }],
+})).reduce((r1, r2) => ({ ...r1, ...r2 }))
 
-    create: (context, options) => ({
-        Program() {
-            const sourceCode = context.getSourceCode()
-            const filePath = context.getFilename()
-            const fileText = sourceCode.getText()
-            const configFile = options[0].configFile ?? "dprint.json"
-            const config = options[0].config || {}
-
-            // Needs an absolute path
-            if (!filePath || !path.isAbsolute(filePath)) {
-                return
+function generateLintReports(
+    fileText: string,
+    formattedText: string,
+    sourceCode: SourceCode,
+    context: Rule.RuleContext,
+) {
+    for (const d of DifferenceIterator.iterate(fileText, formattedText)) {
+        const loc = d.type === "add"
+            ? sourceCode.getLocFromIndex(d.range[0])
+            : {
+                start: sourceCode.getLocFromIndex(d.range[0]),
+                end: sourceCode.getLocFromIndex(d.range[1]),
             }
+        const { messageId, data } = createMessage(d)
 
-            // Does format
-            const formattedText = format(configFile, config, filePath, fileText)
-            if (typeof formattedText !== "string") {
-                return
-            }
+        context.report({
+            loc,
+            messageId,
+            data,
 
-            // Generate lint reports
-            for (
-                const d of DifferenceIterator.iterate(
-                    fileText,
-                    formattedText,
-                )
-            ) {
-                const loc = d.type === "add"
-                    ? sourceCode.getLocFromIndex(d.range[0])
-                    : {
-                        start: sourceCode.getLocFromIndex(d.range[0]),
-                        end: sourceCode.getLocFromIndex(d.range[1]),
-                    }
-                const { messageId, data } = createMessage(d)
-
-                context.report({
-                    loc,
-                    messageId,
-                    data,
-
-                    fix(fixer) {
-                        const range = d.range as [number, number]
-                        if (d.type === "add") {
-                            return fixer.insertTextAfterRange(range, d.newText)
-                        }
-                        if (d.type === "remove") {
-                            return fixer.removeRange(range)
-                        }
-                        return fixer.replaceTextRange(range, d.newText)
-                    },
-                })
-            }
-        },
-    }),
-})
+            fix(fixer) {
+                const range = d.range as [number, number]
+                if (d.type === "add") {
+                    return fixer.insertTextAfterRange(range, d.newText)
+                }
+                if (d.type === "remove") {
+                    return fixer.removeRange(range)
+                }
+                return fixer.replaceTextRange(range, d.newText)
+            },
+        })
+    }
+}

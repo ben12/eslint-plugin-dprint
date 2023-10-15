@@ -1,9 +1,9 @@
-import { TSESLint } from "@typescript-eslint/utils"
+import { RuleTester } from "eslint"
 import path from "path"
-import { dprint } from "../../lib/rules/dprint"
+import { dprintRules } from "../../lib/rules/dprint"
 
-const tester = new TSESLint.RuleTester()
-tester.run("dprint", dprint, {
+const tester = new RuleTester()
+tester.run("dprint/typescript", dprintRules.typescript, {
     valid: [
         {
             filename: path.join(__dirname, "test.ts"),
