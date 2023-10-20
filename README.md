@@ -5,7 +5,6 @@
 [![Downloads/month](https://img.shields.io/npm/dm/@ben_12/eslint-plugin-dprint.svg)](http://www.npmtrends.com/@ben_12/eslint-plugin-dprint)\
 [![node-current](https://img.shields.io/node/v/%40ben_12%2Feslint-plugin-dprint)](https://nodejs.org)
 [![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/%40ben_12%2Feslint-plugin-dprint/peer/eslint)](https://www.npmjs.com/package/eslint)
-[![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/%40ben_12%2Feslint-plugin-dprint/@dprint/typescript)](https://www.npmjs.com/package/@dprint/typescript)
 ![npm bundle size](https://img.shields.io/bundlephobia/min/%40ben_12%2Feslint-plugin-dprint)\
 [![Build Status](https://github.com/ben12/eslint-plugin-dprint/workflows/CI/badge.svg)](https://github.com/ben12/eslint-plugin-dprint/actions)
 [![codecov](https://codecov.io/gh/ben12/eslint-plugin-dprint/branch/master/graph/badge.svg)](https://codecov.io/gh/ben12/eslint-plugin-dprint)
@@ -114,4 +113,8 @@ Please use GitHub's Issues/PRs.
 [@ben_12/dprint/toml]: docs/rules/dprint-toml.md
 [@ben_12/dprint/typescript]: docs/rules/dprint-typescript.md
 [plugin:@ben_12/dprint/disable-typescript-conflict-rules]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/disable-typescript-conflict-rules.ts
-[plugin:@ben_12/dprint/recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts
+[plugin:@ben_12/dprint/dockerfile-recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts#L3
+[plugin:@ben_12/dprint/json-recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts#L10
+[plugin:@ben_12/dprint/markdown-recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts#L17
+[plugin:@ben_12/dprint/toml-recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts#L24
+[plugin:@ben_12/dprint/typescript-recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts#L31
