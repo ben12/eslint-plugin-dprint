@@ -1,6 +1,6 @@
 {
   "name": "@ben_12/eslint-plugin-dprint",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "An ESLint plugin that fixes code with dprint",
   "engines": {
     "node": ">=18.0.0"
@@ -11,22 +11,44 @@
     "dist"
   ],
   "peerDependencies": {
+    "@dprint/dockerfile": "^0.3.0",
+    "@dprint/json": "^0.17.4",
+    "@dprint/markdown": "^0.16.2",
+    "@dprint/toml": "^0.5.4",
+    "@dprint/typescript": "^0.88.1",
     "eslint": ">=7.0.0"
   },
+  "peerDependenciesMeta": {
+    "@dprint/dockerfile": {
+      "optional": true
+    },
+    "@dprint/json": {
+      "optional": true
+    },
+    "@dprint/markdown": {
+      "optional": true
+    },
+    "@dprint/toml": {
+      "optional": true
+    },
+    "@dprint/typescript": {
+      "optional": true
+    }
+  },
   "dependencies": {
-    "@dprint/typescript": "^0.88.1",
+    "@dprint/formatter": "^0.2.0",
     "debug": "^4.1.1",
     "diff": "^5.0.0",
     "jsonc-parser": "^3.2.0"
   },
   "devDependencies": {
     "@ben_12/eslint-plugin-dprint": "^0.7.1",
+    "@ben_12/eslint-simple-parser": "^0.1.0",
     "@types/debug": "^4.1.5",
     "@types/diff": "^5.0.0",
+    "@types/eslint": "^8.44.4",
     "@types/node": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "@typescript-eslint/utils": "^6.0.0",
     "eslint": "^8.50.0",
     "mocha": "^10.0.0",
     "nyc": "^15.0.1",
@@ -38,7 +60,7 @@
   "scripts": {
     "build": "rimraf dist && tsc -p tsconfig.build.json",
     "codecov": "nyc report --reporter text-lcov | codecov --pipe --disable=gcov",
-    "lint": "eslint --rulesdir scripts/internal-rules \"**/*.ts\"",
+    "lint": "eslint \"**/*.ts\"",
     "test": "npm run -s lint && npm run -s test:ci",
     "test:ci": "tsc && nyc mocha \"test/rules/**/*.ts\"",
     "watch": "mocha --require ts-node/register --watch --watch-files \"lib/**/*.ts,test/**/*.ts\" \"test/rules/**/*.ts\"",
@@ -57,7 +79,9 @@
   "keywords": [
     "eslint",
     "eslintplugin",
-    "dprint"
+    "eslint-plugin",
+    "dprint",
+    "formatter"
   ],
   "author": "Benoît Moreau <public@ben12.dev>",
   "license": "MIT",

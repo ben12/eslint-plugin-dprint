@@ -1,0 +1,52 @@
+{
+  "type": "object",
+  "definitions": {
+    "newLineKind": {
+      "description": "The kind of newline to use.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "For each file, uses the newline kind found at the end of the last line.",
+          "type": "string",
+          "enum": [
+            "auto"
+          ]
+        },
+        {
+          "description": "Uses carriage return, line feed.",
+          "type": "string",
+          "enum": [
+            "crlf"
+          ]
+        },
+        {
+          "description": "Uses line feed.",
+          "type": "string",
+          "enum": [
+            "lf"
+          ]
+        },
+        {
+          "description": "Uses the system standard (ex. crlf on Windows).",
+          "type": "string",
+          "enum": [
+            "system"
+          ]
+        }
+      ]
+    }
+  },
+  "properties": {
+    "locked": {
+      "description": "Whether the configuration is not allowed to be overriden or extended.",
+      "type": "boolean"
+    },
+    "lineWidth": {
+      "description": "The width of a line the printer will try to stay under. Note that the printer may exceed this width in certain cases.",
+      "type": "number"
+    },
+    "newLineKind": {
+      "$ref": "#/definitions/newLineKind"
+    }
+  }
+}

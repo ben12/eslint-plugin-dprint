@@ -27,8 +27,8 @@ export type Diff = AddDiff | RemoveDiff | ReplaceDiff
 
 /** The defference iterator. */
 export class DifferenceIterator {
-    public static iterate(s0: string, s1: string): Generator<Diff> {
-        return new DifferenceIterator(s0, s1).iterate()
+    public static iterate(oldStr: string, newStr: string): Generator<Diff> {
+        return new DifferenceIterator(oldStr, newStr).iterate()
     }
 
     /** All changes that the `diffChars()` function detected. */
@@ -39,8 +39,8 @@ export class DifferenceIterator {
     private loc = 0
 
     /** Initialize this instance. */
-    private constructor(s0: string, s1: string) {
-        this.changes = diffChars(s0, s1)
+    private constructor(oldStr: string, newStr: string) {
+        this.changes = diffChars(oldStr, newStr)
     }
 
     /** Iterate differences. */

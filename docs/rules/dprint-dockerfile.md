@@ -1,4 +1,4 @@
-# @ben_12/dprint/dprint
+# @ben_12/dprint/dockerfile
 
 > Format code with [dprint].
 
@@ -10,7 +10,7 @@ Run [dprint] to format code.
 
 ```jsonc
 {
-  "@ben_12/dprint/dprint": [
+  "@ben_12/dprint/dockerfile": [
     "error",
     {
       // Use dprint JSON configuration file (default: "dprint.json")
@@ -18,8 +18,8 @@ Run [dprint] to format code.
       // See also https://dprint.dev/config/
       "configFile": "dprint.json",
       "config": {
-        // The TypeScript configuration of dprint
-        // See also https://dprint.dev/plugins/typescript/config/
+        // The Dockerfile configuration of dprint
+        // See also https://dprint.dev/plugins/dockerfile/config/
       }
     }
   ]

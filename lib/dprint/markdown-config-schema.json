@@ -1,0 +1,167 @@
+{
+  "type": "object",
+  "definitions": {
+    "newLineKind": {
+      "description": "The kind of newline to use.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "For each file, uses the newline kind found at the end of the last line.",
+          "type": "string",
+          "enum": [
+            "auto"
+          ]
+        },
+        {
+          "description": "Uses carriage return, line feed.",
+          "type": "string",
+          "enum": [
+            "crlf"
+          ]
+        },
+        {
+          "description": "Uses line feed.",
+          "type": "string",
+          "enum": [
+            "lf"
+          ]
+        },
+        {
+          "description": "Uses the system standard (ex. crlf on Windows).",
+          "type": "string",
+          "enum": [
+            "system"
+          ]
+        }
+      ]
+    },
+    "textWrap": {
+      "description": "Text wrapping possibilities.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Always wraps text.",
+          "type": "string",
+          "enum": [
+            "always"
+          ]
+        },
+        {
+          "description": "Maintains line breaks.",
+          "type": "string",
+          "enum": [
+            "maintain"
+          ]
+        },
+        {
+          "description": "Never wraps text.",
+          "type": "string",
+          "enum": [
+            "never"
+          ]
+        }
+      ]
+    },
+    "emphasisKind": {
+      "description": "The character to use for emphasis/italics.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Uses asterisks (*) for emphasis.",
+          "type": "string",
+          "enum": [
+            "asterisks"
+          ]
+        },
+        {
+          "description": "Uses underscores (_) for emphasis.",
+          "type": "string",
+          "enum": [
+            "underscores"
+          ]
+        }
+      ]
+    },
+    "strongKind": {
+      "description": "The character to use for strong emphasis/bold.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Uses asterisks (**) for strong emphasis.",
+          "type": "string",
+          "enum": [
+            "asterisks"
+          ]
+        },
+        {
+          "description": "Uses underscores (__) for strong emphasis.",
+          "type": "string",
+          "enum": [
+            "underscores"
+          ]
+        }
+      ]
+    },
+    "deno": {
+      "description": "Top level configuration that sets the configuration to what is used in Deno.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    }
+  },
+  "properties": {
+    "locked": {
+      "description": "Whether the configuration is not allowed to be overriden or extended.",
+      "type": "boolean"
+    },
+    "lineWidth": {
+      "description": "The width of a line the printer will try to stay under. Note that the printer may exceed this width in certain cases.",
+      "type": "number"
+    },
+    "newLineKind": {
+      "$ref": "#/definitions/newLineKind"
+    },
+    "textWrap": {
+      "$ref": "#/definitions/textWrap"
+    },
+    "emphasisKind": {
+      "$ref": "#/definitions/emphasisKind"
+    },
+    "strongKind": {
+      "$ref": "#/definitions/strongKind"
+    },
+    "deno": {
+      "$ref": "#/definitions/deno"
+    },
+    "ignoreDirective": {
+      "description": "The text to use for an ignore directive (ex. `<!-- dprint-ignore -->`).",
+      "type": "string"
+    },
+    "ignoreFileDirective": {
+      "description": "The text to use for an ignore file directive (ex. `<!-- dprint-ignore-file -->`).",
+      "type": "string"
+    },
+    "ignoreStartDirective": {
+      "description": "The text to use for an ignore start directive (ex. `<!-- dprint-ignore-start -->`).",
+      "type": "string"
+    },
+    "ignoreEndDirective": {
+      "description": "The text to use for an ignore end directive (ex. `<!-- dprint-ignore-end -->`).",
+      "type": "string"
+    }
+  }
+}

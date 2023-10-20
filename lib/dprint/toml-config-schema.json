@@ -1,0 +1,125 @@
+{
+  "type": "object",
+  "definitions": {
+    "useTabs": {
+      "description": "Whether to use tabs (true) or spaces (false).",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "newLineKind": {
+      "description": "The kind of newline to use.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "For each file, uses the newline kind found at the end of the last line.",
+          "type": "string",
+          "enum": [
+            "auto"
+          ]
+        },
+        {
+          "description": "Uses carriage return, line feed.",
+          "type": "string",
+          "enum": [
+            "crlf"
+          ]
+        },
+        {
+          "description": "Uses line feed.",
+          "type": "string",
+          "enum": [
+            "lf"
+          ]
+        },
+        {
+          "description": "Uses the system standard (ex. crlf on Windows).",
+          "type": "string",
+          "enum": [
+            "system"
+          ]
+        }
+      ]
+    },
+    "comment.forceLeadingSpace": {
+      "description": "Whether to force a leading space in a comment.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Adds a leading space if there is none (ex. `# comment`)",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Doesn't force a space to be added and maintains what was done (ex. `#comment`)",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "cargo.applyConventions": {
+      "description": "Whether to apply sorting to a Cargo.toml file.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    }
+  },
+  "properties": {
+    "locked": {
+      "description": "Whether the configuration is not allowed to be overriden or extended.",
+      "type": "boolean"
+    },
+    "lineWidth": {
+      "description": "The width of a line the printer will try to stay under. Note that the printer may exceed this width in certain cases.",
+      "type": "number"
+    },
+    "indentWidth": {
+      "description": "The number of characters for an indent.",
+      "type": "number"
+    },
+    "useTabs": {
+      "$ref": "#/definitions/useTabs"
+    },
+    "newLineKind": {
+      "$ref": "#/definitions/newLineKind"
+    },
+    "comment.forceLeadingSpace": {
+      "$ref": "#/definitions/comment.forceLeadingSpace"
+    },
+    "cargo.applyConventions": {
+      "$ref": "#/definitions/cargo.applyConventions"
+    }
+  }
+}

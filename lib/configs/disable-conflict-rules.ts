@@ -1,4 +1,4 @@
-export const disableConflictRules = {
+export const disableTypescriptConflictRules = {
     plugins: ["@ben_12/dprint"],
     rules: {
         "array-bracket-newline": "off",

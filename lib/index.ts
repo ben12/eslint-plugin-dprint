@@ -1,13 +1,21 @@
-import { disableConflictRules } from "./configs/disable-conflict-rules"
-import { recommended } from "./configs/recommended"
-import { dprint } from "./rules/dprint"
+import { disableTypescriptConflictRules } from "./configs/disable-conflict-rules"
+import {
+    dockerfileRecommended,
+    jsonRecommended,
+    markdownRecommended,
+    tomlRecommended,
+    typescriptRecommended,
+} from "./configs/recommended"
+import { dprintRules } from "./rules/dprint"
 
 module.exports = {
     configs: {
-        "disable-conflict-rules": disableConflictRules,
-        recommended,
+        "disable-typescript-conflict-rules": disableTypescriptConflictRules,
+        "dockerfile-recommended": dockerfileRecommended,
+        "json-recommended": jsonRecommended,
+        "markdown-recommended": markdownRecommended,
+        "toml-recommended": tomlRecommended,
+        "typescript-recommended": typescriptRecommended,
     },
-    rules: {
-        dprint,
-    },
+    rules: dprintRules,
 }
