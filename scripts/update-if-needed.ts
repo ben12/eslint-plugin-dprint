@@ -123,6 +123,7 @@ async function updateConfigSchema(srcPath: string, destPath: string): Promise<vo
     fs.writeFileSync(destPath, JSON.stringify(jsonSchema, undefined, 2))
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Safe use of any for JSON structure
 function fixConfigSchema(jsonSchema: any) {
     if (typeof jsonSchema === "object") {
         Object.entries(jsonSchema).forEach(([key, value]) => {

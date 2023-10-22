@@ -66,7 +66,7 @@ const lastConfigFile: { [key: string]: string | undefined } = {}
  */
 export function format(
     configFile: string,
-    config: Record<string, any>,
+    config: Record<string, unknown>,
     filePath: string,
     fileText: string,
 ): string | undefined {
@@ -86,7 +86,7 @@ export function format(
     return undefined
 }
 
-function setConfig(formatter: Formatter, configKey: string, configFile: string, config: Record<string, any>): void {
+function setConfig(formatter: Formatter, configKey: string, configFile: string, config: Record<string, unknown>): void {
     // The setting values must be strings.
     const globalConfig: Record<string, ConfigType> = {}
     const pluginConfig: Record<string, ConfigType> = {}
@@ -111,7 +111,7 @@ function isConfigAllowedType(value: unknown): value is ConfigType {
     return ["string", "number", "boolean"].includes(typeof value)
 }
 
-function extractConfig(config: any, toConfig: Record<string, any>) {
+function extractConfig(config: object, toConfig: Record<string, unknown>) {
     for (const [key, value] of Object.entries(config)) {
         if (isConfigAllowedType(value)) {
             toConfig[key] = value
