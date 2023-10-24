@@ -20,6 +20,7 @@ export const setGithubOutput = (varName: string, value: string) => {
         writeFileSync(
             process.env.GITHUB_OUTPUT,
             `${varName}=${value}\n`,
+            { flag: "a+" },
         )
     }
 }
