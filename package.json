@@ -42,7 +42,7 @@
     "jsonc-parser": "^3.2.0"
   },
   "devDependencies": {
-    "@ben_12/eslint-plugin-dprint": "^0.8.0",
+    "@ben_12/eslint-plugin-dprint": "file:./test/internal-rules",
     "@ben_12/eslint-simple-parser": "^0.1.0",
     "@types/debug": "^4.1.5",
     "@types/diff": "^5.0.0",
@@ -60,7 +60,7 @@
   "scripts": {
     "build": "rimraf dist && tsc -p tsconfig.build.json",
     "codecov": "nyc report --reporter text-lcov | codecov --pipe --disable=gcov",
-    "lint": "eslint \"**/*.ts\" \"**/*.md\"",
+    "lint": "eslint \"**/*.ts\" \"**/*.js\" \"**/*.md\"",
     "test": "npm run -s lint && npm run -s test:ci",
     "test:ci": "tsc && nyc mocha \"test/rules/**/*.ts\"",
     "watch": "mocha --require ts-node/register --watch --watch-files \"lib/**/*.ts,test/**/*.ts\" \"test/rules/**/*.ts\"",
