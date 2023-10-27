@@ -9,8 +9,8 @@ const LibDprintPath = path.join(RootPath, "lib/dprint")
 
 enum UpdateKing {
     major,
-    patch,
     minor,
+    patch,
     none,
 }
 
