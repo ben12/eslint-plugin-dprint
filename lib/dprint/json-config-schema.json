@@ -1,6 +1,40 @@
 {
   "type": "object",
   "definitions": {
+    "preferSingleLine": {
+      "description": "If arrays and objects should collapse to a single line if it would be below the line width.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    }
+  },
+  "properties": {
+    "locked": {
+      "description": "Whether the configuration is not allowed to be overriden or extended.",
+      "type": "boolean"
+    },
+    "lineWidth": {
+      "description": "The width of a line the printer will try to stay under. Note that the printer may exceed this width in certain cases.",
+      "type": "number"
+    },
+    "indentWidth": {
+      "description": "The number of characters for an indent.",
+      "type": "number"
+    },
     "useTabs": {
       "description": "Whether to use tabs (true) or spaces (false).",
       "type": "boolean",
@@ -76,24 +110,54 @@
       ]
     },
     "preferSingleLine": {
-      "description": "If arrays and objects should collapse to a single line if it would be below the line width.",
-      "type": "boolean",
+      "$ref": "#/definitions/preferSingleLine"
+    },
+    "array.preferSingleLine": {
+      "$ref": "#/definitions/preferSingleLine"
+    },
+    "object.preferSingleLine": {
+      "$ref": "#/definitions/preferSingleLine"
+    },
+    "trailingCommas": {
+      "description": "Whether to use trailing commas.",
+      "type": "string",
       "oneOf": [
         {
-          "description": "",
-          "type": "boolean",
+          "description": "Always format with trailing commas. Beware: trailing commas can cause many JSON parsers to fail.",
+          "type": "string",
           "enum": [
-            true
+            "always"
           ]
         },
         {
-          "description": "",
-          "type": "boolean",
+          "description": "Use trailing commas in JSONC files and do not use trailing commas in JSON files.",
+          "type": "string",
           "enum": [
-            false
+            "jsonc"
+          ]
+        },
+        {
+          "description": "Keep the trailing comma if it exists.",
+          "type": "string",
+          "enum": [
+            "maintain"
+          ]
+        },
+        {
+          "description": "Never format with trailing commas.",
+          "type": "string",
+          "enum": [
+            "never"
           ]
         }
       ]
+    },
+    "jsonTrailingCommaFiles": {
+      "description": "When `trailingCommas` is `jsonc`, treat these files as JSONC and use trailing commas (ex. `[\"tsconfig.json\", \".vscode/settings.json\"]`).",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     },
     "deno": {
       "description": "Top level configuration that sets the configuration to what is used in Deno.",
@@ -114,41 +178,6 @@
           ]
         }
       ]
-    }
-  },
-  "properties": {
-    "locked": {
-      "description": "Whether the configuration is not allowed to be overriden or extended.",
-      "type": "boolean"
-    },
-    "lineWidth": {
-      "description": "The width of a line the printer will try to stay under. Note that the printer may exceed this width in certain cases.",
-      "type": "number"
-    },
-    "indentWidth": {
-      "description": "The number of characters for an indent.",
-      "type": "number"
-    },
-    "useTabs": {
-      "$ref": "#/definitions/useTabs"
-    },
-    "newLineKind": {
-      "$ref": "#/definitions/newLineKind"
-    },
-    "commentLine.forceSpaceAfterSlashes": {
-      "$ref": "#/definitions/commentLine.forceSpaceAfterSlashes"
-    },
-    "preferSingleLine": {
-      "$ref": "#/definitions/preferSingleLine"
-    },
-    "array.preferSingleLine": {
-      "$ref": "#/definitions/preferSingleLine"
-    },
-    "object.preferSingleLine": {
-      "$ref": "#/definitions/preferSingleLine"
-    },
-    "deno": {
-      "$ref": "#/definitions/deno"
     },
     "ignoreNodeCommentText": {
       "description": "The text to use for an ignore comment (ex. `// dprint-ignore`).",
