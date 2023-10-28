@@ -3,6 +3,7 @@
 /.vscode/*
 !/.vscode/settings.json
 /coverage
+/reports
 /dist
 /node_modules
 /test.*
