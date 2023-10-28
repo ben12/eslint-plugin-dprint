@@ -6,7 +6,7 @@ import { format } from "../dprint/dprint"
 import jsonConfigSchema from "../dprint/json-config-schema.json"
 import markdownConfigSchema from "../dprint/markdown-config-schema.json"
 import tomlConfigSchema from "../dprint/toml-config-schema.json"
-import tsConfigSchema from "../dprint/ts-config-schema.json"
+import tsConfigSchema from "../dprint/typescript-config-schema.json"
 import { AddDiff, Diff, DifferenceIterator, RemoveDiff, ReplaceDiff } from "../util/difference-iterator"
 import { hasLinebreak, isWhitespace } from "../util/predicate"
 
@@ -161,8 +161,8 @@ function createRepaceMessage(d: ReplaceDiff): Message {
     return {
         messageId: "replaceCode",
         data: {
-            newText: JSON.stringify(d.newText.trim()),
-            oldText: JSON.stringify(d.oldText.trim()),
+            newText: JSON.stringify(d.newText),
+            oldText: JSON.stringify(d.oldText),
         },
     }
 }

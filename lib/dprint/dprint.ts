@@ -91,7 +91,7 @@ function setConfig(formatter: Formatter, configKey: string, configFile: string, 
     const globalConfig: Record<string, ConfigType> = {}
     const pluginConfig: Record<string, ConfigType> = {}
 
-    if (configFile?.length && fs.existsSync(configFile)) {
+    if (configFile.length && fs.existsSync(configFile)) {
         const configFileContent = fs.readFileSync(configFile, { encoding: "utf-8" })
         const configFileJson = JSONC.parse(configFileContent)
         extractConfig(configFileJson, globalConfig)

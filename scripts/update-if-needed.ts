@@ -20,49 +20,24 @@ interface PluginConfig {
     schema: (version: string) => { source: string; destination: string }
 }
 
+function createPluginConfig(language: string): PluginConfig {
+    return {
+        name: `@dprint/${language}`,
+        shortName: language,
+        schema: (version: string) => ({
+            source:
+                `https://raw.githubusercontent.com/dprint/dprint-plugin-${language}/${version}/deployment/schema.json`,
+            destination: path.join(LibDprintPath, `${language}-config-schema.json`),
+        }),
+    }
+}
+
 const plugins: PluginConfig[] = [
-    {
-        name: "@dprint/dockerfile",
-        shortName: "dockerfile",
-        schema: (version: string) => ({
-            source:
-                `https://raw.githubusercontent.com/dprint/dprint-plugin-dockerfile/${version}/deployment/schema.json`,
-            destination: path.join(LibDprintPath, "dockerfile-config-schema.json"),
-        }),
-    },
-    {
-        name: "@dprint/json",
-        shortName: "json",
-        schema: (version: string) => ({
-            source: `https://raw.githubusercontent.com/dprint/dprint-plugin-json/${version}/deployment/schema.json`,
-            destination: path.join(LibDprintPath, "json-config-schema.json"),
-        }),
-    },
-    {
-        name: "@dprint/markdown",
-        shortName: "markdown",
-        schema: (version: string) => ({
-            source: `https://raw.githubusercontent.com/dprint/dprint-plugin-markdown/${version}/deployment/schema.json`,
-            destination: path.join(LibDprintPath, "markdown-config-schema.json"),
-        }),
-    },
-    {
-        name: "@dprint/toml",
-        shortName: "toml",
-        schema: (version: string) => ({
-            source: `https://raw.githubusercontent.com/dprint/dprint-plugin-toml/${version}/deployment/schema.json`,
-            destination: path.join(LibDprintPath, "toml-config-schema.json"),
-        }),
-    },
-    {
-        name: "@dprint/typescript",
-        shortName: "typescript",
-        schema: (version: string) => ({
-            source:
-                `https://raw.githubusercontent.com/dprint/dprint-plugin-typescript/${version}/deployment/schema.json`,
-            destination: path.join(LibDprintPath, "ts-config-schema.json"),
-        }),
-    },
+    createPluginConfig("dockerfile"),
+    createPluginConfig("json"),
+    createPluginConfig("markdown"),
+    createPluginConfig("toml"),
+    createPluginConfig("typescript"),
 ]
 
 type CurrentVersionInfo = {

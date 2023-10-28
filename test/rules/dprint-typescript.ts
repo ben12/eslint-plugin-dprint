@@ -2,7 +2,9 @@ import { RuleTester } from "eslint"
 import path from "path"
 import { dprintRules } from "../../lib/rules/dprint"
 
-const tester = new RuleTester()
+const tester = new RuleTester({
+    parser: require.resolve("@ben_12/eslint-simple-parser"),
+})
 tester.run("dprint/typescript", dprintRules.typescript, {
     valid: [
         {
@@ -16,8 +18,8 @@ tester.run("dprint/typescript", dprintRules.typescript, {
             options: [{ configFile: "test/dprint.json", config: {} }],
         }, // Non JS/TS file
         {
-            filename: path.join(__dirname, "test.json"),
-            code: "",
+            filename: path.join(__dirname, "test.unk"),
+            code: "Unknown language file",
             options: [{ configFile: "", config: {} }],
         },
     ],

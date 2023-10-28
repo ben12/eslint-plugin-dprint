@@ -20,10 +20,7 @@
         "outDir": "dist",
         "resolveJsonModule": true,
         "sourceMap": true,
-        "strictBindCallApply": true,
-        "strictFunctionTypes": true,
-        "strictNullChecks": true,
-        "strictPropertyInitialization": true,
+        "strict": true,
         "target": "es2015"
     },
     "include": [
