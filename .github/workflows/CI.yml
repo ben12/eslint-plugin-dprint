@@ -63,7 +63,14 @@ jobs:
     - name: Install ESLint ${{ matrix.eslint }}
       run: npm install --no-save eslint@${{ matrix.eslint }}
     - name: Test
-      run: npm run -s test:ci
+      run: npm run -s test:ci -- --reporter json --reporter-options output=reports/tests.json
+    - name: Test Report
+      uses: dorny/test-reporter@v1
+      if: success() || failure()
+      with:
+        name: Tests Results (${{ matrix.eslint }}, ${{ matrix.node }}, ${{ matrix.os }})
+        path: reports/tests.json
+        reporter: mocha-json
     - name: Send Coverage
       uses: codecov/codecov-action@v3
       with:
