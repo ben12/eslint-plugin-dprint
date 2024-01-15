@@ -75,7 +75,7 @@ Then run ESLint with `--fix`!
 
 | Config                                                    | Description                                                                                                                  |
 | :-------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------- |
-| [plugin:@ben_12/dprint/disable-typescript-conflict-rules] | Disable rules where are conflicted with the [@ben_12/dprint/dprint] rule.                                                    |
+| [plugin:@ben_12/dprint/disable-typescript-conflict-rules] | Disable rules where are conflicted with the [@ben_12/dprint/typescript] rule.                                                |
 | [plugin:@ben_12/dprint/dockerfile-recommended]            | Enable the [@ben_12/dprint/dockerfile] rule.                                                                                 |
 | [plugin:@ben_12/dprint/json-recommended]                  | Enable the [@ben_12/dprint/json] rule.                                                                                       |
 | [plugin:@ben_12/dprint/markdown-recommended]              | Enable the [@ben_12/dprint/markdown] rule.                                                                                   |
