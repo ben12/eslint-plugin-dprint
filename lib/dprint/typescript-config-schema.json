@@ -1408,6 +1408,9 @@
     "arrayPattern.spaceAround": {
       "$ref": "#/definitions/spaceAround"
     },
+    "catchClause.spaceAround": {
+      "$ref": "#/definitions/spaceAround"
+    },
     "doWhileStatement.spaceAround": {
       "$ref": "#/definitions/spaceAround"
     },
@@ -1424,6 +1427,9 @@
       "$ref": "#/definitions/spaceAround"
     },
     "parameters.spaceAround": {
+      "$ref": "#/definitions/spaceAround"
+    },
+    "parenExpression.spaceAround": {
       "$ref": "#/definitions/spaceAround"
     },
     "switchStatement.spaceAround": {
