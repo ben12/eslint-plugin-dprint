@@ -502,20 +502,27 @@
     },
     "forceMultiLineSpecifiers": {
       "description": "If code import/export specifiers should be forced to be on multiple lines.",
-      "type": "boolean",
+      "type": "string",
       "oneOf": [
         {
           "description": "",
-          "type": "boolean",
+          "type": "string",
           "enum": [
-            true
+            "always"
           ]
         },
         {
           "description": "",
-          "type": "boolean",
+          "type": "string",
           "enum": [
-            false
+            "never"
+          ]
+        },
+        {
+          "description": "Force multiple lines only if importing more than one thing.",
+          "type": "string",
+          "enum": [
+            "whenMultiple"
           ]
         }
       ]
