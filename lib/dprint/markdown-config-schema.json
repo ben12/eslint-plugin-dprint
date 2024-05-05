@@ -102,6 +102,26 @@
         }
       ]
     },
+    "unorderedListKind": {
+      "description": "The character to use for unordered lists.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Uses dashes (-) as primary character for lists.",
+          "type": "string",
+          "enum": [
+            "dashes"
+          ]
+        },
+        {
+          "description": "Uses asterisks (*) as primary character for lists.",
+          "type": "string",
+          "enum": [
+            "asterisks"
+          ]
+        }
+      ]
+    },
     "deno": {
       "description": "Top level configuration that sets the configuration to what is used in Deno.",
       "type": "boolean",
