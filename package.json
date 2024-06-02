@@ -11,11 +11,11 @@
     "dist"
   ],
   "peerDependencies": {
-    "@dprint/dockerfile": "^0.3.0",
-    "@dprint/json": "^0.19.2",
-    "@dprint/markdown": "^0.17.0",
-    "@dprint/toml": "^0.6.1",
-    "@dprint/typescript": "^0.90.5",
+    "@dprint/dockerfile": "^0.3.2",
+    "@dprint/json": "^0.19.3",
+    "@dprint/markdown": "^0.17.1",
+    "@dprint/toml": "^0.6.2",
+    "@dprint/typescript": "^0.91.0",
     "eslint": ">=7.0.0"
   },
   "peerDependenciesMeta": {
