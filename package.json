@@ -1,6 +1,6 @@
 {
   "name": "@ben_12/eslint-plugin-dprint",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "description": "An ESLint plugin that fixes code with dprint",
   "engines": {
     "node": ">=18.0.0"
