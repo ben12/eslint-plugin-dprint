@@ -16,7 +16,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
     - name: Install Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with: { node-version: 18.x }
     - name: Install Packages
       run: npm ci
@@ -46,9 +46,12 @@ jobs:
         - eslint: 8.x
           node: 16.x
           os: ubuntu-latest
-        # On old ESLint versions
+        # Other ESLint versions
         - eslint: 7.x
           node: 18.x
+          os: ubuntu-latest
+        - eslint: 9.x
+          node: 20.x
           os: ubuntu-latest
 
     runs-on: ${{ matrix.os }}
@@ -56,7 +59,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
     - name: Install Node.js ${{ matrix.node }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with: { node-version: "${{ matrix.node }}" }
     - name: Install Packages
       run: npm install
