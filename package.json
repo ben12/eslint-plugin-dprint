@@ -13,7 +13,7 @@
   "peerDependencies": {
     "@dprint/dockerfile": "^0.3.2",
     "@dprint/json": "^0.19.3",
-    "@dprint/markdown": "^0.17.2",
+    "@dprint/markdown": "^0.17.4",
     "@dprint/toml": "^0.6.2",
     "@dprint/typescript": "^0.91.6",
     "eslint": ">=7.0.0"
