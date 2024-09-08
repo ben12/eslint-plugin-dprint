@@ -15,7 +15,7 @@
     "@dprint/json": "^0.19.3",
     "@dprint/markdown": "^0.17.8",
     "@dprint/toml": "^0.6.2",
-    "@dprint/typescript": "^0.91.7",
+    "@dprint/typescript": "^0.91.8",
     "eslint": ">=7.0.0"
   },
   "peerDependenciesMeta": {
