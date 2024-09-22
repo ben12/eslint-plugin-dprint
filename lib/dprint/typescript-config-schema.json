@@ -527,6 +527,33 @@
         }
       ]
     },
+    "typeOnlyImportsExportsSortOrder": {
+      "description": "The kind of sort ordering to use for typed imports and exports.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Puts type-only named imports and exports first.",
+          "type": "string",
+          "enum": [
+            "first"
+          ]
+        },
+        {
+          "description": "Puts type-only named imports and exports last.",
+          "type": "string",
+          "enum": [
+            "last"
+          ]
+        },
+        {
+          "description": "Does not sort based on if a type-only named import or export.",
+          "type": "string",
+          "enum": [
+            "none"
+          ]
+        }
+      ]
+    },
     "sortOrder": {
       "description": "The kind of sort ordering to use.",
       "type": "string",
@@ -1544,8 +1571,14 @@
     "exportDeclaration.sortNamedExports": {
       "$ref": "#/definitions/sortOrder"
     },
+    "exportDeclaration.sortTypeOnlyExports": {
+      "$ref": "#/definitions/typeOnlyImportsExportsSortOrder"
+    },
     "importDeclaration.sortNamedImports": {
       "$ref": "#/definitions/sortOrder"
+    },
+    "importDeclaration.sortTypeOnlyImports": {
+      "$ref": "#/definitions/typeOnlyImportsExportsSortOrder"
     },
     "ignoreNodeCommentText": {
       "description": "The text to use for an ignore comment (ex. `// dprint-ignore`).",
