@@ -12,7 +12,7 @@
   ],
   "peerDependencies": {
     "@dprint/dockerfile": "^0.3.2",
-    "@dprint/json": "^0.19.3",
+    "@dprint/json": "^0.19.4",
     "@dprint/markdown": "^0.17.8",
     "@dprint/toml": "^0.6.3",
     "@dprint/typescript": "^0.93.0",
