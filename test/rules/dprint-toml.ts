@@ -1,10 +1,21 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-require-imports */
 import { RuleTester } from "eslint"
+import { version } from "eslint/package.json"
 import path from "path"
 import { dprintRules } from "../../lib/rules/dprint"
 
-const tester = new RuleTester({
-    parser: require.resolve("@ben_12/eslint-simple-parser"),
-})
+const eslintVersion = +version.split(".")[0]
+
+const tester = eslintVersion >= 9
+    ? new RuleTester({
+        languageOptions: {
+            parser: require("@ben_12/eslint-simple-parser"),
+        },
+    } as any)
+    : new RuleTester({
+        parser: require.resolve("@ben_12/eslint-simple-parser"),
+    } as any)
 tester.run("dprint/toml", dprintRules.toml, {
     valid: [
         {

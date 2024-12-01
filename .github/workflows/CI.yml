@@ -16,7 +16,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
     - name: Install Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with: { node-version: 18.x }
     - name: Install Packages
       run: npm ci
@@ -28,27 +28,37 @@ jobs:
 
     strategy:
       matrix:
-        eslint: [8.x]
+        eslint: [9.x]
+        typescript-eslint: [8.x]
         node: [20.x]
         os: [ubuntu-latest]
         include:
         # On other platforms
-        - eslint: 8.x
+        - eslint: 9.x
+          typescript-eslint: 8.x
           node: 20.x
           os: windows-latest
-        - eslint: 8.x
+        - eslint: 9.x
+          typescript-eslint: 8.x
           node: 20.x
           os: macos-latest
         # On old Node.js versions
-        - eslint: 8.x
+        - eslint: 9.x
+          typescript-eslint: 8.x
           node: 18.x
           os: ubuntu-latest
         - eslint: 8.x
+          typescript-eslint: 6.x
           node: 16.x
           os: ubuntu-latest
-        # On old ESLint versions
+        # Other ESLint versions
         - eslint: 7.x
+          typescript-eslint: 6.x
           node: 18.x
+          os: ubuntu-latest
+        - eslint: 8.x
+          typescript-eslint: 6.x
+          node: 20.x
           os: ubuntu-latest
 
     runs-on: ${{ matrix.os }}
@@ -60,10 +70,10 @@ jobs:
       with: { node-version: "${{ matrix.node }}" }
     - name: Install Packages
       run: npm install
-    - name: Install ESLint ${{ matrix.eslint }}
-      run: npm install --no-save eslint@${{ matrix.eslint }}
+    - name: Install ESLint ${{ matrix.eslint }} and TypeScript-ESLint ${{ matrix.typescript-eslint }}
+      run: npm install --force --no-save eslint@${{ matrix.eslint }} @typescript-eslint/eslint-plugin@${{ matrix.typescript-eslint }}
     - name: Test
-      run: npm run -s test:ci -- --reporter json --reporter-options output=reports/tests.json
+      run: npm run -s test:ci:${{ matrix.eslint }} -- --reporter json --reporter-options output=reports/tests.json
     - name: Test Report
       uses: dorny/test-reporter@v1
       if: success() || failure()
