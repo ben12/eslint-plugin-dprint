@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-require-imports */
 
 import { createFromBuffer, Formatter } from "@dprint/formatter"
 import * as fs from "fs"
@@ -35,7 +35,8 @@ for (const module of plugins) {
             const formatter = createFromBuffer(buffer)
             formatters.push(formatter)
         }
-    } catch (e) {
+    } // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    catch (e) {
         // plugin unavailable
     }
 }

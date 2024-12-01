@@ -103,8 +103,10 @@ function fixConfigSchema(jsonSchema: any) {
     if (typeof jsonSchema === "object") {
         Object.entries(jsonSchema).forEach(([key, value]) => {
             if (["$schema", "$id", "default"].includes(key)) {
+                // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
                 delete jsonSchema[key]
             } else if ("const" === key) {
+                // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
                 delete jsonSchema[key]
                 jsonSchema["type"] = typeof value
                 value = [value]

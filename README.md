@@ -38,6 +38,49 @@ $ npm install -D @dprint/typescript
 
 Write your ESLint configuration. For example with typescript code:
 
+From eslint v9 (flat configuration)
+
+```mjs
+import tsPlugin from "@typescript-eslint/eslint-plugin";
+import tsParser from "@typescript-eslint/parser";
+import dprint from "@ben_12/eslint-plugin-dprint";
+
+module.exports = {
+  files: ["**/*.ts", "**/*.js"],
+
+  languageOptions: {
+      parser: tsParser
+  },
+
+  plugins: {
+      "@typescript-eslint": tsPlugin,
+      "@ben_12/dprint": dprint,
+  },
+
+  rules: {
+    ...tsPlugin.configs["eslint-recommended"].rules,
+    ...tsPlugin.configs["recommended"].rules,
+    ...tsPlugin.configs["strict"].rules,
+    ...dprint.configs["typescript-recommended"].rules
+    "@ben_12/dprint/typescript": [
+      "error",
+      {
+        // Use dprint JSON configuration file (default: "dprint.json")
+        // It may be created using `dprint init` command
+        // See also https://dprint.dev/config/
+        configFile: "dprint.json",
+        config: {
+          // The TypeScript configuration of dprint
+          // See also https://dprint.dev/plugins/typescript/config/
+        },
+      },
+    ],
+  },
+};
+```
+
+For old eslint (eslintrc configuration)
+
 ```js
 module.exports = {
   extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:@ben_12/dprint/typescript-recommended"],
