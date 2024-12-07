@@ -244,7 +244,7 @@ export const dprintRules: { [name: string]: Rule.RuleModule } = configSchemas.ma
             },
         }),
     },
-})).reduce((r1, r2) => ({ ...r1, ...r2 }))
+})).reduce((r1, r2) => ({ ...r1, ...r2 }), {})
 
 function generateLintReports(
     fileText: string,
