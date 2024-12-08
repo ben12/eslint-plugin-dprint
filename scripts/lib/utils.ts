@@ -10,7 +10,8 @@ export const stdoutOf = (command: string) => {
     console.log("$", command, "> self")
     return execSync(command, {
         encoding: "utf8",
-        stdio: ["inherit", "pipe", "inherit"],
+        stdio: ["inherit", "pipe"],
+        shell: "bash",
     })
         .trim()
 }

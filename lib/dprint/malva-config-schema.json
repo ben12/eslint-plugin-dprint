@@ -1,0 +1,337 @@
+{
+  "title": "Config",
+  "description": "Configuration for dprint-plugin-malva.",
+  "type": "object",
+  "definitions": {
+    "preferSingleLine": {
+      "description": "Control whether items should be placed on single line as possible, even they're originally on multiple lines.",
+      "type": "boolean"
+    }
+  },
+  "properties": {
+    "printWidth": {
+      "description": "The line width limitation that Malva should *(but not must)* avoid exceeding. Malva will try its best to keep line width less than this value, but it may exceed for some cases, for example, a very very long single word.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "useTabs": {
+      "description": "Specify use space or tab for indentation.",
+      "type": "boolean"
+    },
+    "indentWidth": {
+      "description": "Size of indentation. When enabled `useTabs`, this option may be disregarded, since only one tab will be inserted when indented once.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "lineBreak": {
+      "description": "Specify use `\\n` (LF) or `\\r\\n` (CRLF) for line break.",
+      "type": "string",
+      "enum": [
+        "lf",
+        "crlf"
+      ]
+    },
+    "hexCase": {
+      "description": "Control the case of hex color values.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Hex color values will be kept as-is.",
+          "type": "string",
+          "enum": [
+            "ignore"
+          ]
+        },
+        {
+          "description": "Hex color values will be converted to lower case.",
+          "type": "string",
+          "enum": [
+            "lower"
+          ]
+        },
+        {
+          "description": "Hex color values will be converted to upper case.",
+          "type": "string",
+          "enum": [
+            "upper"
+          ]
+        }
+      ]
+    },
+    "hexColorLength": {
+      "description": "Control the hex color values in short-hand form or long-hand form.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "oneOf": [
+        {
+          "description": "Hex color values will be converted to short-hand form.",
+          "type": "string",
+          "enum": [
+            "short"
+          ]
+        },
+        {
+          "description": "Hex color values will be converted to long-hand form.",
+          "type": "string",
+          "enum": [
+            "long"
+          ]
+        },
+        {
+          "description": "Hex color values will be kept as-is.",
+          "type": "object",
+          "enum": [
+            null
+          ]
+        }
+      ]
+    },
+    "quotes": {
+      "description": "Control the quotes of strings.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Always use double quotes. Double quotes in strings will be escaped.",
+          "type": "string",
+          "enum": [
+            "alwaysDouble"
+          ]
+        },
+        {
+          "description": "Always use single quotes. Single quotes in strings will be escaped.",
+          "type": "string",
+          "enum": [
+            "alwaysSingle"
+          ]
+        },
+        {
+          "description": "Use double quotes as possible. However if there're double quotes in strings, quotes will be kept as-is.",
+          "type": "string",
+          "enum": [
+            "preferDouble"
+          ]
+        },
+        {
+          "description": "Use single quotes as possible. However if there're single quotes in strings, quotes will be kept as-is.",
+          "type": "string",
+          "enum": [
+            "preferSingle"
+          ]
+        }
+      ]
+    },
+    "operatorLinebreak": {
+      "description": "Control whether line break should come before or after operators.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Line break will come before operators.",
+          "type": "string",
+          "enum": [
+            "before"
+          ]
+        },
+        {
+          "description": "Line break will come after operators.",
+          "type": "string",
+          "enum": [
+            "after"
+          ]
+        }
+      ]
+    },
+    "blockSelectorLinebreak": {
+      "description": "Control line break behavior after selector commas.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Always insert line break after comma.",
+          "type": "string",
+          "enum": [
+            "always"
+          ]
+        },
+        {
+          "description": "If the whole selector can be put on a single line, there won't be line breaks; otherwise, there will be line breaks after each comma.",
+          "type": "string",
+          "enum": [
+            "consistent"
+          ]
+        },
+        {
+          "description": "Selector will be put on one line as possible. Once it exceeds `printWidth`, line break will be inserted where the code exceeds `printWidth`.",
+          "type": "string",
+          "enum": [
+            "wrap"
+          ]
+        }
+      ]
+    },
+    "omitNumberLeadingZero": {
+      "description": "Control whether omit leading zero before dot of numbers or not.",
+      "type": "boolean"
+    },
+    "trailingComma": {
+      "description": "Control whether trailing comma should be inserted or not.",
+      "type": "boolean"
+    },
+    "formatComments": {
+      "description": "Control whether whitespace should be inserted at the beginning and end of comments.",
+      "type": "boolean"
+    },
+    "alignComments": {
+      "description": "Control whether to tweak multi-line comments indentation.",
+      "type": "boolean"
+    },
+    "linebreakInPseudoParens": {
+      "description": "Control whether line break should be inserted in pseudo class/element parens or not if current line is too long.",
+      "type": "boolean"
+    },
+    "declarationOrder": {
+      "description": "Control the strategy of sorting CSS declarations (a.k.a. properties). If it's `null`, it won't sort CSS declarations.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "oneOf": [
+        {
+          "description": "Order in a simple alphabetical manner from a - z. This strategy will also sort unknown properties.",
+          "type": "string",
+          "enum": [
+            "alphabetical"
+          ]
+        },
+        {
+          "description": "Order from most important, flow affecting properties, to least important properties. Unknown properties won't be sorted.",
+          "type": "string",
+          "enum": [
+            "smacss"
+          ]
+        },
+        {
+          "description": "Order properties applying outside the box model, moving inward to intrinsic changes. Unknown properties won't be sorted.",
+          "type": "string",
+          "enum": [
+            "concentric"
+          ]
+        },
+        {
+          "description": "Don't sort CSS declarations.",
+          "type": "string",
+          "enum": [
+            "null"
+          ]
+        }
+      ]
+    },
+    "singleLineBlockThreshold": {
+      "description": "Control the threshold value for putting block on a single line. If the number of statements in a block is less than or equal to this value, the block will be put on a single line as possible, but when the code can't fit on single line, it will still break into multiple lines.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "keyframeSelectorNotation": {
+      "description": "Control whether to use percentage or keyword (`from` and `to`) notation as keyframe selectors.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "oneOf": [
+        {
+          "description": "Use keyword notation. This only affects `0%` and `100%`. For other percentage values, they will be kept as-is.",
+          "type": "string",
+          "enum": [
+            "keyword"
+          ]
+        },
+        {
+          "description": "Use percentage notation.",
+          "type": "string",
+          "enum": [
+            "percentage"
+          ]
+        },
+        {
+          "description": "Keyframe selector notation will be kept as-is.",
+          "type": "object",
+          "enum": [
+            null
+          ]
+        }
+      ]
+    },
+    "attrValueQuotes": {
+      "description": "Control whether should add quotes to attribute value in selector or not if it's not quoted.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Always add quotes.",
+          "type": "string",
+          "enum": [
+            "always"
+          ]
+        },
+        {
+          "description": "Don't add quotes to those that're not quoted. For quoted value, quotes won't be removed.",
+          "type": "string",
+          "enum": [
+            "ignore"
+          ]
+        }
+      ]
+    },
+    "preferSingleLine": {
+      "$ref": "#/definitions/preferSingleLine"
+    },
+    "selectors.preferSingleLine": {
+      "$ref": "#/definitions/preferSingleLine"
+    },
+    "functionArgs.preferSingleLine": {
+      "$ref": "#/definitions/preferSingleLine"
+    },
+    "sassContentAtRule.preferSingleLine": {
+      "$ref": "#/definitions/preferSingleLine"
+    },
+    "sassIncludeAtRule.preferSingleLine": {
+      "$ref": "#/definitions/preferSingleLine"
+    },
+    "sassMap.preferSingleLine": {
+      "$ref": "#/definitions/preferSingleLine"
+    },
+    "sassModuleConfig.preferSingleLine": {
+      "$ref": "#/definitions/preferSingleLine"
+    },
+    "sassParams.preferSingleLine": {
+      "$ref": "#/definitions/preferSingleLine"
+    },
+    "lessImportOptions.preferSingleLine": {
+      "$ref": "#/definitions/preferSingleLine"
+    },
+    "lessMixinArgs.preferSingleLine": {
+      "$ref": "#/definitions/preferSingleLine"
+    },
+    "lessMixinParams.preferSingleLine": {
+      "$ref": "#/definitions/preferSingleLine"
+    },
+    "singleLineTopLevelDeclarations": {
+      "description": "Control whether to force to format all top-level declarations on a single line.",
+      "type": "boolean"
+    },
+    "selectorOverrideCommentDirective": {
+      "description": "Text directive for overriding selector formatting.",
+      "type": "string"
+    },
+    "ignoreCommentDirective": {
+      "description": "Text directive for ignoring formatting specific statement.",
+      "type": "string"
+    },
+    "ignoreFileCommentDirective": {
+      "description": "Text directive for ignoring formatting a whole file.",
+      "type": "string"
+    }
+  }
+}

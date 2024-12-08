@@ -2,6 +2,7 @@ import { disableTypescriptConflictRules } from "./configs/disable-conflict-rules
 import {
     dockerfileRecommended,
     jsonRecommended,
+    malvaRecommended,
     markdownRecommended,
     tomlRecommended,
     typescriptRecommended,
@@ -16,6 +17,7 @@ module.exports = {
         "markdown-recommended": markdownRecommended,
         "toml-recommended": tomlRecommended,
         "typescript-recommended": typescriptRecommended,
+        "malva-recommended": malvaRecommended,
     },
     rules: dprintRules,
 }

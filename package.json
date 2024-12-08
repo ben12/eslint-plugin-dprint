@@ -16,6 +16,7 @@
     "@dprint/markdown": "^0.17.8",
     "@dprint/toml": "^0.6.3",
     "@dprint/typescript": "^0.93.3",
+    "dprint-plugin-malva": "^0.11.0",
     "eslint": ">=7.0.0"
   },
   "peerDependenciesMeta": {
@@ -33,6 +34,9 @@
     },
     "@dprint/typescript": {
       "optional": true
+    },
+    "dprint-plugin-malva": {
+      "optional": true
     }
   },
   "dependencies": {
@@ -49,6 +53,7 @@
     "@types/eslint": "^9.0.0",
     "@types/node": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "axios": "^1.7.9",
     "eslint": "^9.0.0",
     "mocha": "^10.0.0",
     "nyc": "^15.0.1",
