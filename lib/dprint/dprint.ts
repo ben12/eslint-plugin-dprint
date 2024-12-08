@@ -18,18 +18,24 @@ const plugins = [
     "@dprint/markdown",
     "@dprint/toml",
     "@dprint/dockerfile",
+    "dprint-plugin-malva",
 ] as const
 
 const formatters: Formatter[] = []
 
 for (const module of plugins) {
     try {
-        const plugin = require(module) as Plugin
+        const packageJson = require(module + "/package.json")
         let buffer: Buffer | undefined = undefined
-        if (plugin.getPath) {
-            buffer = fs.readFileSync(plugin.getPath())
-        } else if (plugin.getBuffer) {
-            buffer = plugin.getBuffer()
+        if (packageJson.main?.endsWith(".js")) {
+            const plugin = require(module) as Plugin
+            if (plugin.getPath) {
+                buffer = fs.readFileSync(plugin.getPath())
+            } else if (plugin.getBuffer) {
+                buffer = plugin.getBuffer()
+            }
+        } else if (packageJson.exports?.["."]?.endsWith(".wasm")) {
+            buffer = fs.readFileSync(require.resolve(module))
         }
         if (buffer) {
             const formatter = createFromBuffer(buffer)

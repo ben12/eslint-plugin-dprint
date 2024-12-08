@@ -15,6 +15,9 @@
     "toml": {
         "comment.forceLeadingSpace": false
     },
+    "malva": {
+        "hexCase": "upper"
+    },
     "excludes": [
       "**/node_modules"
     ],
@@ -23,6 +26,7 @@
         "node_modules/@dprint/dockerfile/plugin.wasm",
         "node_modules/@dprint/markdown/plugin.wasm",
         "node_modules/@dprint/json/plugin.wasm",
-        "node_modules/@dprint/toml/plugin.wasm"
+        "node_modules/@dprint/toml/plugin.wasm",
+        "node_modules/dprint-plugin-malva/plugin.wasm"
     ]
 }

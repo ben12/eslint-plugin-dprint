@@ -1,5 +1,5 @@
+import axios from "axios"
 import fs from "fs"
-import https from "https"
 import * as JSONC from "jsonc-parser"
 import path from "path"
 import { setGithubOutput, sh, stdoutOf } from "./lib/utils"
@@ -16,18 +16,21 @@ enum UpdateKing {
 
 interface PluginConfig {
     name: string
-    shortName: string
     schema: (version: string) => { source: string; destination: string }
 }
 
-function createPluginConfig(language: string): PluginConfig {
+function createPluginConfig(
+    shortName: string,
+    org: string = "dprint",
+    plugin: string = `dprint-plugin-${shortName}`,
+    npmMame: string = `@dprint/${shortName}`,
+    versionPrefix: string = "",
+): PluginConfig {
     return {
-        name: `@dprint/${language}`,
-        shortName: language,
+        name: npmMame,
         schema: (version: string) => ({
-            source:
-                `https://raw.githubusercontent.com/dprint/dprint-plugin-${language}/${version}/deployment/schema.json`,
-            destination: path.join(LibDprintPath, `${language}-config-schema.json`),
+            source: `https://plugins.dprint.dev/${org}/${plugin}/${versionPrefix}${version}/schema.json`,
+            destination: path.join(LibDprintPath, `${shortName}-config-schema.json`),
         }),
     }
 }
@@ -38,6 +41,7 @@ const plugins: PluginConfig[] = [
     createPluginConfig("markdown"),
     createPluginConfig("toml"),
     createPluginConfig("typescript"),
+    createPluginConfig("malva", "g-plane", "malva", "dprint-plugin-malva", "v"),
 ]
 
 type CurrentVersionInfo = {
@@ -80,16 +84,15 @@ function readLatestVersion(plugin: PluginConfig): LatestReleaseInfo {
  * @param srcPath The path to the source code of the config schema.
  */
 async function updateConfigSchema(srcPath: string, destPath: string): Promise<void> {
-    console.log("Update %o", path.relative(process.cwd(), destPath))
+    console.log("Update %o => %o", srcPath, path.relative(process.cwd(), destPath))
 
     const originalContent = await new Promise<string>((resolve, fail) =>
-        https.get(srcPath, response => {
-            let body = ""
-            response.setEncoding("utf-8")
-            const stream = response.on("data", chunk => body += chunk)
-            stream.on("end", () => resolve(body))
-        })
-            .on("error", err => fail(err))
+        axios({
+            url: srcPath,
+            responseType: "text",
+            method: "get",
+        }).then(response => resolve(response.data))
+            .catch(err => fail(new Error(err?.message ?? err?.response?.status)))
     )
 
     const jsonSchema = JSONC.parse(originalContent)
