@@ -16,7 +16,7 @@ const tester = eslintVersion >= 9
     : new RuleTester({
         parser: require.resolve("@ben_12/eslint-simple-parser"),
     } as any)
-tester.run("dprint-plugin-malva", dprintRules.json, {
+tester.run("dprint-plugin-malva", dprintRules.malva, {
     valid: [
         {
             filename: path.join(__dirname, "test.css"),
@@ -44,7 +44,7 @@ tester.run("dprint-plugin-malva", dprintRules.json, {
             options: [{ configFile: "test/dprint.json", config: {} }],
         }, // Non json file
         {
-            filename: path.join(__dirname, "test.unk"),
+            filename: path.join(__dirname, "test.ts"),
             code: "Unknown language file",
             options: [{ configFile: "", config: {} }],
         },

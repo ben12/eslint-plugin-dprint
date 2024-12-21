@@ -229,7 +229,7 @@ export const dprintRules: { [name: string]: Rule.RuleModule } = configSchemas.ma
                 const fileText = sourceCode.getText()
                 const options = context.options[0] ?? defaultOptions
                 const configFile = options.configFile ?? "dprint.json"
-                const config = options.config || {}
+                const configOpt = options.config || {}
 
                 // Needs an absolute path
                 if (!filePath || !path.isAbsolute(filePath)) {
@@ -237,7 +237,7 @@ export const dprintRules: { [name: string]: Rule.RuleModule } = configSchemas.ma
                 }
 
                 // Does format
-                const formattedText = format(configFile, config, filePath, fileText)
+                const formattedText = format(configFile, configOpt, filePath, fileText, config.name)
                 if (typeof formattedText !== "string") {
                     return
                 }
