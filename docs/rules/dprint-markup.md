@@ -1,4 +1,4 @@
-# @ben_12/dprint/malva
+# @ben_12/dprint/markup
 
 > Format code with [dprint].
 
@@ -10,7 +10,7 @@ Run [dprint] to format code.
 
 ```jsonc
 {
-  "@ben_12/dprint/malva": [
+  "@ben_12/dprint/markup": [
     "error",
     {
       // Use dprint JSON configuration file (default: "dprint.json")
@@ -18,8 +18,8 @@ Run [dprint] to format code.
       // See also https://dprint.dev/config/
       "configFile": "dprint.json",
       "config": {
-        // The Malva configuration of dprint
-        // See also https://dprint.dev/plugins/malva/config/
+        // The markup_fmt configuration of dprint
+        // See also https://dprint.dev/plugins/markup_fmt/config/
       }
     }
   ]
