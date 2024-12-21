@@ -35,3 +35,10 @@ export const typescriptRecommended = {
         "@ben_12/dprint/typescript": "warn",
     },
 }
+
+export const malvaRecommended = {
+    plugins: ["@ben_12/dprint"],
+    rules: {
+        "@ben_12/dprint/malva": "warn",
+    },
+}

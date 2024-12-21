@@ -4,6 +4,7 @@ import path from "path"
 import dockerfileConfigSchema from "../dprint/dockerfile-config-schema.json"
 import { format } from "../dprint/dprint"
 import jsonConfigSchema from "../dprint/json-config-schema.json"
+import malvaConfigSchema from "../dprint/malva-config-schema.json"
 import markdownConfigSchema from "../dprint/markdown-config-schema.json"
 import tomlConfigSchema from "../dprint/toml-config-schema.json"
 import tsConfigSchema from "../dprint/typescript-config-schema.json"
@@ -16,6 +17,7 @@ const configSchemas = [
     { name: "markdown", configSchema: markdownConfigSchema as JSONSchema4 },
     { name: "toml", configSchema: tomlConfigSchema as JSONSchema4 },
     { name: "typescript", configSchema: tsConfigSchema as JSONSchema4 },
+    { name: "malva", configSchema: malvaConfigSchema as JSONSchema4 },
 ]
 
 const messages = {
@@ -227,7 +229,7 @@ export const dprintRules: { [name: string]: Rule.RuleModule } = configSchemas.ma
                 const fileText = sourceCode.getText()
                 const options = context.options[0] ?? defaultOptions
                 const configFile = options.configFile ?? "dprint.json"
-                const config = options.config || {}
+                const configOpt = options.config || {}
 
                 // Needs an absolute path
                 if (!filePath || !path.isAbsolute(filePath)) {
@@ -235,7 +237,7 @@ export const dprintRules: { [name: string]: Rule.RuleModule } = configSchemas.ma
                 }
 
                 // Does format
-                const formattedText = format(configFile, config, filePath, fileText)
+                const formattedText = format(configFile, configOpt, filePath, fileText, config.name)
                 if (typeof formattedText !== "string") {
                     return
                 }
