@@ -19,6 +19,7 @@ const plugins: Readonly<Record<string, string>> = {
     "toml": "@dprint/toml",
     "dockerfile": "@dprint/dockerfile",
     "malva": "dprint-plugin-malva",
+    "markup": "dprint-plugin-markup",
 }
 
 const formatters: Readonly<Record<string, Formatter>> = Object.entries(plugins).reduce(
@@ -27,8 +28,7 @@ const formatters: Readonly<Record<string, Formatter>> = Object.entries(plugins).
             let packageJson
             try {
                 packageJson = require(module + "/package.json")
-            } // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            catch (e) {
+            } catch (_) {
                 // plugin unavailable
                 return formatters
             }
@@ -40,8 +40,14 @@ const formatters: Readonly<Record<string, Formatter>> = Object.entries(plugins).
                 } else if (plugin.getBuffer) {
                     buffer = plugin.getBuffer()
                 }
-            } else if (packageJson.exports?.["."]?.endsWith(".wasm")) {
-                buffer = fs.readFileSync(require.resolve(module))
+            } else {
+                const [key, _] = Object.entries(packageJson.exports as Record<string, string>)
+                    .find(([_, value]) => value.endsWith(".wasm")) ?? [undefined, undefined]
+                if (key) {
+                    buffer = fs.readFileSync(
+                        require.resolve(path.join(module, key.replace("..", "").replace("./", ""))),
+                    )
+                }
             }
             if (buffer) {
                 const formatter = createFromBuffer(buffer)
@@ -49,7 +55,6 @@ const formatters: Readonly<Record<string, Formatter>> = Object.entries(plugins).
             }
         } catch (e) {
             console.error("Fail to load plugin", module, ":", e)
-            // plugin unavailable
         }
         return formatters
     },

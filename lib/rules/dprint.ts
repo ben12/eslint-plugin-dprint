@@ -6,6 +6,7 @@ import { format } from "../dprint/dprint"
 import jsonConfigSchema from "../dprint/json-config-schema.json"
 import malvaConfigSchema from "../dprint/malva-config-schema.json"
 import markdownConfigSchema from "../dprint/markdown-config-schema.json"
+import markupConfigSchema from "../dprint/markup-config-schema.json"
 import tomlConfigSchema from "../dprint/toml-config-schema.json"
 import tsConfigSchema from "../dprint/typescript-config-schema.json"
 import { AddDiff, Diff, DifferenceIterator, RemoveDiff, ReplaceDiff } from "../util/difference-iterator"
@@ -18,6 +19,7 @@ const configSchemas = [
     { name: "toml", configSchema: tomlConfigSchema as JSONSchema4 },
     { name: "typescript", configSchema: tsConfigSchema as JSONSchema4 },
     { name: "malva", configSchema: malvaConfigSchema as JSONSchema4 },
+    { name: "markup", configSchema: markupConfigSchema as JSONSchema4 },
 ]
 
 const messages = {

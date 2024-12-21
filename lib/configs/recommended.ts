@@ -42,3 +42,10 @@ export const malvaRecommended = {
         "@ben_12/dprint/malva": "warn",
     },
 }
+
+export const markupRecommended = {
+    plugins: ["@ben_12/dprint"],
+    rules: {
+        "@ben_12/dprint/markup": "warn",
+    },
+}

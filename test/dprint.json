@@ -18,6 +18,9 @@
     "malva": {
         "hexCase": "upper"
     },
+    "markup": {
+        "closingTagLineBreakForEmpty": "always"
+    },
     "excludes": [
       "**/node_modules"
     ],

@@ -42,6 +42,7 @@ const plugins: PluginConfig[] = [
     createPluginConfig("toml"),
     createPluginConfig("typescript"),
     createPluginConfig("malva", "g-plane", "malva", "dprint-plugin-malva", "v"),
+    createPluginConfig("markup", "g-plane", "markup_fmt", "dprint-plugin-markup", "v"),
 ]
 
 type CurrentVersionInfo = {
@@ -103,7 +104,7 @@ async function updateConfigSchema(srcPath: string, destPath: string): Promise<vo
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Safe use of any for JSON structure
 function fixConfigSchema(jsonSchema: any) {
-    if (typeof jsonSchema === "object") {
+    if (jsonSchema !== null && typeof jsonSchema === "object") {
         Object.entries(jsonSchema).forEach(([key, value]) => {
             if (["$schema", "$id", "default"].includes(key)) {
                 // eslint-disable-next-line @typescript-eslint/no-dynamic-delete

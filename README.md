@@ -33,6 +33,7 @@ $ npm install -D @dprint/markdown
 $ npm install -D @dprint/toml
 $ npm install -D @dprint/typescript
 $ npm install -D dprint-plugin-malva
+$ npm install -D dprint-plugin-markup
 ```
 
 ## 📖 Usage
@@ -107,14 +108,15 @@ Then run ESLint with `--fix`!
 
 ### Available Rules
 
-| Rule                        | Description                                       |
-| :-------------------------- | :------------------------------------------------ |
-| [@ben_12/dprint/dockerfile] | Format dockerfile code with [@dprint/dockerfile]. |
-| [@ben_12/dprint/json]       | Format json code with [@dprint/json].             |
-| [@ben_12/dprint/markdown]   | Format markdown code with [@dprint/markdown].     |
-| [@ben_12/dprint/toml]       | Format toml code with [@dprint/toml].             |
-| [@ben_12/dprint/typescript] | Format typescript code with [@dprint/typescript]. |
-| [@ben_12/dprint/malva]      | Format css/scss/less/sass code with [malva].      |
+| Rule                        | Description                                        |
+| :-------------------------- | :------------------------------------------------- |
+| [@ben_12/dprint/dockerfile] | Format dockerfile code with [@dprint/dockerfile].  |
+| [@ben_12/dprint/json]       | Format json code with [@dprint/json].              |
+| [@ben_12/dprint/markdown]   | Format markdown code with [@dprint/markdown].      |
+| [@ben_12/dprint/toml]       | Format toml code with [@dprint/toml].              |
+| [@ben_12/dprint/typescript] | Format typescript code with [@dprint/typescript].  |
+| [@ben_12/dprint/malva]      | Format css/scss/less/sass code with [malva].       |
+| [@ben_12/dprint/markup]     | Format HTML/Vue/Svelte/... code with [markup_fmt]. |
 
 ### Available Configs
 
@@ -127,6 +129,7 @@ Then run ESLint with `--fix`!
 | [plugin:@ben_12/dprint/toml-recommended]                  | Enable the [@ben_12/dprint/toml] rule.                                                                                       |
 | [plugin:@ben_12/dprint/typescript-recommended]            | Enable the [@ben_12/dprint/typescript] rule along with the [plugin:@ben_12/dprint/disable-typescript-conflict-rules] preset. |
 | [plugin:@ben_12/dprint/malva-recommended]                 | Enable the [@ben_12/dprint/malva] rule.                                                                                      |
+| [plugin:@ben_12/dprint/markup-recommended]                | Enable the [@ben_12/dprint/markup] rule.                                                                                     |
 
 - Put the [plugin:@ben_12/dprint/recommended] or [plugin:@ben_12/dprint/disable-conflict-rules] config into the last of your `extends` list in order to ensure disabling conflict rules where came from other base configurations.
 
@@ -153,6 +156,7 @@ Please use GitHub's Issues/PRs.
 [@dprint/toml]: https://github.com/dprint/dprint-plugin-toml
 [@dprint/typescript]: https://github.com/dprint/dprint-plugin-typescript
 [malva]: https://github.com/g-plane/malva
+[markup_fmt]: https://github.com/g-plane/markup_fmt
 [npm]: https://www.npmjs.com/
 [@ben_12/dprint/dockerfile]: docs/rules/dprint-dockerfile.md
 [@ben_12/dprint/json]: docs/rules/dprint-json.md
@@ -160,6 +164,7 @@ Please use GitHub's Issues/PRs.
 [@ben_12/dprint/toml]: docs/rules/dprint-toml.md
 [@ben_12/dprint/typescript]: docs/rules/dprint-typescript.md
 [@ben_12/dprint/malva]: docs/rules/dprint-malva.md
+[@ben_12/dprint/markup]: docs/rules/dprint-markup.md
 [plugin:@ben_12/dprint/disable-typescript-conflict-rules]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/disable-typescript-conflict-rules.ts
 [plugin:@ben_12/dprint/dockerfile-recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts#L3
 [plugin:@ben_12/dprint/json-recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts#L10
@@ -167,3 +172,4 @@ Please use GitHub's Issues/PRs.
 [plugin:@ben_12/dprint/toml-recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts#L24
 [plugin:@ben_12/dprint/typescript-recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts#L31
 [plugin:@ben_12/dprint/malva-recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts#L39
+[plugin:@ben_12/dprint/markup-recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts#L46

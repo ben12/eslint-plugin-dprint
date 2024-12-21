@@ -1,0 +1,499 @@
+{
+  "title": "Config",
+  "description": "Configuration for dprint-plugin-markup.",
+  "type": "object",
+  "properties": {
+    "printWidth": {
+      "description": "The line width limitation that markup_fmt should *(but not must)* avoid exceeding. markup_fmt will try its best to keep line width less than this value, but it may exceed for some cases, for example, a very very long single word.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "useTabs": {
+      "description": "Specify use space or tab for indentation.",
+      "type": "boolean"
+    },
+    "indentWidth": {
+      "description": "Size of indentation. When enabled `useTabs`, this option may be disregarded, since only one tab will be inserted when indented once.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "lineBreak": {
+      "description": "Specify whether use `\\n` (LF) or `\\r\\n` (CRLF) for line break.",
+      "type": "string",
+      "enum": [
+        "lf",
+        "crlf"
+      ]
+    },
+    "quotes": {
+      "description": "Control the quotes of attribute value.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Use double quotes as possible. However if there're double quotes in strings, quotes will be kept as-is.",
+          "type": "string",
+          "enum": [
+            "double"
+          ]
+        },
+        {
+          "description": "Use single quotes as possible. However if there're single quotes in strings, quotes will be kept as-is.",
+          "type": "string",
+          "enum": [
+            "single"
+          ]
+        }
+      ]
+    },
+    "formatComments": {
+      "description": "Control whether whitespace should be inserted at the beginning and end of comments and comments should be indented properly or not.",
+      "type": "boolean"
+    },
+    "scriptIndent": {
+      "description": "Control whether the code block in the `<script>` tag should be indented or not.",
+      "type": "boolean"
+    },
+    "html.scriptIndent": {
+      "description": "Control whether the code block in the `<script>` tag should be indented or not for HTML.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "vue.scriptIndent": {
+      "description": "Control whether the code block in the `<script>` tag should be indented or not for Vue.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "svelte.scriptIndent": {
+      "description": "Control whether the code block in the `<script>` tag should be indented or not for Svelte.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "astro.scriptIndent": {
+      "description": "Control whether the code block in the `<script>` tag should be indented or not for Astro.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "styleIndent": {
+      "description": "Control whether the code block in the `<style>` tag should be indented or not.",
+      "type": "boolean"
+    },
+    "html.styleIndent": {
+      "description": "Control whether the code block in the `<style>` tag should be indented or not for HTML.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "vue.styleIndent": {
+      "description": "Control whether the code block in the `<style>` tag should be indented or not for Vue.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "svelte.styleIndent": {
+      "description": "Control whether the code block in the `<style>` tag should be indented or not for Svelte.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "astro.styleIndent": {
+      "description": "Control whether the code block in the `<style>` tag should be indented or not for Astro.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "closingBracketSameLine": {
+      "description": "Control the closing bracket (`>`) of a multi-line element should come at the end of the last line or on the next line (with a line break).",
+      "type": "boolean"
+    },
+    "closingTagLineBreakForEmpty": {
+      "description": "When there're no children in an element, this option controls whether to insert a line break before the closing tag or not.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Always insert a line break before the closing tag.",
+          "type": "string",
+          "enum": [
+            "always"
+          ]
+        },
+        {
+          "description": "Only insert a line break if it doesn't fit the `printWidth` option.",
+          "type": "string",
+          "enum": [
+            "fit"
+          ]
+        },
+        {
+          "description": "Don't insert a line break.",
+          "type": "string",
+          "enum": [
+            "never"
+          ]
+        }
+      ]
+    },
+    "maxAttrsPerLine": {
+      "description": "Control the maximum number of attributes in one line. If this option is unset, there won't be any limitations. This option conflicts with `preferAttrsSingleLine` option.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "preferAttrsSingleLine": {
+      "description": "Control whether attributes should be put on single line when possible. This option conflicts with `maxAttrsPerLine` option.",
+      "type": "boolean"
+    },
+    "html.normal.selfClosing": {
+      "description": "Control whether HTML normal element should be self-closed or not if it doesn't have children.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "html.void.selfClosing": {
+      "description": "Control whether HTML void element should be self-closed or not if it doesn't have children.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "component.selfClosing": {
+      "description": "Control whether Vue/Svelte/Astro/Angular component should be self-closed or not if it doesn't have children.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "svg.selfClosing": {
+      "description": "Control whether SVG element should be self-closed or not if it doesn't have children.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "mathml.selfClosing": {
+      "description": "Control whether MathML element should be self-closed or not if it doesn't have children.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "whitespaceSensitivity": {
+      "description": "Control the whitespace sensitivity before and after the children of an element.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Respect the default value of CSS `display` property.",
+          "type": "string",
+          "enum": [
+            "css"
+          ]
+        },
+        {
+          "description": "Whitespace (or the lack of it) around all tags is considered significant.",
+          "type": "string",
+          "enum": [
+            "strict"
+          ]
+        },
+        {
+          "description": "Whitespace (or the lack of it) around all tags is considered insignificant.",
+          "type": "string",
+          "enum": [
+            "ignore"
+          ]
+        }
+      ]
+    },
+    "component.whitespaceSensitivity": {
+      "description": "Control the whitespace sensitivity before and after the children of an element for components.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "oneOf": [
+        {
+          "description": "Respect the default value of CSS `display` property.",
+          "type": "string",
+          "enum": [
+            "css"
+          ]
+        },
+        {
+          "description": "Whitespace (or the lack of it) around all tags is considered significant.",
+          "type": "string",
+          "enum": [
+            "strict"
+          ]
+        },
+        {
+          "description": "Whitespace (or the lack of it) around all tags is considered insignificant.",
+          "type": "string",
+          "enum": [
+            "ignore"
+          ]
+        },
+        {
+          "description": "Use the value of `whitespaceSensitivity` option.",
+          "type": "object",
+          "enum": [
+            null
+          ]
+        }
+      ]
+    },
+    "doctypeKeywordCase": {
+      "description": "Control the case of \"doctype\" keyword in `<!DOCTYPE>`.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Keep the case as-is.",
+          "type": "string",
+          "enum": [
+            "ignore"
+          ]
+        },
+        {
+          "description": "Print \"DOCTYPE\" in upper case.",
+          "type": "string",
+          "enum": [
+            "upper"
+          ]
+        },
+        {
+          "description": "Print \"doctype\" in lower case.",
+          "type": "string",
+          "enum": [
+            "lower"
+          ]
+        }
+      ]
+    },
+    "vBindStyle": {
+      "description": "Control Vue `v-bind` directive style.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "oneOf": [
+        {
+          "description": "Use short-hand form like `:value`.",
+          "type": "string",
+          "enum": [
+            "short"
+          ]
+        },
+        {
+          "description": "Use long-hand form like `v-bind:value`.",
+          "type": "string",
+          "enum": [
+            "long"
+          ]
+        },
+        {
+          "description": "Style of `v-bind` directive won't be changed.",
+          "type": "object",
+          "enum": [
+            null
+          ]
+        }
+      ]
+    },
+    "vOnStyle": {
+      "description": "Control Vue `v-on` directive style.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "oneOf": [
+        {
+          "description": "Use short-hand form like `@click`.",
+          "type": "string",
+          "enum": [
+            "short"
+          ]
+        },
+        {
+          "description": "Use long-hand form like `v-on:click`.",
+          "type": "string",
+          "enum": [
+            "long"
+          ]
+        },
+        {
+          "description": "Style of `v-on` directive won't be changed.",
+          "type": "object",
+          "enum": [
+            null
+          ]
+        }
+      ]
+    },
+    "vForDelimiterStyle": {
+      "description": "Control Vue `v-for` directive delimiter style.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "oneOf": [
+        {
+          "description": "Use `in` as `v-for` delimiter.",
+          "type": "string",
+          "enum": [
+            "in"
+          ]
+        },
+        {
+          "description": "Use `of` as `v-for` delimiter.",
+          "type": "string",
+          "enum": [
+            "of"
+          ]
+        },
+        {
+          "description": "Style of `v-for` directive delimiter won't be changed.",
+          "type": "object",
+          "enum": [
+            null
+          ]
+        }
+      ]
+    },
+    "vSlotStyle": {
+      "description": "Control Vue `v-slot` directive style.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "oneOf": [
+        {
+          "description": "Use short-hand form like `#default` or `#named`.",
+          "type": "string",
+          "enum": [
+            "short"
+          ]
+        },
+        {
+          "description": "Use long-hand form like `v-slot:default` or `v-slot:named`.",
+          "type": "string",
+          "enum": [
+            "long"
+          ]
+        },
+        {
+          "description": "For default slot, use `v-slot` (shorter than `#default`); otherwise, use short-hand form.",
+          "type": "string",
+          "enum": [
+            "vSlot"
+          ]
+        },
+        {
+          "description": "Style of `v-slot` directive won't be changed.",
+          "type": "object",
+          "enum": [
+            null
+          ]
+        }
+      ]
+    },
+    "component.vSlotStyle": {
+      "description": "Control Vue `v-slot` directive style for Vue components.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "short",
+        "long",
+        "vSlot",
+        null
+      ]
+    },
+    "default.vSlotStyle": {
+      "description": "Control Vue `v-slot` directive style for default slot.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "short",
+        "long",
+        "vSlot",
+        null
+      ]
+    },
+    "named.vSlotStyle": {
+      "description": "Control Vue `v-slot` directive style for named slot.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "short",
+        "long",
+        "vSlot",
+        null
+      ]
+    },
+    "vBindSameNameShortHand": {
+      "description": "Control whether Vue attribute should be written in short-hand form or not if attribute name and value are same.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "strictSvelteAttr": {
+      "description": "Control whether Svelte attribute value should be in strict mode or not.",
+      "type": "boolean"
+    },
+    "svelteAttrShorthand": {
+      "description": "Control whether Svelte attribute should be written in short-hand form or not when possible.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "svelteDirectiveShorthand": {
+      "description": "Control whether Svelte directive should be written in short-hand form or not when possible.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "astroAttrShorthand": {
+      "description": "Control whether Astro attribute should be written in short-hand form or not when possible.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "scriptFormatter": {
+      "description": "Tell markup_fmt what script formatter you are using.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "ignoreCommentDirective": {
+      "description": "Text directive for ignoring formatting specific element or node.",
+      "type": "string"
+    },
+    "ignoreFileCommentDirective": {
+      "description": "Text directive for ignoring formatting a whole file.",
+      "type": "string"
+    }
+  }
+}

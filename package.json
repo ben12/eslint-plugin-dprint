@@ -16,7 +16,8 @@
     "@dprint/markdown": "^0.17.8",
     "@dprint/toml": "^0.6.3",
     "@dprint/typescript": "^0.93.3",
-    "dprint-plugin-malva": "^0.11.0",
+    "dprint-plugin-malva": "^0.11.1",
+    "dprint-plugin-markup": "^0.18.0",
     "eslint": ">=7.0.0"
   },
   "peerDependenciesMeta": {
@@ -36,6 +37,9 @@
       "optional": true
     },
     "dprint-plugin-malva": {
+      "optional": true
+    },
+    "dprint-plugin-markup": {
       "optional": true
     }
   },

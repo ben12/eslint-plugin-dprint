@@ -1,13 +1,12 @@
-import tsPlugin from "@typescript-eslint/eslint-plugin";
-import tsParser from "@typescript-eslint/parser";
-import simpleParser from "@ben_12/eslint-simple-parser";
-import dprint from "@ben_12/eslint-plugin-dprint";
-
+import dprint from "@ben_12/eslint-plugin-dprint"
+import simpleParser from "@ben_12/eslint-simple-parser"
+import tsPlugin from "@typescript-eslint/eslint-plugin"
+import tsParser from "@typescript-eslint/parser"
 
 export default [{
     ignores: ["**/.eslintrc.js", ".nyc_output", "coverage", "dist"],
 }, {
-    files: ["**/*.ts", "**/*.js"],
+    files: ["**/*.ts", "**/*.js", "**/*.mjs"],
 
     plugins: {
         "@typescript-eslint": tsPlugin,
@@ -24,8 +23,17 @@ export default [{
         ...tsPlugin.configs["eslint-recommended"].rules,
         ...tsPlugin.configs["recommended"].rules,
         ...tsPlugin.configs["strict"].rules,
-        ...dprint.configs["typescript-recommended"].rules
-    }
+        ...dprint.configs["typescript-recommended"].rules,
+        "@typescript-eslint/no-unused-vars": [
+            "error",
+            {
+                "argsIgnorePattern": "^_",
+                "caughtErrorsIgnorePattern": "^_",
+                "destructuredArrayIgnorePattern": "^_",
+                "varsIgnorePattern": "^_",
+            },
+        ],
+    },
 }, {
     files: ["**/*.md"],
 
@@ -37,6 +45,5 @@ export default [{
         parser: simpleParser,
     },
 
-    rules: dprint.configs["markdown-recommended"].rules
-
-}];
+    rules: dprint.configs["markdown-recommended"].rules,
+}]
