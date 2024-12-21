@@ -24,7 +24,14 @@ const plugins: Readonly<Record<string, string>> = {
 const formatters: Readonly<Record<string, Formatter>> = Object.entries(plugins).reduce(
     (formatters, [name, module]) => {
         try {
-            const packageJson = require(module + "/package.json")
+            let packageJson
+            try {
+                packageJson = require(module + "/package.json")
+            } // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            catch (e) {
+                // plugin unavailable
+                return formatters
+            }
             let buffer: Buffer | undefined = undefined
             if (packageJson.main?.endsWith(".js")) {
                 const plugin = require(module) as Plugin
@@ -40,8 +47,8 @@ const formatters: Readonly<Record<string, Formatter>> = Object.entries(plugins).
                 const formatter = createFromBuffer(buffer)
                 formatters[name] = formatter
             }
-        } // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        catch (e) {
+        } catch (e) {
+            console.error("Fail to load plugin", module, ":", e)
             // plugin unavailable
         }
         return formatters
@@ -61,12 +68,10 @@ function getFormatter(filePath: string, configName: string): Formatter | undefin
         } else {
             console.warn("File %s not supported by %s", filePath, plugins[configName])
         }
+    } else if (plugins[configName]) {
+        console.error("Plugin not found: %s", plugins[configName])
     } else {
-        if (plugins[configName]) {
-            console.error("Plugin not found: %s", plugins[configName])
-        } else {
-            console.error("Unknown plugin for %s", configName)
-        }
+        console.error("Unknown plugin for %s", configName)
     }
     return undefined
 }
