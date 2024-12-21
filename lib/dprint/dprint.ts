@@ -44,8 +44,9 @@ const formatters: Readonly<Record<string, Formatter>> = Object.entries(plugins).
                 const [key, _] = Object.entries(packageJson.exports as Record<string, string>)
                     .find(([_, value]) => value.endsWith(".wasm")) ?? [undefined, undefined]
                 if (key) {
+                    const wasmFile = key.replace(/\.\.|^\.\/|^\.$/g, "")
                     buffer = fs.readFileSync(
-                        require.resolve(path.join(module, key.replace("..", "").replace("./", ""))),
+                        require.resolve(module + (wasmFile.length ? "/" + wasmFile : "")),
                     )
                 }
             }
