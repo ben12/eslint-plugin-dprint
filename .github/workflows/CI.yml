@@ -49,7 +49,7 @@ jobs:
           os: ubuntu-latest
         - eslint: 8.x
           typescript-eslint: 6.x
-          node: 16.x
+          node: 18.x
           os: ubuntu-latest
         # Other ESLint versions
         - eslint: 7.x
