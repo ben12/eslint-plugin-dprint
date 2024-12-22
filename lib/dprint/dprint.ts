@@ -12,7 +12,35 @@ interface Plugin {
     getBuffer?(): Buffer
 }
 
-const plugins: Readonly<Record<string, string>> = {
+function loadPlugin(module: string): Buffer | undefined {
+    let plugin: Plugin | undefined = undefined
+    try {
+        plugin = require(module) as Plugin
+    } catch (_) {
+        // plugin unavailable
+    }
+    if (plugin?.getPath) {
+        return fs.readFileSync(plugin.getPath())
+    } else if (plugin?.getBuffer) {
+        return plugin.getBuffer()
+    }
+    return undefined
+}
+
+function loadWasm(module: string, wasmFile: string): Buffer | undefined {
+    let wasmPath: string | undefined = undefined
+    try {
+        wasmPath = require.resolve([module, wasmFile].filter(s => s?.length).join("/"))
+    } catch (_) {
+        // plugin unavailable
+    }
+    if (wasmPath?.length) {
+        return fs.readFileSync(wasmPath)
+    }
+    return undefined
+}
+
+const pluginsName = {
     "typescript": "@dprint/typescript",
     "json": "@dprint/json",
     "markdown": "@dprint/markdown",
@@ -20,36 +48,26 @@ const plugins: Readonly<Record<string, string>> = {
     "dockerfile": "@dprint/dockerfile",
     "malva": "dprint-plugin-malva",
     "markup": "dprint-plugin-markup",
+} as const
+
+const plugins: Readonly<Record<string, () => Buffer | undefined>> = {
+    "typescript": () => loadPlugin(pluginsName["typescript"]),
+    "json": () => loadPlugin(pluginsName["json"]),
+    "markdown": () => loadPlugin(pluginsName["markdown"]),
+    "toml": () => loadPlugin(pluginsName["toml"]),
+    "dockerfile": () => loadPlugin(pluginsName["dockerfile"]),
+    "malva": () => loadWasm(pluginsName["malva"], "plugin.wasm"),
+    "markup": () => loadWasm(pluginsName["markup"], "plugin.wasm"),
+}
+
+function isPluginName(name: string): name is keyof typeof pluginsName {
+    return name in pluginsName
 }
 
 const formatters: Readonly<Record<string, Formatter>> = Object.entries(plugins).reduce(
-    (formatters, [name, module]) => {
+    (formatters, [name, getBuffer]) => {
         try {
-            let packageJson
-            try {
-                packageJson = require(module + "/package.json")
-            } catch (_) {
-                // plugin unavailable
-                return formatters
-            }
-            let buffer: Buffer | undefined = undefined
-            if (packageJson.main?.endsWith(".js")) {
-                const plugin = require(module) as Plugin
-                if (plugin.getPath) {
-                    buffer = fs.readFileSync(plugin.getPath())
-                } else if (plugin.getBuffer) {
-                    buffer = plugin.getBuffer()
-                }
-            } else {
-                const [key, _] = Object.entries(packageJson.exports as Record<string, string>)
-                    .find(([_, value]) => value.endsWith(".wasm")) ?? [undefined, undefined]
-                if (key) {
-                    const wasmFile = key.replace(/\.\.|^\.\/|^\.$/g, "")
-                    buffer = fs.readFileSync(
-                        require.resolve(module + (wasmFile.length ? "/" + wasmFile : "")),
-                    )
-                }
-            }
+            const buffer = getBuffer()
             if (buffer) {
                 const formatter = createFromBuffer(buffer)
                 formatters[name] = formatter
@@ -71,11 +89,11 @@ function getFormatter(filePath: string, configName: string): Formatter | undefin
         const basename = path.basename(filePath)
         if (fileExtensions.some(ext => basename.endsWith("." + ext)) || fileNames.some(file => file === basename)) {
             return formatter
-        } else {
-            console.warn("File %s not supported by %s", filePath, plugins[configName])
+        } else if (isPluginName(configName)) {
+            console.warn("File %s not supported by %s", filePath, pluginsName[configName])
         }
-    } else if (plugins[configName]) {
-        console.error("Plugin not found: %s", plugins[configName])
+    } else if (isPluginName(configName)) {
+        console.error("Plugin not found: %s", pluginsName[configName])
     } else {
         console.error("Unknown plugin for %s", configName)
     }
