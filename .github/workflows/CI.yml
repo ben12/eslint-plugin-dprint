@@ -7,6 +7,10 @@ on:
     branches: [master]
   schedule:
   - cron: 0 0 * * 0
+permissions:
+  contents: read
+  actions: read
+  checks: write
 
 jobs:
   lint:
