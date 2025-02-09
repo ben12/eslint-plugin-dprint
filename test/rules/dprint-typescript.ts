@@ -69,7 +69,7 @@ tester.run("dprint/typescript", dprintRules.typescript, {
                     messageId: "requireCode",
                     data: { text: '";"' },
                     column: 24,
-                    endColumn: undefined,
+                    endColumn: 24,
                 },
             ],
         },
@@ -94,7 +94,7 @@ tester.run("dprint/typescript", dprintRules.typescript, {
                 data: {},
                 line: 2,
                 column: 2,
-                endColumn: undefined,
+                endColumn: 2,
             }],
         },
         {
