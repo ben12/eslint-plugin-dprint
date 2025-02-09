@@ -258,7 +258,10 @@ function generateLintReports(
 ) {
     for (const d of DifferenceIterator.iterate(fileText, formattedText)) {
         const loc = d.type === "add"
-            ? sourceCode.getLocFromIndex(d.range[0])
+            ? {
+                start: sourceCode.getLocFromIndex(d.range[0]),
+                end: sourceCode.getLocFromIndex(d.range[0]),
+            }
             : {
                 start: sourceCode.getLocFromIndex(d.range[0]),
                 end: sourceCode.getLocFromIndex(d.range[1]),
