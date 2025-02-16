@@ -15,7 +15,7 @@
     "@dprint/json": "^0.19.4",
     "@dprint/markdown": "^0.17.8",
     "@dprint/toml": "^0.6.4",
-    "@dprint/typescript": "^0.93.3",
+    "@dprint/typescript": "^0.93.4",
     "dprint-plugin-malva": "^0.11.1",
     "dprint-plugin-markup": "^0.18.0",
     "eslint": ">=7.0.0"
