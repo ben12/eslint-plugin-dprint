@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 
-import { createFromBuffer, Formatter } from "@dprint/formatter"
+import { createFromBuffer, FormatRequest, Formatter } from "@dprint/formatter"
 import * as fs from "fs"
 import * as JSONC from "jsonc-parser"
 import path from "path"
@@ -80,12 +80,20 @@ const formatters: Readonly<Record<string, Formatter>> = Object.entries(plugins).
     {} as Record<string, Formatter>,
 )
 
-function getFormatter(filePath: string, configName: string): Formatter | undefined {
+/** Cache to reduce copies of config values. */
+const lastConfigFile: { [key: string]: string | undefined } = {}
+
+function getFormatter(filePath: string, configName: string, configFile: string): Formatter | undefined {
     const formatter = formatters[configName]
     if (formatter) {
-        const pluginInfo = formatter.getPluginInfo()
-        const fileExtensions = pluginInfo.fileExtensions || []
-        const fileNames = pluginInfo.fileNames || []
+        const configKey = formatter.getPluginInfo().configKey
+        if (configFile !== lastConfigFile[configKey]) {
+            lastConfigFile[configKey] = configFile
+            setConfig(formatter, configKey, configFile)
+        }
+        const fileMatchingInfo = formatter.getFileMatchingInfo()
+        const fileExtensions = fileMatchingInfo.fileExtensions || []
+        const fileNames = fileMatchingInfo.fileNames || []
         const basename = path.basename(filePath)
         if (fileExtensions.some(ext => basename.endsWith("." + ext)) || fileNames.some(file => file === basename)) {
             return formatter
@@ -100,10 +108,6 @@ function getFormatter(filePath: string, configName: string): Formatter | undefin
     return undefined
 }
 
-/** Cache to reduce copies of config values. */
-const lastConfig: { [key: string]: string | undefined } = {}
-const lastConfigFile: { [key: string]: string | undefined } = {}
-
 /**
  * Format the given text with the given config.
  * @param config The config object.
@@ -113,28 +117,24 @@ const lastConfigFile: { [key: string]: string | undefined } = {}
  */
 export function format(
     configFile: string,
-    config: Record<string, unknown>,
+    overrideConfig: Record<string, unknown>,
     filePath: string,
     fileText: string,
     configName: string,
 ): string | undefined {
-    const formatter = getFormatter(filePath, configName)
+    const formatter = getFormatter(filePath, configName, configFile)
     if (formatter) {
-        const configKey = formatter.getPluginInfo().configKey
-        const newConfig = JSON.stringify(config)
-        if (newConfig !== lastConfig[configKey] || configFile !== lastConfigFile[configKey]) {
-            lastConfig[configKey] = newConfig
-            lastConfigFile[configKey] = configFile
-            setConfig(formatter, configKey, configFile, config)
+        const request: FormatRequest = {
+            filePath,
+            fileText,
+            overrideConfig,
         }
-
-        return formatter.formatText(filePath, fileText)
+        return formatter.formatText(request)
     }
-
     return undefined
 }
 
-function setConfig(formatter: Formatter, configKey: string, configFile: string, config: Record<string, unknown>): void {
+function setConfig(formatter: Formatter, configKey: string, configFile: string): void {
     // The setting values must be strings.
     const globalConfig: Record<string, ConfigType> = {}
     const pluginConfig: Record<string, ConfigType> = {}
@@ -149,8 +149,6 @@ function setConfig(formatter: Formatter, configKey: string, configFile: string, 
             extractConfig(pluginConfigFileJson, pluginConfig)
         }
     }
-
-    extractConfig(config, pluginConfig)
 
     formatter.setConfig(globalConfig, pluginConfig)
 }
