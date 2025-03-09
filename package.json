@@ -1,6 +1,6 @@
 {
   "name": "@ben_12/eslint-plugin-dprint",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "An ESLint plugin that fixes code with dprint",
   "engines": {
     "node": ">=18.0.0"
@@ -12,12 +12,12 @@
   ],
   "peerDependencies": {
     "@dprint/dockerfile": "^0.3.2",
-    "@dprint/json": "^0.19.4",
-    "@dprint/markdown": "^0.17.8",
-    "@dprint/toml": "^0.6.4",
-    "@dprint/typescript": "^0.93.4",
-    "dprint-plugin-malva": "^0.11.1",
-    "dprint-plugin-markup": "^0.18.0",
+    "@dprint/json": "^0.20.0",
+    "@dprint/markdown": "^0.18.0",
+    "@dprint/toml": "^0.7.0",
+    "@dprint/typescript": "^0.94.0",
+    "dprint-plugin-malva": "^0.11.2",
+    "dprint-plugin-markup": "^0.19.0",
     "eslint": ">=7.0.0"
   },
   "peerDependenciesMeta": {
@@ -44,7 +44,7 @@
     }
   },
   "dependencies": {
-    "@dprint/formatter": "^0.2.0",
+    "@dprint/formatter": "^0.4.1",
     "debug": "^4.1.1",
     "diff": "^5.0.0",
     "jsonc-parser": "^3.2.0"
