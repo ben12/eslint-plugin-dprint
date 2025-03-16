@@ -1,4 +1,4 @@
-import { Change, diffChars } from "diff"
+import { Change, diffWordsWithSpace } from "diff"
 import { isWhitespace } from "./predicate"
 
 /** The difference type for add. */
@@ -40,14 +40,14 @@ export class DifferenceIterator {
 
     /** Initialize this instance. */
     private constructor(oldStr: string, newStr: string) {
-        this.changes = diffChars(oldStr, newStr)
+        this.changes = diffWordsWithSpace(oldStr, newStr)
     }
 
     /** Iterate differences. */
     private *iterate(): Generator<Diff> {
         while (this.i < this.changes.length) {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const change = this.changeAt(this.i)!
+            const change = this.changes.at(this.i)!
 
             if (change.added) {
                 yield this.handleAdd(change)
@@ -62,8 +62,8 @@ export class DifferenceIterator {
 
     /** Handle the current change (`current.added === true`). */
     private handleAdd(current: Change): Diff {
-        const next1 = this.changeAt(this.i + 1)
-        const next2 = this.changeAt(this.i + 2)
+        const next1 = this.changes.at(this.i + 1)
+        const next2 = this.changes.at(this.i + 2)
 
         // Merge the sequence "added → removed" as a replacement.
         if (next1?.removed) {
@@ -113,8 +113,8 @@ export class DifferenceIterator {
 
     /** Handle the current change (`current.removed === true`). */
     private handleRemove(current: Change): Diff {
-        const next1 = this.changeAt(this.i + 1)
-        const next2 = this.changeAt(this.i + 2)
+        const next1 = this.changes.at(this.i + 1)
+        const next2 = this.changes.at(this.i + 2)
 
         // Merge the sequence "removed → added" as a replacement.
         if (next1?.added) {
@@ -163,11 +163,6 @@ export class DifferenceIterator {
         return this.newRemovedDiff(1, current.value)
     }
 
-    /** Get the change at `i`. */
-    private changeAt(i: number): Change | undefined {
-        return i >= 0 && i < this.changes.length ? this.changes[i] : undefined
-    }
-
     /** Create a diff object that type is `added`, and advance the cursor. */
     private newAddedDiff(numChanges: number, newText: string): AddDiff {
         const range = [this.loc, this.loc] as const
@@ -192,7 +187,20 @@ export class DifferenceIterator {
         numChanges: number,
         oldText: string,
         newText: string,
-    ): ReplaceDiff {
+    ): Diff {
+        // With diffWordsWithSpace several white spaces are like a word.
+        if (isWhitespace(oldText) && isWhitespace(newText)) {
+            if (oldText.startsWith(newText)) {
+                this.loc += newText.length
+                oldText = oldText.substring(newText.length)
+                return this.newRemovedDiff(numChanges, oldText)
+            } else if (newText.startsWith(oldText)) {
+                this.loc += oldText.length
+                newText = newText.substring(oldText.length)
+                return this.newAddedDiff(numChanges, newText)
+            }
+        }
+
         const range = [this.loc, this.loc + oldText.length] as const
 
         this.i += numChanges

@@ -51,10 +51,12 @@ tester.run("dprint/dockerfile", dprintRules.dockerfile, {
                 },
                 {
                     messageId: "replaceWhitespace",
-                    data: {},
+                    data: {
+                        text: "\r\n\r\n",
+                    },
                     line: 1,
                     column: 21,
-                    endLine: 2,
+                    endLine: 3,
                     endColumn: 1,
                 },
                 {

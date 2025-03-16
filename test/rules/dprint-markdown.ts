@@ -37,8 +37,8 @@ tester.run("dprint/markdown", dprintRules.markdown, {
     invalid: [
         {
             filename: path.join(__dirname, "test.md"),
-            code: "#  Title\ntexte",
-            output: "# Title\n\ntexte\n",
+            code: "#  Title\nline 1  \nline 2",
+            output: "# Title\n\nline 1\\\nline 2\n",
             options: [{ configFile: "", config: {} }],
             errors: [
                 {
@@ -56,10 +56,21 @@ tester.run("dprint/markdown", dprintRules.markdown, {
                     column: 1,
                 },
                 {
+                    messageId: "replaceCode",
+                    data: {
+                        oldText: '"  "',
+                        newText: '"\\\\"',
+                    },
+                    line: 2,
+                    column: 7,
+                    endLine: 2,
+                    endColumn: 9,
+                },
+                {
                     messageId: "requireLinebreak",
                     data: {},
-                    line: 2,
-                    column: 6,
+                    line: 3,
+                    column: 7,
                 },
             ],
         },
@@ -72,22 +83,11 @@ tester.run("dprint/markdown", dprintRules.markdown, {
                 {
                     messageId: "replaceCode",
                     data: {
-                        oldText: '"__"',
-                        newText: '"**"',
+                        oldText: '"__STRONG__"',
+                        newText: '"**STRONG**"',
                     },
                     line: 1,
                     column: 1,
-                    endLine: 1,
-                    endColumn: 3,
-                },
-                {
-                    messageId: "replaceCode",
-                    data: {
-                        oldText: '"__"',
-                        newText: '"**"',
-                    },
-                    line: 1,
-                    column: 9,
                     endLine: 1,
                     endColumn: 11,
                 },
