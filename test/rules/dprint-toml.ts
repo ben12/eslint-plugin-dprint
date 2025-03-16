@@ -49,19 +49,26 @@ tester.run("dprint/toml", dprintRules.toml, {
                 },
                 {
                     messageId: "requireWhitespace",
-                    data: {},
+                    data: {
+                        text: " ",
+                    },
                     line: 3,
                     column: 6,
                 },
                 {
-                    messageId: "moveCode",
-                    data: {
-                        text: '"#"',
-                    },
+                    messageId: "extraWhitespace",
                     line: 3,
                     column: 14,
                     endLine: 3,
-                    endColumn: 17,
+                    endColumn: 16,
+                },
+                {
+                    messageId: "requireWhitespace",
+                    data: {
+                        text: " ",
+                    },
+                    line: 3,
+                    column: 17,
                 },
                 {
                     messageId: "requireLinebreak",
