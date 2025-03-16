@@ -6,7 +6,7 @@
         "allowUnusedLabels": false,
         "declaration": true,
         "esModuleInterop": true,
-        "lib": ["es2020", "dom"],
+        "lib": ["es2022", "dom"],
         "module": "NodeNext",
         "moduleResolution": "NodeNext",
         "newLine": "LF",
@@ -21,7 +21,7 @@
         "resolveJsonModule": true,
         "sourceMap": true,
         "strict": true,
-        "target": "es2015"
+        "target": "es2022"
     },
     "include": [
         "lib/**/*.ts",
