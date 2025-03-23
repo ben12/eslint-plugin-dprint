@@ -21,7 +21,7 @@ tester.run("dprint/typescript", dprintRules.typescript, {
         {
             filename: path.join(__dirname, "test.ts"),
             code: 'console.log("hello!");\n',
-            options: [{ configFile: "", config: {} }],
+            options: [],
         }, // With dprint JSON configuration
         {
             filename: path.join(__dirname, "test.ts"),

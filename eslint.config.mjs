@@ -24,6 +24,12 @@ export default [{
         ...tsPlugin.configs["recommended"].rules,
         ...tsPlugin.configs["strict"].rules,
         ...dprint.configs["typescript-recommended"].rules,
+        "@ben_12/dprint/typescript": [
+            "error",
+            {
+                configFile: "dprint-config.json",
+            },
+        ],
         "@typescript-eslint/no-unused-vars": [
             "error",
             {

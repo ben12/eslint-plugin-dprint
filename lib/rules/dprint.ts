@@ -187,7 +187,8 @@ function createMessage(d: Diff): Message {
         createRepaceMessage(d)
 }
 
-const defaultOptions = [{ configFile: "dprint.json", config: {} }] as const
+type Options = { readonly configFile?: string; readonly config?: Record<string, unknown> }
+const defaultOptions: Options = { configFile: "dprint.json", config: {} }
 
 export const dprintRules: { [name: string]: Rule.RuleModule } = configSchemas.map((
     config,
@@ -229,7 +230,7 @@ export const dprintRules: { [name: string]: Rule.RuleModule } = configSchemas.ma
                 const sourceCode = context.sourceCode ?? context.getSourceCode()
                 const filePath = context.filename ?? context.getFilename()
                 const fileText = sourceCode.getText()
-                const options = context.options[0] ?? defaultOptions
+                const options = (context.options[0] as Options) ?? defaultOptions
                 const configFile = options.configFile ?? "dprint.json"
                 const configOpt = options.config || {}
 
