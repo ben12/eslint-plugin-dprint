@@ -1,4 +1,4 @@
-# @ben_12/dprint/yaml
+# @ben_12/dprint/graphql
 
 > Format code with [dprint].
 
@@ -10,7 +10,7 @@ Run [dprint] to format code.
 
 ```jsonc
 {
-  "@ben_12/dprint/yaml": [
+  "@ben_12/dprint/graphql": [
     "error",
     {
       // Use dprint JSON configuration file (default: "dprint.json")
@@ -18,8 +18,8 @@ Run [dprint] to format code.
       // See also https://dprint.dev/config/
       "configFile": "dprint.json",
       "config": {
-        // The yaml configuration of dprint
-        // See also https://dprint.dev/plugins/pretty_yaml/config/
+        // The graphql configuration of dprint
+        // See also https://dprint.dev/plugins/pretty_graphql/config/
       }
     }
   ]

@@ -49,6 +49,7 @@ const pluginsName = {
     "malva": "dprint-plugin-malva",
     "markup": "dprint-plugin-markup",
     "yaml": "dprint-plugin-yaml",
+    "graphql": "dprint-plugin-graphql",
 } as const
 
 const plugins: Readonly<Record<string, () => Buffer | undefined>> = {
@@ -60,6 +61,7 @@ const plugins: Readonly<Record<string, () => Buffer | undefined>> = {
     "malva": () => loadWasm(pluginsName["malva"], "plugin.wasm"),
     "markup": () => loadWasm(pluginsName["markup"], "plugin.wasm"),
     "yaml": () => loadWasm(pluginsName["yaml"], "plugin.wasm"),
+    "graphql": () => loadWasm(pluginsName["graphql"], "plugin.wasm"),
 }
 
 function isPluginName(name: string): name is keyof typeof pluginsName {

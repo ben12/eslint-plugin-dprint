@@ -1,0 +1,255 @@
+{
+  "title": "Config",
+  "description": "Configuration for dprint-plugin-graphql.",
+  "type": "object",
+  "definitions": {
+    "comma": {
+      "description": "Control whether commas should be inserted inside a list of items.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Insert commas inside a list of items. For single line list, there won't be trailing comma; for multiple lines list, there will be trailing comma.",
+          "type": "string",
+          "enum": [
+            "always"
+          ]
+        },
+        {
+          "description": "Do not insert commas inside a list of items. All existed commas will be removed.",
+          "type": "string",
+          "enum": [
+            "never"
+          ]
+        },
+        {
+          "description": "Insert commas inside a list of items without trailing comma.",
+          "type": "string",
+          "enum": [
+            "noTrailing"
+          ]
+        },
+        {
+          "description": "Insert commas inside a list of items only for single line list. For multiple lines list, there won't be commas.",
+          "type": "string",
+          "enum": [
+            "onlySingleLine"
+          ]
+        },
+        {
+          "description": "Inherit from the base `comma` option.",
+          "type": "string",
+          "enum": [
+            "inherit"
+          ]
+        }
+      ]
+    },
+    "singleLine": {
+      "description": "Control whether items should be placed on single line as possible, even they're originally on multiple lines, or force them to be on multiple lines.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Place items on single line as possible.",
+          "type": "string",
+          "enum": [
+            "prefer"
+          ]
+        },
+        {
+          "description": "Whether items should be placed on single line will be determined by original layout.",
+          "type": "string",
+          "enum": [
+            "smart"
+          ]
+        },
+        {
+          "description": "Force items to be on multiple lines.",
+          "type": "string",
+          "enum": [
+            "never"
+          ]
+        },
+        {
+          "description": "Inherit from the base `singleLine` option.",
+          "type": "string",
+          "enum": [
+            "inherit"
+          ]
+        }
+      ]
+    },
+    "parenSpacing": {
+      "description": "Control whether whitespace should be inserted between parentheses or not.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "braceSpacing": {
+      "description": "Control whether whitespace should be inserted between braces or not.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    }
+  },
+  "properties": {
+    "printWidth": {
+      "description": "The line width limitation that Pretty GraphQL should *(but not must)* avoid exceeding. Pretty GraphQL will try its best to keep line width less than this value, but it may exceed for some cases, for example, a very very long single word.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "useTabs": {
+      "description": "Specify use space or tab for indentation.",
+      "type": "boolean"
+    },
+    "indentWidth": {
+      "description": "Size of indentation. When enabled `useTabs`, this option may be disregarded, since only one tab will be inserted when indented once.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "lineBreak": {
+      "description": "Specify whether use `\\n` (LF) or `\\r\\n` (CRLF) for line break.",
+      "type": "string",
+      "enum": [
+        "lf",
+        "crlf"
+      ]
+    },
+    "comma": {
+      "$ref": "#/definitions/comma"
+    },
+    "arguments.comma": {
+      "$ref": "#/definitions/comma"
+    },
+    "argumentsDefinition.comma": {
+      "$ref": "#/definitions/comma"
+    },
+    "directives.comma": {
+      "$ref": "#/definitions/comma"
+    },
+    "enumValuesDefinition.comma": {
+      "$ref": "#/definitions/comma"
+    },
+    "fieldsDefinition.comma": {
+      "$ref": "#/definitions/comma"
+    },
+    "inputFieldsDefinition.comma": {
+      "$ref": "#/definitions/comma"
+    },
+    "listValue.comma": {
+      "$ref": "#/definitions/comma"
+    },
+    "objectValue.comma": {
+      "$ref": "#/definitions/comma"
+    },
+    "schemaDefinition.comma": {
+      "$ref": "#/definitions/comma"
+    },
+    "schemaExtension.comma": {
+      "$ref": "#/definitions/comma"
+    },
+    "selectionSet.comma": {
+      "$ref": "#/definitions/comma"
+    },
+    "variableDefinitions.comma": {
+      "$ref": "#/definitions/comma"
+    },
+    "singleLine": {
+      "$ref": "#/definitions/singleLine"
+    },
+    "arguments.singleLine": {
+      "$ref": "#/definitions/singleLine"
+    },
+    "argumentsDefinition.singleLine": {
+      "$ref": "#/definitions/singleLine"
+    },
+    "directiveLocations.singleLine": {
+      "$ref": "#/definitions/singleLine"
+    },
+    "directives.singleLine": {
+      "$ref": "#/definitions/singleLine"
+    },
+    "enumValuesDefinition.singleLine": {
+      "$ref": "#/definitions/singleLine"
+    },
+    "fieldsDefinition.singleLine": {
+      "$ref": "#/definitions/singleLine"
+    },
+    "implementsInterfaces.singleLine": {
+      "$ref": "#/definitions/singleLine"
+    },
+    "inputFieldsDefinition.singleLine": {
+      "$ref": "#/definitions/singleLine"
+    },
+    "listValue.singleLine": {
+      "$ref": "#/definitions/singleLine"
+    },
+    "objectValue.singleLine": {
+      "$ref": "#/definitions/singleLine"
+    },
+    "schemaDefinition.singleLine": {
+      "$ref": "#/definitions/singleLine"
+    },
+    "schemaExtension.singleLine": {
+      "$ref": "#/definitions/singleLine"
+    },
+    "selectionSet.singleLine": {
+      "$ref": "#/definitions/singleLine"
+    },
+    "unionMemberTypes.singleLine": {
+      "$ref": "#/definitions/singleLine"
+    },
+    "variableDefinitions.singleLine": {
+      "$ref": "#/definitions/singleLine"
+    },
+    "parenSpacing": {
+      "$ref": "#/definitions/parenSpacing"
+    },
+    "arguments.parenSpacing": {
+      "$ref": "#/definitions/parenSpacing"
+    },
+    "argumentsDefinition.parenSpacing": {
+      "$ref": "#/definitions/parenSpacing"
+    },
+    "variableDefinitions.parenSpacing": {
+      "$ref": "#/definitions/parenSpacing"
+    },
+    "bracketSpacing": {
+      "description": "Control whether whitespace should be inserted between brackets or not.",
+      "type": "boolean"
+    },
+    "braceSpacing": {
+      "$ref": "#/definitions/braceSpacing"
+    },
+    "enumValuesDefinition.braceSpacing": {
+      "$ref": "#/definitions/braceSpacing"
+    },
+    "fieldsDefinition.braceSpacing": {
+      "$ref": "#/definitions/braceSpacing"
+    },
+    "inputFieldsDefinition.braceSpacing": {
+      "$ref": "#/definitions/braceSpacing"
+    },
+    "objectValue.braceSpacing": {
+      "$ref": "#/definitions/braceSpacing"
+    },
+    "schemaDefinition.braceSpacing": {
+      "$ref": "#/definitions/braceSpacing"
+    },
+    "schemaExtension.braceSpacing": {
+      "$ref": "#/definitions/braceSpacing"
+    },
+    "selectionSet.braceSpacing": {
+      "$ref": "#/definitions/braceSpacing"
+    },
+    "formatComments": {
+      "description": "Control whether whitespace should be inserted at the beginning of comments or not.",
+      "type": "boolean"
+    },
+    "ignoreCommentDirective": {
+      "description": "Text directive for ignoring formatting specific content.",
+      "type": "string"
+    }
+  }
+}

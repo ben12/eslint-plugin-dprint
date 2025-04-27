@@ -44,6 +44,7 @@ const plugins: PluginConfig[] = [
     createPluginConfig("malva", "g-plane", "malva", "dprint-plugin-malva", "v"),
     createPluginConfig("markup", "g-plane", "markup_fmt", "dprint-plugin-markup", "v"),
     createPluginConfig("yaml", "g-plane", "pretty_yaml", "dprint-plugin-yaml", "v"),
+    createPluginConfig("graphql", "g-plane", "pretty_graphql", "dprint-plugin-graphql", "v"),
 ]
 
 type CurrentVersionInfo = {
@@ -120,6 +121,15 @@ function fixConfigSchema(jsonSchema: any) {
                 fixConfigSchema(value)
             }
         })
+        // "$ref" is always alone
+        if ("$ref" in jsonSchema) {
+            for (const key of Object.keys(jsonSchema)) {
+                if (key !== "$ref") {
+                    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+                    delete jsonSchema[key]
+                }
+            }
+        }
     } else if (Array.isArray(jsonSchema)) {
         jsonSchema.forEach(value => fixConfigSchema(value))
     }
