@@ -3,6 +3,7 @@ import { JSONSchema4 } from "json-schema"
 import path from "path"
 import dockerfileConfigSchema from "../dprint/dockerfile-config-schema.json"
 import { format } from "../dprint/dprint"
+import graphqlConfigSchema from "../dprint/graphql-config-schema.json"
 import jsonConfigSchema from "../dprint/json-config-schema.json"
 import malvaConfigSchema from "../dprint/malva-config-schema.json"
 import markdownConfigSchema from "../dprint/markdown-config-schema.json"
@@ -22,6 +23,7 @@ const configSchemas = [
     { name: "malva", configSchema: malvaConfigSchema as JSONSchema4 },
     { name: "markup", configSchema: markupConfigSchema as JSONSchema4 },
     { name: "yaml", configSchema: yamlConfigSchema as JSONSchema4 },
+    { name: "graphql", configSchema: graphqlConfigSchema as JSONSchema4 },
 ]
 
 const messages = {

@@ -1,6 +1,7 @@
 import { disableTypescriptConflictRules } from "./configs/disable-conflict-rules"
 import {
     dockerfileRecommended,
+    graphqlRecommended,
     jsonRecommended,
     malvaRecommended,
     markdownRecommended,
@@ -22,6 +23,7 @@ module.exports = {
         "malva-recommended": malvaRecommended,
         "markup-recommended": markupRecommended,
         "yaml-recommended": yamlRecommended,
+        "graphql-recommended": graphqlRecommended,
     },
     rules: dprintRules,
 }

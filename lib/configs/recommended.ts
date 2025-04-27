@@ -56,3 +56,10 @@ export const yamlRecommended = {
         "@ben_12/dprint/yaml": "warn",
     },
 }
+
+export const graphqlRecommended = {
+    plugins: ["@ben_12/dprint"],
+    rules: {
+        "@ben_12/dprint/graphql": "warn",
+    },
+}

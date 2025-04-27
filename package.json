@@ -16,6 +16,7 @@
     "@dprint/markdown": "^0.18.0",
     "@dprint/toml": "^0.7.0",
     "@dprint/typescript": "^0.95.0",
+    "dprint-plugin-graphql": "^0.2.0",
     "dprint-plugin-malva": "^0.11.2",
     "dprint-plugin-markup": "^0.19.1",
     "dprint-plugin-yaml": "^0.5.0",
@@ -45,6 +46,9 @@
     },
     "dprint-plugin-yaml": {
       "optional": true
+    },
+    "dprint-plugin-graphql": {
+      "optional": true
     }
   },
   "dependencies": {
@@ -67,8 +71,10 @@
     "@types/node": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "axios": "^1.7.9",
+    "dprint-plugin-graphql": "^0.2.0",
     "dprint-plugin-malva": "^0.11.2",
     "dprint-plugin-markup": "^0.19.1",
+    "dprint-plugin-yaml": "^0.5.0",
     "eslint": "^9.0.0",
     "mocha": "^11.0.0",
     "nyc": "^17.0.0",

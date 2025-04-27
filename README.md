@@ -35,6 +35,7 @@ $ npm install -D @dprint/typescript
 $ npm install -D dprint-plugin-malva
 $ npm install -D dprint-plugin-markup
 $ npm install -D dprint-plugin-yaml
+$ npm install -D dprint-plugin-graphql
 ```
 
 [![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/%40ben_12%2Feslint-plugin-dprint/peer/%40dprint%2Fdockerfile)](https://dprint.dev/plugins/dockerfile/)
@@ -45,6 +46,7 @@ $ npm install -D dprint-plugin-yaml
 [![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/%40ben_12%2Feslint-plugin-dprint/peer/dprint-plugin-malva)](https://dprint.dev/plugins/malva/)
 [![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/%40ben_12%2Feslint-plugin-dprint/peer/dprint-plugin-markup)](https://dprint.dev/plugins/markup_fmt/)
 [![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/%40ben_12%2Feslint-plugin-dprint/peer/dprint-plugin-yaml)](https://dprint.dev/plugins/pretty_yaml/)
+[![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/%40ben_12%2Feslint-plugin-dprint/peer/dprint-plugin-graphql)](https://dprint.dev/plugins/pretty_graphql/)
 
 ## 📖 Usage
 
@@ -136,16 +138,17 @@ export default [{
 
 ### Available Rules
 
-| Rule                        | Description                                         |
-| :-------------------------- | :-------------------------------------------------- |
-| [@ben_12/dprint/dockerfile] | Format dockerfile code with [@dprint/dockerfile].   |
-| [@ben_12/dprint/json]       | Format json code with [@dprint/json].               |
-| [@ben_12/dprint/markdown]   | Format markdown code with [@dprint/markdown].       |
-| [@ben_12/dprint/toml]       | Format toml code with [@dprint/toml].               |
-| [@ben_12/dprint/typescript] | Format typescript code with [@dprint/typescript].   |
-| [@ben_12/dprint/malva]      | Format css/scss/less/sass code with [malva].        |
-| [@ben_12/dprint/markup]     | Format HTML/Vue/Svelte/... code with [markup_fmt].  |
-| [@ben_12/dprint/yaml]       | Format HTML/Vue/Svelte/... code with [pretty_yaml]. |
+| Rule                        | Description                                        |
+| :-------------------------- | :------------------------------------------------- |
+| [@ben_12/dprint/dockerfile] | Format dockerfile code with [@dprint/dockerfile].  |
+| [@ben_12/dprint/json]       | Format json code with [@dprint/json].              |
+| [@ben_12/dprint/markdown]   | Format markdown code with [@dprint/markdown].      |
+| [@ben_12/dprint/toml]       | Format toml code with [@dprint/toml].              |
+| [@ben_12/dprint/typescript] | Format typescript code with [@dprint/typescript].  |
+| [@ben_12/dprint/malva]      | Format css/scss/less/sass code with [malva].       |
+| [@ben_12/dprint/markup]     | Format HTML/Vue/Svelte/... code with [markup_fmt]. |
+| [@ben_12/dprint/yaml]       | Format YAML code with [pretty_yaml].               |
+| [@ben_12/dprint/graphql]    | Format GraphQL code with [pretty_graphql].         |
 
 ### Available Configs
 
@@ -160,6 +163,7 @@ export default [{
 | [plugin:@ben_12/dprint/malva-recommended]                 | Enable the [@ben_12/dprint/malva] rule.                                                                                      |
 | [plugin:@ben_12/dprint/markup-recommended]                | Enable the [@ben_12/dprint/markup] rule.                                                                                     |
 | [plugin:@ben_12/dprint/yaml-recommended]                  | Enable the [@ben_12/dprint/yaml] rule.                                                                                       |
+| [plugin:@ben_12/dprint/graphql-recommended]               | Enable the [@ben_12/dprint/graphql] rule.                                                                                    |
 
 - Put the [plugin:@ben_12/dprint/recommended] or [plugin:@ben_12/dprint/disable-conflict-rules] config into the last of your `extends` list in order to ensure disabling conflict rules where came from other base configurations.
 
@@ -188,6 +192,7 @@ Please use GitHub's Issues/PRs.
 [malva]: https://github.com/g-plane/malva
 [markup_fmt]: https://github.com/g-plane/markup_fmt
 [pretty_yaml]: https://github.com/g-plane/pretty_yaml
+[pretty_graphql]: https://github.com/g-plane/pretty_graphql
 [npm]: https://www.npmjs.com/
 [@ben_12/dprint/dockerfile]: docs/rules/dprint-dockerfile.md
 [@ben_12/dprint/json]: docs/rules/dprint-json.md
@@ -197,6 +202,7 @@ Please use GitHub's Issues/PRs.
 [@ben_12/dprint/malva]: docs/rules/dprint-malva.md
 [@ben_12/dprint/markup]: docs/rules/dprint-markup.md
 [@ben_12/dprint/yaml]: docs/rules/dprint-yaml.md
+[@ben_12/dprint/graphql]: docs/rules/dprint-graphql.md
 [plugin:@ben_12/dprint/disable-typescript-conflict-rules]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/disable-typescript-conflict-rules.ts
 [plugin:@ben_12/dprint/dockerfile-recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts#L3
 [plugin:@ben_12/dprint/json-recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts#L10
@@ -206,3 +212,4 @@ Please use GitHub's Issues/PRs.
 [plugin:@ben_12/dprint/malva-recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts#L39
 [plugin:@ben_12/dprint/markup-recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts#L46
 [plugin:@ben_12/dprint/yaml-recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts#L53
+[plugin:@ben_12/dprint/graphql-recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts#L60

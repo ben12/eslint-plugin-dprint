@@ -24,6 +24,9 @@
     "yaml": {
         "quotes": "preferSingle"
     },
+    "graphql": {
+        "singleLine": "prefer"
+    },
     "excludes": [
       "**/node_modules"
     ],
