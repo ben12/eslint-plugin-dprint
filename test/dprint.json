@@ -21,6 +21,9 @@
     "markup": {
         "closingTagLineBreakForEmpty": "always"
     },
+    "yaml": {
+        "quotes": "preferSingle"
+    },
     "excludes": [
       "**/node_modules"
     ],

@@ -43,6 +43,7 @@ const plugins: PluginConfig[] = [
     createPluginConfig("typescript"),
     createPluginConfig("malva", "g-plane", "malva", "dprint-plugin-malva", "v"),
     createPluginConfig("markup", "g-plane", "markup_fmt", "dprint-plugin-markup", "v"),
+    createPluginConfig("yaml", "g-plane", "pretty_yaml", "dprint-plugin-yaml", "v"),
 ]
 
 type CurrentVersionInfo = {

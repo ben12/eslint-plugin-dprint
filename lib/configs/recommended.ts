@@ -49,3 +49,10 @@ export const markupRecommended = {
         "@ben_12/dprint/markup": "warn",
     },
 }
+
+export const yamlRecommended = {
+    plugins: ["@ben_12/dprint"],
+    rules: {
+        "@ben_12/dprint/yaml": "warn",
+    },
+}

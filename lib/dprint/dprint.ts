@@ -48,6 +48,7 @@ const pluginsName = {
     "dockerfile": "@dprint/dockerfile",
     "malva": "dprint-plugin-malva",
     "markup": "dprint-plugin-markup",
+    "yaml": "dprint-plugin-yaml",
 } as const
 
 const plugins: Readonly<Record<string, () => Buffer | undefined>> = {
@@ -58,6 +59,7 @@ const plugins: Readonly<Record<string, () => Buffer | undefined>> = {
     "dockerfile": () => loadPlugin(pluginsName["dockerfile"]),
     "malva": () => loadWasm(pluginsName["malva"], "plugin.wasm"),
     "markup": () => loadWasm(pluginsName["markup"], "plugin.wasm"),
+    "yaml": () => loadWasm(pluginsName["yaml"], "plugin.wasm"),
 }
 
 function isPluginName(name: string): name is keyof typeof pluginsName {

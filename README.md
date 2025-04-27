@@ -20,13 +20,13 @@ The plugin that runs [dprint] to format code in ESLint.
 
 Use [npm] or a compatible tool.
 
-```
+```sh
 $ npm install -D eslint @ben_12/eslint-plugin-dprint
 ```
 
 Then install [dprint] plugin for the language to format.
 
-```
+```sh
 $ npm install -D @dprint/dockerfile
 $ npm install -D @dprint/json
 $ npm install -D @dprint/markdown
@@ -34,7 +34,17 @@ $ npm install -D @dprint/toml
 $ npm install -D @dprint/typescript
 $ npm install -D dprint-plugin-malva
 $ npm install -D dprint-plugin-markup
+$ npm install -D dprint-plugin-yaml
 ```
+
+[![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/%40ben_12%2Feslint-plugin-dprint/peer/%40dprint%2Fdockerfile)](https://dprint.dev/plugins/dockerfile/)
+[![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/%40ben_12%2Feslint-plugin-dprint/peer/%40dprint%2Fjson)](https://dprint.dev/plugins/json/)
+[![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/%40ben_12%2Feslint-plugin-dprint/peer/%40dprint%2Fmarkdown)](https://dprint.dev/plugins/markdown/)
+[![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/%40ben_12%2Feslint-plugin-dprint/peer/%40dprint%2Ftoml)](https://dprint.dev/plugins/toml/)
+[![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/%40ben_12%2Feslint-plugin-dprint/peer/%40dprint%2Ftypescript)](https://dprint.dev/plugins/typescript/)
+[![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/%40ben_12%2Feslint-plugin-dprint/peer/dprint-plugin-malva)](https://dprint.dev/plugins/malva/)
+[![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/%40ben_12%2Feslint-plugin-dprint/peer/dprint-plugin-markup)](https://dprint.dev/plugins/markup_fmt/)
+[![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/%40ben_12%2Feslint-plugin-dprint/peer/dprint-plugin-yaml)](https://dprint.dev/plugins/pretty_yaml/)
 
 ## 📖 Usage
 
@@ -106,17 +116,36 @@ module.exports = {
 
 Then run ESLint with `--fix`!
 
+For unparsed eslint file like markdown or dockerfile, you can use [@ben_12/eslint-simple-parser](https://www.npmjs.com/package/@ben_12/eslint-simple-parser) as parser.
+
+```mjs
+import dprint from "@ben_12/eslint-plugin-dprint"
+import simpleParser from "@ben_12/eslint-simple-parser"
+
+export default [{
+    files: ["**/*.md"],
+    plugins: {
+        "@ben_12/dprint": dprint,
+    },
+    languageOptions: {
+        parser: simpleParser,
+    },
+    rules: dprint.configs["markdown-recommended"].rules,
+}]
+```
+
 ### Available Rules
 
-| Rule                        | Description                                        |
-| :-------------------------- | :------------------------------------------------- |
-| [@ben_12/dprint/dockerfile] | Format dockerfile code with [@dprint/dockerfile].  |
-| [@ben_12/dprint/json]       | Format json code with [@dprint/json].              |
-| [@ben_12/dprint/markdown]   | Format markdown code with [@dprint/markdown].      |
-| [@ben_12/dprint/toml]       | Format toml code with [@dprint/toml].              |
-| [@ben_12/dprint/typescript] | Format typescript code with [@dprint/typescript].  |
-| [@ben_12/dprint/malva]      | Format css/scss/less/sass code with [malva].       |
-| [@ben_12/dprint/markup]     | Format HTML/Vue/Svelte/... code with [markup_fmt]. |
+| Rule                        | Description                                         |
+| :-------------------------- | :-------------------------------------------------- |
+| [@ben_12/dprint/dockerfile] | Format dockerfile code with [@dprint/dockerfile].   |
+| [@ben_12/dprint/json]       | Format json code with [@dprint/json].               |
+| [@ben_12/dprint/markdown]   | Format markdown code with [@dprint/markdown].       |
+| [@ben_12/dprint/toml]       | Format toml code with [@dprint/toml].               |
+| [@ben_12/dprint/typescript] | Format typescript code with [@dprint/typescript].   |
+| [@ben_12/dprint/malva]      | Format css/scss/less/sass code with [malva].        |
+| [@ben_12/dprint/markup]     | Format HTML/Vue/Svelte/... code with [markup_fmt].  |
+| [@ben_12/dprint/yaml]       | Format HTML/Vue/Svelte/... code with [pretty_yaml]. |
 
 ### Available Configs
 
@@ -130,6 +159,7 @@ Then run ESLint with `--fix`!
 | [plugin:@ben_12/dprint/typescript-recommended]            | Enable the [@ben_12/dprint/typescript] rule along with the [plugin:@ben_12/dprint/disable-typescript-conflict-rules] preset. |
 | [plugin:@ben_12/dprint/malva-recommended]                 | Enable the [@ben_12/dprint/malva] rule.                                                                                      |
 | [plugin:@ben_12/dprint/markup-recommended]                | Enable the [@ben_12/dprint/markup] rule.                                                                                     |
+| [plugin:@ben_12/dprint/yaml-recommended]                  | Enable the [@ben_12/dprint/yaml] rule.                                                                                       |
 
 - Put the [plugin:@ben_12/dprint/recommended] or [plugin:@ben_12/dprint/disable-conflict-rules] config into the last of your `extends` list in order to ensure disabling conflict rules where came from other base configurations.
 
@@ -157,6 +187,7 @@ Please use GitHub's Issues/PRs.
 [@dprint/typescript]: https://github.com/dprint/dprint-plugin-typescript
 [malva]: https://github.com/g-plane/malva
 [markup_fmt]: https://github.com/g-plane/markup_fmt
+[pretty_yaml]: https://github.com/g-plane/pretty_yaml
 [npm]: https://www.npmjs.com/
 [@ben_12/dprint/dockerfile]: docs/rules/dprint-dockerfile.md
 [@ben_12/dprint/json]: docs/rules/dprint-json.md
@@ -165,6 +196,7 @@ Please use GitHub's Issues/PRs.
 [@ben_12/dprint/typescript]: docs/rules/dprint-typescript.md
 [@ben_12/dprint/malva]: docs/rules/dprint-malva.md
 [@ben_12/dprint/markup]: docs/rules/dprint-markup.md
+[@ben_12/dprint/yaml]: docs/rules/dprint-yaml.md
 [plugin:@ben_12/dprint/disable-typescript-conflict-rules]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/disable-typescript-conflict-rules.ts
 [plugin:@ben_12/dprint/dockerfile-recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts#L3
 [plugin:@ben_12/dprint/json-recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts#L10
@@ -173,3 +205,4 @@ Please use GitHub's Issues/PRs.
 [plugin:@ben_12/dprint/typescript-recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts#L31
 [plugin:@ben_12/dprint/malva-recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts#L39
 [plugin:@ben_12/dprint/markup-recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts#L46
+[plugin:@ben_12/dprint/yaml-recommended]: https://github.com/ben12/eslint-plugin-dprint/blob/master/lib/configs/recommended.ts#L53
