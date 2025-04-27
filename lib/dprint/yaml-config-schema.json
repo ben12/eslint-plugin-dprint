@@ -1,0 +1,126 @@
+{
+  "title": "Config",
+  "description": "Configuration for dprint-plugin-yaml.",
+  "type": "object",
+  "definitions": {
+    "preferSingleLine": {
+      "description": "Control whether items should be placed on single line as possible, even they're originally on multiple lines.",
+      "type": "boolean"
+    }
+  },
+  "properties": {
+    "printWidth": {
+      "description": "The line width limitation that Pretty YAML should *(but not must)* avoid exceeding. Pretty YAML will try its best to keep line width less than this value, but it may exceed for some cases, for example, a very very long single word.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "indentWidth": {
+      "description": "Size of indentation.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "lineBreak": {
+      "description": "Specify whether use `\\n` (LF) or `\\r\\n` (CRLF) for line break.",
+      "type": "string",
+      "enum": [
+        "lf",
+        "crlf"
+      ]
+    },
+    "quotes": {
+      "description": "Control the quotes.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Use double quotes as possible. However if there're quotes or escaped characters in strings, quotes will be kept as-is.",
+          "type": "string",
+          "enum": [
+            "preferDouble"
+          ]
+        },
+        {
+          "description": "Use single quotes as possible. However if there're quotes or `\\` characters in strings, quotes will be kept as-is.",
+          "type": "string",
+          "enum": [
+            "preferSingle"
+          ]
+        },
+        {
+          "description": "Use double quotes as possible. However if there're escaped characters in strings, quotes will be kept as-is.",
+          "type": "string",
+          "enum": [
+            "forceDouble"
+          ]
+        },
+        {
+          "description": "Use single quotes as possible. However if there're `\\` char or `\"` char in strings, quotes will be kept as-is.",
+          "type": "string",
+          "enum": [
+            "forceSingle"
+          ]
+        }
+      ]
+    },
+    "trailingComma": {
+      "description": "Control whether trailing comma should be inserted or not.",
+      "type": "boolean"
+    },
+    "formatComments": {
+      "description": "Control whether whitespace should be inserted at the beginning of comments or not.",
+      "type": "boolean"
+    },
+    "indentBlockSequenceInMap": {
+      "description": "Control whether block sequence should be indented or not in a block map.",
+      "type": "boolean"
+    },
+    "braceSpacing": {
+      "description": "Control whether whitespace should be inserted between braces or not.",
+      "type": "boolean"
+    },
+    "bracketSpacing": {
+      "description": "Control whether whitespace should be inserted between brackets or not.",
+      "type": "boolean"
+    },
+    "dashSpacing": {
+      "description": "Control the whitespace behavior of block compact map in block sequence value. This option is only effective when `indentWidth` is greater than 2.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Insert only one space after `-`.",
+          "type": "string",
+          "enum": [
+            "oneSpace"
+          ]
+        },
+        {
+          "description": "Insert spaces to align indentation, respecting `indentWidth` option.",
+          "type": "string",
+          "enum": [
+            "indent"
+          ]
+        }
+      ]
+    },
+    "preferSingleLine": {
+      "$ref": "#/definitions/preferSingleLine"
+    },
+    "flowSequence.preferSingleLine": {
+      "$ref": "#/definitions/preferSingleLine"
+    },
+    "flowMap.preferSingleLine": {
+      "$ref": "#/definitions/preferSingleLine"
+    },
+    "trimTrailingWhitespaces": {
+      "description": "Control whether trailing whitespaces should be trimmed or not.",
+      "type": "boolean"
+    },
+    "trimTrailingZero": {
+      "description": "Control whether trailing zeros should be removed or not.",
+      "type": "boolean"
+    },
+    "ignoreCommentDirective": {
+      "description": "Text directive for ignoring formatting specific content.",
+      "type": "string"
+    }
+  }
+}

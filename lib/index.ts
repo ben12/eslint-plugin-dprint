@@ -7,6 +7,7 @@ import {
     markupRecommended,
     tomlRecommended,
     typescriptRecommended,
+    yamlRecommended,
 } from "./configs/recommended"
 import { dprintRules } from "./rules/dprint"
 
@@ -20,6 +21,7 @@ module.exports = {
         "typescript-recommended": typescriptRecommended,
         "malva-recommended": malvaRecommended,
         "markup-recommended": markupRecommended,
+        "yaml-recommended": yamlRecommended,
     },
     rules: dprintRules,
 }
