@@ -459,6 +459,33 @@
         "null"
       ]
     },
+    "vueComponentCase": {
+      "description": "Control the component naming style in template.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Component names will not be changed.",
+          "type": "string",
+          "enum": [
+            "ignore"
+          ]
+        },
+        {
+          "description": "Component names will be converted to PascalCase.",
+          "type": "string",
+          "enum": [
+            "pascalCase"
+          ]
+        },
+        {
+          "description": "Component names will be converted to kebab-case.",
+          "type": "string",
+          "enum": [
+            "kebabCase"
+          ]
+        }
+      ]
+    },
     "strictSvelteAttr": {
       "description": "Control whether Svelte attribute value should be in strict mode or not.",
       "type": "boolean"
@@ -483,6 +510,10 @@
         "boolean",
         "null"
       ]
+    },
+    "angularNextControlFlowSameLine": {
+      "description": "Control whether the next Angular control flow code should be on the same line with previous `}` or not.",
+      "type": "boolean"
     },
     "scriptFormatter": {
       "description": "Tell markup_fmt what script formatter you are using.",
