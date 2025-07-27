@@ -17,7 +17,7 @@
     "@dprint/toml": "^0.7.0",
     "@dprint/typescript": "^0.95.8",
     "dprint-plugin-graphql": "^0.2.0",
-    "dprint-plugin-malva": "^0.13.1",
+    "dprint-plugin-malva": "^0.14.1",
     "dprint-plugin-markup": "^0.23.1",
     "dprint-plugin-yaml": "^0.5.1",
     "eslint": ">=7.0.0"
@@ -72,7 +72,7 @@
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "axios": "^1.7.9",
     "dprint-plugin-graphql": "^0.2.0",
-    "dprint-plugin-malva": "^0.13.1",
+    "dprint-plugin-malva": "^0.14.1",
     "dprint-plugin-markup": "^0.23.1",
     "dprint-plugin-yaml": "^0.5.1",
     "eslint": "^9.0.0",

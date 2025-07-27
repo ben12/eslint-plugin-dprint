@@ -225,9 +225,9 @@
         },
         {
           "description": "Don't sort CSS declarations.",
-          "type": "string",
+          "type": "object",
           "enum": [
-            "null"
+            null
           ]
         }
       ]
