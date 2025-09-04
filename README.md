@@ -52,48 +52,49 @@ $ npm install -D dprint-plugin-graphql
 
 Write your ESLint configuration. For example with typescript code:
 
-From eslint v9 (flat configuration)
-
 ```mjs
+import { defineConfig } from "eslint/config";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 import dprint from "@ben_12/eslint-plugin-dprint";
 
-module.exports = {
-  files: ["**/*.ts", "**/*.js"],
+module.exports = defineConfig([
+  {
+    files: ["**/*.ts", "**/*.js"],
 
-  languageOptions: {
-      parser: tsParser
-  },
+    languageOptions: {
+        parser: tsParser
+    },
 
-  plugins: {
-      "@typescript-eslint": tsPlugin,
-      "@ben_12/dprint": dprint,
-  },
+    plugins: {
+        "@typescript-eslint": tsPlugin,
+        "@ben_12/dprint": dprint,
+    },
 
-  rules: {
-    ...tsPlugin.configs["eslint-recommended"].rules,
-    ...tsPlugin.configs["recommended"].rules,
-    ...tsPlugin.configs["strict"].rules,
-    ...dprint.configs["typescript-recommended"].rules
-    "@ben_12/dprint/typescript": [
-      "error",
-      {
-        // Use dprint JSON configuration file (default: "dprint.json")
-        // It may be created using `dprint init` command
-        // See also https://dprint.dev/config/
-        configFile: "dprint.json",
-        config: {
-          // The TypeScript configuration of dprint
-          // See also https://dprint.dev/plugins/typescript/config/
+    rules: {
+      ...tsPlugin.configs["eslint-recommended"].rules,
+      ...tsPlugin.configs["recommended"].rules,
+      ...tsPlugin.configs["strict"].rules,
+      ...dprint.configs["typescript-recommended"].rules
+      "@ben_12/dprint/typescript": [
+        "error",
+        {
+          // Use dprint JSON configuration file (default: "dprint.json")
+          // It may be created using `dprint init` command
+          // See also https://dprint.dev/config/
+          configFile: "dprint.json",
+          config: {
+            // The TypeScript configuration of dprint
+            // See also https://dprint.dev/plugins/typescript/config/
+          },
         },
-      },
-    ],
+      ],
+    },
   },
-};
+]);
 ```
 
-For old eslint (eslintrc configuration)
+For legacy eslint (eslintrc configuration),
 
 ```js
 module.exports = {
@@ -121,10 +122,12 @@ Then run ESLint with `--fix`!
 For unparsed eslint file like markdown or dockerfile, you can use [@ben_12/eslint-simple-parser](https://www.npmjs.com/package/@ben_12/eslint-simple-parser) as parser.
 
 ```mjs
-import dprint from "@ben_12/eslint-plugin-dprint"
-import simpleParser from "@ben_12/eslint-simple-parser"
+import { defineConfig } from "eslint/config";
+import dprint from "@ben_12/eslint-plugin-dprint";
+import simpleParser from "@ben_12/eslint-simple-parser";
 
-export default [{
+export default defineConfig([
+  {
     files: ["**/*.md"],
     plugins: {
         "@ben_12/dprint": dprint,
@@ -133,7 +136,8 @@ export default [{
         parser: simpleParser,
     },
     rules: dprint.configs["markdown-recommended"].rules,
-}]
+  },
+]);
 ```
 
 ### Available Rules
