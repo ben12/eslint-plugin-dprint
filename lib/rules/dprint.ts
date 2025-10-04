@@ -245,9 +245,6 @@ export const dprintRules: { [name: string]: Rule.RuleModule } = configSchemas.ma
 
                 // Does format
                 const formattedText = format(configFile, configOpt, filePath, fileText, config.name)
-                if (typeof formattedText !== "string") {
-                    return
-                }
 
                 generateLintReports(fileText, formattedText, sourceCode, context)
             },
