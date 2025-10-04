@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import { RuleTester } from "eslint"
 import { version } from "eslint/package.json"
-import path from "path"
+import path from "node:path"
 import { dprintRules } from "../../lib/rules/dprint"
 
 const eslintVersion = +version.split(".")[0]
@@ -34,7 +34,6 @@ tester.run("dprint/markdown", dprintRules.markdown, {
             options: [{ configFile: "", config: {} }],
         },
         {
-            name: "Markdown with JSON code block",
             filename: path.join(__dirname, "test.md"),
             code: `\`\`\`json
 {
@@ -106,7 +105,6 @@ tester.run("dprint/markdown", dprintRules.markdown, {
             ],
         },
         {
-            name: "Markdown with JSON code block",
             filename: path.join(__dirname, "test.md"),
             code: `\`\`\`json
 {

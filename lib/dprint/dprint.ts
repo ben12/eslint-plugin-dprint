@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 
 import { createFromBuffer, FormatRequest, Formatter } from "@dprint/formatter"
-import * as fs from "fs"
 import * as JSONC from "jsonc-parser"
-import path from "path"
+import * as fs from "node:fs"
+import path from "node:path"
 
 type ConfigType = string | number | boolean
 

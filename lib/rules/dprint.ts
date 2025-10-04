@@ -1,6 +1,6 @@
 import { Rule, SourceCode } from "eslint"
 import { JSONSchema4 } from "json-schema"
-import path from "path"
+import path from "node:path"
 import dockerfileConfigSchema from "../dprint/dockerfile-config-schema.json"
 import { format } from "../dprint/dprint"
 import graphqlConfigSchema from "../dprint/graphql-config-schema.json"

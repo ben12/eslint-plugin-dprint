@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import { RuleTester } from "eslint"
 import { version } from "eslint/package.json"
-import path from "path"
+import path from "node:path"
 import { dprintRules } from "../../lib/rules/dprint"
 
 const eslintVersion = +version.split(".")[0]
@@ -39,7 +39,6 @@ tester.run("dprint-plugin-markup", dprintRules.markup, {
             options: [{ configFile: "", config: {} }],
         },
         {
-            name: "Vue with script indent",
             filename: path.join(__dirname, "test.vue"),
             code: `<template>
   <div>
@@ -92,7 +91,6 @@ tester.run("dprint-plugin-markup", dprintRules.markup, {
             ],
         },
         {
-            name: "Vue with script indent",
             filename: path.join(__dirname, "test.vue"),
             code: `<template>
   <div>test
