@@ -33,6 +33,18 @@ tester.run("dprint/markdown", dprintRules.markdown, {
             code: "Unknown language file",
             options: [{ configFile: "", config: {} }],
         },
+        {
+            name: "Markdown with JSON code block",
+            filename: path.join(__dirname, "test.md"),
+            code: `\`\`\`json
+{
+  "key": "value",
+  "key2": "value2"
+}
+\`\`\`
+`,
+            options: [{ configFile: "test/dprint.json", config: {} }],
+        },
     ],
     invalid: [
         {
@@ -92,6 +104,47 @@ tester.run("dprint/markdown", dprintRules.markdown, {
                     endColumn: 11,
                 },
             ],
+        },
+        {
+            name: "Markdown with JSON code block",
+            filename: path.join(__dirname, "test.md"),
+            code: `\`\`\`json
+{
+"key": "value",
+"key2": "value2", //key2
+}
+\`\`\``,
+            output: `\`\`\`json
+{
+  "key": "value",
+  "key2": "value2" //key2
+}
+\`\`\`
+`,
+            options: [{ configFile: "test/dprint.json", config: {} }],
+            errors: [{
+                messageId: "requireWhitespace",
+                data: {},
+                line: 3,
+                column: 1,
+            }, {
+                messageId: "requireWhitespace",
+                data: {},
+                line: 4,
+                column: 1,
+            }, {
+                messageId: "extraCode",
+                data: { text: '","' },
+                line: 4,
+                column: 17,
+                endLine: 4,
+                endColumn: 18,
+            }, {
+                messageId: "requireLinebreak",
+                data: {},
+                line: 6,
+                column: 4,
+            }],
         },
     ],
 })

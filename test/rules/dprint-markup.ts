@@ -38,6 +38,23 @@ tester.run("dprint-plugin-markup", dprintRules.markup, {
             code: "Unknown language file",
             options: [{ configFile: "", config: {} }],
         },
+        {
+            name: "Vue with script indent",
+            filename: path.join(__dirname, "test.vue"),
+            code: `<template>
+  <div>
+    test
+  </div>
+</template>
+<script lang="ts" setup>
+  console.log(1, 2, 3);
+  const someFn = () => {
+    console.log(4, 5, 6);
+  };
+</script>
+`,
+            options: [{ configFile: "test/dprint.json", config: { scriptIndent: true } }],
+        },
     ],
     invalid: [
         {
@@ -71,6 +88,56 @@ tester.run("dprint-plugin-markup", dprintRules.markup, {
                     data: {},
                     line: 2,
                     column: 23,
+                },
+            ],
+        },
+        {
+            name: "Vue with script indent",
+            filename: path.join(__dirname, "test.vue"),
+            code: `<template>
+  <div>test
+  </div>
+</template>
+<script lang="ts" setup>
+  console.log(1, 2, 3);
+const someFn = () => {
+    console.log(4, 5, 6)
+  };
+</script>
+`,
+            output: `<template>
+  <div>
+    test
+  </div>
+</template>
+<script lang="ts" setup>
+  console.log(1, 2, 3);
+  const someFn = () => {
+    console.log(4, 5, 6);
+  };
+</script>
+`,
+            options: [{ configFile: "test/dprint.json", config: { scriptIndent: true } }],
+            errors: [
+                {
+                    messageId: "requireLinebreak",
+                    data: {},
+                    line: 2,
+                    column: 8,
+                },
+                {
+                    messageId: "requireWhitespace",
+                    data: {},
+                    line: 7,
+                    column: 1,
+                },
+                {
+                    messageId: "requireCode",
+                    data: {
+                        text: '";"',
+                    },
+                    line: 8,
+                    column: 25,
                 },
             ],
         },

@@ -7,10 +7,14 @@
         "conditionalExpression.operatorPosition": "nextLine",
         "quoteStyle": "preferDouble"
     },
+    "markdown": {
+        "indentWidth": 2
+    },
     "excludes": [
       "**/node_modules"
     ],
     "plugins": [
-        "node_modules/@dprint/typescript/plugin.wasm"
+        "node_modules/@dprint/typescript/plugin.wasm",
+        "node_modules/@dprint/markdown/plugin.wasm"
     ]
 }

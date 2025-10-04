@@ -98,7 +98,11 @@ For legacy eslint (eslintrc configuration),
 
 ```js
 module.exports = {
-  extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:@ben_12/dprint/typescript-recommended"],
+  extends: [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@ben_12/dprint/typescript-recommended",
+  ],
   rules: {
     "@ben_12/dprint/typescript": [
       "error",
