@@ -2,8 +2,9 @@ import dprint from "@ben_12/eslint-plugin-dprint"
 import simpleParser from "@ben_12/eslint-simple-parser"
 import tsPlugin from "@typescript-eslint/eslint-plugin"
 import tsParser from "@typescript-eslint/parser"
+import { defineConfig } from "eslint/config"
 
-export default [{
+export default defineConfig([{
     ignores: ["**/.eslintrc.js", ".nyc_output", "coverage", "dist"],
 }, {
     files: ["**/*.ts", "**/*.js", "**/*.mjs"],
@@ -52,4 +53,4 @@ export default [{
     },
 
     rules: dprint.configs["markdown-recommended"].rules,
-}]
+}])

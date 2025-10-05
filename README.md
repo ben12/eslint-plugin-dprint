@@ -6,11 +6,11 @@
 [![node-current](https://img.shields.io/node/v/%40ben_12%2Feslint-plugin-dprint)](https://nodejs.org)
 [![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/%40ben_12%2Feslint-plugin-dprint/peer/eslint)](https://www.npmjs.com/package/eslint)
 ![npm bundle size](https://img.shields.io/bundlephobia/min/%40ben_12%2Feslint-plugin-dprint)\
-[![Build Status](https://github.com/ben12/eslint-plugin-dprint/workflows/CI/badge.svg)](https://github.com/ben12/eslint-plugin-dprint/actions)
+[![Build Status](https://github.com/ben12/eslint-plugin-dprint/workflows/CI/badge.svg?branch=master)](https://github.com/ben12/eslint-plugin-dprint/actions)
 [![codecov](https://codecov.io/gh/ben12/eslint-plugin-dprint/branch/master/graph/badge.svg)](https://codecov.io/gh/ben12/eslint-plugin-dprint)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ben12_eslint-plugin-dprint&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ben12_eslint-plugin-dprint)
-[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=ben12_eslint-plugin-dprint&metric=code_smells)](https://sonarcloud.io/dashboard?id=ben12_eslint-plugin-dprint)
-[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=ben12_eslint-plugin-dprint&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=ben12_eslint-plugin-dprint)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ben12_eslint-plugin-dprint&metric=alert_status&branch=master)](https://sonarcloud.io/summary/new_code?id=ben12_eslint-plugin-dprint)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=ben12_eslint-plugin-dprint&metric=code_smells&branch=master)](https://sonarcloud.io/dashboard?id=ben12_eslint-plugin-dprint)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=ben12_eslint-plugin-dprint&metric=vulnerabilities&branch=master)](https://sonarcloud.io/dashboard?id=ben12_eslint-plugin-dprint)
 
 > This is an updated fork of mysticatea/eslint-plugin-dprint. Some things are still being adjusted.
 
@@ -98,7 +98,11 @@ For legacy eslint (eslintrc configuration),
 
 ```js
 module.exports = {
-  extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:@ben_12/dprint/typescript-recommended"],
+  extends: [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@ben_12/dprint/typescript-recommended",
+  ],
   rules: {
     "@ben_12/dprint/typescript": [
       "error",

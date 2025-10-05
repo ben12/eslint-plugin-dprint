@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 
 import { createFromBuffer, FormatRequest, Formatter } from "@dprint/formatter"
-import * as fs from "fs"
 import * as JSONC from "jsonc-parser"
-import path from "path"
+import * as fs from "node:fs"
+import path from "node:path"
 
 type ConfigType = string | number | boolean
 
@@ -87,7 +87,7 @@ const formatters: Readonly<Record<string, Formatter>> = Object.entries(plugins).
 /** Cache to reduce copies of config values. */
 const lastConfigFile: { [key: string]: string | undefined } = {}
 
-function getFormatter(filePath: string, configName: string, configFile: string): Formatter | undefined {
+function getFormatter(filePath: string, configName: string, configFile: string, log = true): Formatter | undefined {
     const formatter = formatters[configName]
     if (formatter) {
         const configKey = formatter.getPluginInfo().configKey
@@ -101,15 +101,26 @@ function getFormatter(filePath: string, configName: string, configFile: string):
         const basename = path.basename(filePath)
         if (fileExtensions.some(ext => basename.endsWith("." + ext)) || fileNames.some(file => file === basename)) {
             return formatter
-        } else if (isPluginName(configName)) {
+        } else if (isPluginName(configName) && log) {
             console.warn("File %s not supported by %s", filePath, pluginsName[configName])
         }
-    } else if (isPluginName(configName)) {
+    } else if (isPluginName(configName) && log) {
         console.error("Plugin not found: %s", pluginsName[configName])
-    } else {
+    } else if (log) {
         console.error("Unknown plugin for %s", configName)
     }
     return undefined
+}
+
+function getFormatterByExt(filePath: string, configFile: string, exclude: string) {
+    const configNames = Object.keys(formatters).filter(name => name !== exclude)
+    for (const configName of configNames) {
+        const formatter = getFormatter(filePath, configName, configFile, false)
+        if (formatter) {
+            return [configFile, formatter] as const
+        }
+    }
+    return [] as const
 }
 
 /**
@@ -125,7 +136,7 @@ export function format(
     filePath: string,
     fileText: string,
     configName: string,
-): string | undefined {
+): string {
     const formatter = getFormatter(filePath, configName, configFile)
     if (formatter) {
         const request: FormatRequest = {
@@ -133,9 +144,27 @@ export function format(
             fileText,
             overrideConfig,
         }
-        return formatter.formatText(request)
+        return formatter.formatText(
+            request,
+            hostRequest => formatWithHost(hostRequest, configFile, configName),
+        )
     }
-    return undefined
+    return fileText
+}
+
+export function formatWithHost(
+    request: FormatRequest,
+    configFile: string,
+    fromConfigName: string,
+): string {
+    const [configName, formatter] = getFormatterByExt(request.filePath, configFile, fromConfigName)
+    if (configName && formatter) {
+        return formatter.formatText(
+            request,
+            hostRequest => formatWithHost(hostRequest, configFile, configName),
+        )
+    }
+    return request.fileText
 }
 
 function setConfig(formatter: Formatter, configKey: string, configFile: string): void {

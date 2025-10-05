@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import { RuleTester } from "eslint"
 import { version } from "eslint/package.json"
-import path from "path"
+import path from "node:path"
 import { dprintRules } from "../../lib/rules/dprint"
 
 const eslintVersion = +version.split(".")[0]
@@ -38,6 +38,22 @@ tester.run("dprint-plugin-markup", dprintRules.markup, {
             code: "Unknown language file",
             options: [{ configFile: "", config: {} }],
         },
+        {
+            filename: path.join(__dirname, "test.vue"),
+            code: `<template>
+  <div>
+    test
+  </div>
+</template>
+<script lang="ts" setup>
+  console.log(1, 2, 3);
+  const someFn = () => {
+    console.log(4, 5, 6);
+  };
+</script>
+`,
+            options: [{ configFile: "test/dprint.json", config: { scriptIndent: true } }],
+        },
     ],
     invalid: [
         {
@@ -71,6 +87,55 @@ tester.run("dprint-plugin-markup", dprintRules.markup, {
                     data: {},
                     line: 2,
                     column: 23,
+                },
+            ],
+        },
+        {
+            filename: path.join(__dirname, "test.vue"),
+            code: `<template>
+  <div>test
+  </div>
+</template>
+<script lang="ts" setup>
+  console.log(1, 2, 3);
+const someFn = () => {
+    console.log(4, 5, 6)
+  };
+</script>
+`,
+            output: `<template>
+  <div>
+    test
+  </div>
+</template>
+<script lang="ts" setup>
+  console.log(1, 2, 3);
+  const someFn = () => {
+    console.log(4, 5, 6);
+  };
+</script>
+`,
+            options: [{ configFile: "test/dprint.json", config: { scriptIndent: true } }],
+            errors: [
+                {
+                    messageId: "requireLinebreak",
+                    data: {},
+                    line: 2,
+                    column: 8,
+                },
+                {
+                    messageId: "requireWhitespace",
+                    data: {},
+                    line: 7,
+                    column: 1,
+                },
+                {
+                    messageId: "requireCode",
+                    data: {
+                        text: '";"',
+                    },
+                    line: 8,
+                    column: 25,
                 },
             ],
         },

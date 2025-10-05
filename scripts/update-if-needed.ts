@@ -1,7 +1,7 @@
 import axios from "axios"
-import fs from "fs"
 import * as JSONC from "jsonc-parser"
-import path from "path"
+import fs from "node:fs"
+import path from "node:path"
 import { setGithubOutput, sh, stdoutOf } from "./lib/utils"
 
 const RootPath = path.resolve(__dirname, "..")

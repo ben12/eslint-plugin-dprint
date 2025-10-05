@@ -1,6 +1,6 @@
 import { Rule, SourceCode } from "eslint"
 import { JSONSchema4 } from "json-schema"
-import path from "path"
+import path from "node:path"
 import dockerfileConfigSchema from "../dprint/dockerfile-config-schema.json"
 import { format } from "../dprint/dprint"
 import graphqlConfigSchema from "../dprint/graphql-config-schema.json"
@@ -245,9 +245,6 @@ export const dprintRules: { [name: string]: Rule.RuleModule } = configSchemas.ma
 
                 // Does format
                 const formattedText = format(configFile, configOpt, filePath, fileText, config.name)
-                if (typeof formattedText !== "string") {
-                    return
-                }
 
                 generateLintReports(fileText, formattedText, sourceCode, context)
             },

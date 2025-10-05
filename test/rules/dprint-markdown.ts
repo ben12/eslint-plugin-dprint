@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import { RuleTester } from "eslint"
 import { version } from "eslint/package.json"
-import path from "path"
+import path from "node:path"
 import { dprintRules } from "../../lib/rules/dprint"
 
 const eslintVersion = +version.split(".")[0]
@@ -32,6 +32,17 @@ tester.run("dprint/markdown", dprintRules.markdown, {
             filename: path.join(__dirname, "test.unk"),
             code: "Unknown language file",
             options: [{ configFile: "", config: {} }],
+        },
+        {
+            filename: path.join(__dirname, "test.md"),
+            code: `\`\`\`json
+{
+  "key": "value",
+  "key2": "value2"
+}
+\`\`\`
+`,
+            options: [{ configFile: "test/dprint.json", config: {} }],
         },
     ],
     invalid: [
@@ -92,6 +103,46 @@ tester.run("dprint/markdown", dprintRules.markdown, {
                     endColumn: 11,
                 },
             ],
+        },
+        {
+            filename: path.join(__dirname, "test.md"),
+            code: `\`\`\`json
+{
+"key": "value",
+"key2": "value2", //key2
+}
+\`\`\``,
+            output: `\`\`\`json
+{
+  "key": "value",
+  "key2": "value2" //key2
+}
+\`\`\`
+`,
+            options: [{ configFile: "test/dprint.json", config: {} }],
+            errors: [{
+                messageId: "requireWhitespace",
+                data: {},
+                line: 3,
+                column: 1,
+            }, {
+                messageId: "requireWhitespace",
+                data: {},
+                line: 4,
+                column: 1,
+            }, {
+                messageId: "extraCode",
+                data: { text: '","' },
+                line: 4,
+                column: 17,
+                endLine: 4,
+                endColumn: 18,
+            }, {
+                messageId: "requireLinebreak",
+                data: {},
+                line: 6,
+                column: 4,
+            }],
         },
     ],
 })
