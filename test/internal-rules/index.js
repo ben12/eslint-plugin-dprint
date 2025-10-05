@@ -2,6 +2,6 @@
 
 require("ts-node/register")
 
-const dprintPlugin = require("../../lib/index.ts").default
+const dprintPlugin = require("../../lib/index.ts")
 
 module.exports = dprintPlugin

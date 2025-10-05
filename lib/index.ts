@@ -12,7 +12,7 @@ import {
 } from "./configs/recommended"
 import { dprintRules } from "./rules/dprint"
 
-export default {
+export = {
     configs: {
         "disable-typescript-conflict-rules": disableTypescriptConflictRules,
         "dockerfile-recommended": dockerfileRecommended,
