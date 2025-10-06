@@ -6,7 +6,7 @@
 [![node-current](https://img.shields.io/node/v/%40ben_12%2Feslint-plugin-dprint)](https://nodejs.org)
 [![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/%40ben_12%2Feslint-plugin-dprint/peer/eslint)](https://www.npmjs.com/package/eslint)
 ![npm bundle size](https://img.shields.io/bundlephobia/min/%40ben_12%2Feslint-plugin-dprint)\
-[![Build Status](https://github.com/ben12/eslint-plugin-dprint/workflows/CI/badge.svg?branch=master)](https://github.com/ben12/eslint-plugin-dprint/actions)
+[![Build Status](https://github.com/ben12/eslint-plugin-dprint/actions/workflows/CI.yml/badge.svg?branch=master)](https://github.com/ben12/eslint-plugin-dprint/actions)
 [![codecov](https://codecov.io/gh/ben12/eslint-plugin-dprint/branch/master/graph/badge.svg)](https://codecov.io/gh/ben12/eslint-plugin-dprint)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ben12_eslint-plugin-dprint&metric=alert_status&branch=master)](https://sonarcloud.io/summary/new_code?id=ben12_eslint-plugin-dprint)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=ben12_eslint-plugin-dprint&metric=code_smells&branch=master)](https://sonarcloud.io/dashboard?id=ben12_eslint-plugin-dprint)
