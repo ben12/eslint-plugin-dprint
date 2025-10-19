@@ -20,9 +20,9 @@ Run [dprint] to format code.
       "config": {
         // The markup_fmt configuration of dprint
         // See also https://dprint.dev/plugins/markup_fmt/config/
-      }
-    }
-  ]
+      },
+    },
+  ],
 }
 ```
 

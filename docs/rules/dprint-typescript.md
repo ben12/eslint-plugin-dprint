@@ -20,9 +20,9 @@ Run [dprint] to format code.
       "config": {
         // The TypeScript configuration of dprint
         // See also https://dprint.dev/plugins/typescript/config/
-      }
-    }
-  ]
+      },
+    },
+  ],
 }
 ```
 

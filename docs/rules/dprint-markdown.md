@@ -20,9 +20,9 @@ Run [dprint] to format code.
       "config": {
         // The markdown configuration of dprint
         // See also https://dprint.dev/plugins/markdown/config/
-      }
-    }
-  ]
+      },
+    },
+  ],
 }
 ```
 

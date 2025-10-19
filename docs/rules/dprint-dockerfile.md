@@ -20,9 +20,9 @@ Run [dprint] to format code.
       "config": {
         // The Dockerfile configuration of dprint
         // See also https://dprint.dev/plugins/dockerfile/config/
-      }
-    }
-  ]
+      },
+    },
+  ],
 }
 ```
 

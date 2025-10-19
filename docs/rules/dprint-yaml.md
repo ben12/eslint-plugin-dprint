@@ -20,9 +20,9 @@ Run [dprint] to format code.
       "config": {
         // The yaml configuration of dprint
         // See also https://dprint.dev/plugins/pretty_yaml/config/
-      }
-    }
-  ]
+      },
+    },
+  ],
 }
 ```
 

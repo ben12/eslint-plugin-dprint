@@ -20,9 +20,9 @@ Run [dprint] to format code.
       "config": {
         // The json configuration of dprint
         // See also https://dprint.dev/plugins/json/config/
-      }
-    }
-  ]
+      },
+    },
+  ],
 }
 ```
 

@@ -20,9 +20,9 @@ Run [dprint] to format code.
       "config": {
         // The graphql configuration of dprint
         // See also https://dprint.dev/plugins/pretty_graphql/config/
-      }
-    }
-  ]
+      },
+    },
+  ],
 }
 ```
 
