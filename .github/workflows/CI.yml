@@ -79,14 +79,14 @@ jobs:
     - name: Test
       run: npm run -s test:ci:${{ matrix.eslint }} -- --reporter json --reporter-options output=reports/tests.json
     - name: Test Report
-      uses: dorny/test-reporter@v1
+      uses: dorny/test-reporter@dc3a92680fcc15842eef52e8c4606ea7ce6bd3f3
       if: success() || failure()
       with:
         name: Tests Results (${{ matrix.eslint }}, ${{ matrix.node }}, ${{ matrix.os }})
         path: reports/tests.json
         reporter: mocha-json
     - name: Send Coverage
-      uses: codecov/codecov-action@v5
+      uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7
       with:
         token: "${{ secrets.CODECOV_TOKEN }}"
         directory: ./coverage/

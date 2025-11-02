@@ -107,31 +107,47 @@ async function updateConfigSchema(srcPath: string, destPath: string): Promise<vo
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Safe use of any for JSON structure
 function fixConfigSchema(jsonSchema: any) {
     if (jsonSchema !== null && typeof jsonSchema === "object") {
-        Object.entries(jsonSchema).forEach(([key, value]) => {
-            if (["$schema", "$id", "default"].includes(key)) {
+        fixConfigSchemaKey(jsonSchema)
+        fixConfigSchemaRef(jsonSchema)
+    } else if (Array.isArray(jsonSchema)) {
+        fixConfigSchemaArray(jsonSchema)
+    }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Safe use of any for JSON structure
+function fixConfigSchemaKey(jsonSchema: any) {
+    for (const [key, value] of Object.entries(jsonSchema)) {
+        if (["$schema", "$id", "default"].includes(key)) {
+            // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+            delete jsonSchema[key]
+        } else if ("const" === key) {
+            // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+            delete jsonSchema[key]
+            jsonSchema["type"] = typeof value
+            jsonSchema["enum"] = [value]
+        } else {
+            fixConfigSchema(value)
+        }
+    }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Safe use of any for JSON structure
+function fixConfigSchemaRef(jsonSchema: any) {
+    // "$ref" is always alone
+    if ("$ref" in jsonSchema) {
+        for (const key of Object.keys(jsonSchema)) {
+            if (key !== "$ref") {
                 // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
                 delete jsonSchema[key]
-            } else if ("const" === key) {
-                // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-                delete jsonSchema[key]
-                jsonSchema["type"] = typeof value
-                value = [value]
-                jsonSchema["enum"] = value
-            } else {
-                fixConfigSchema(value)
-            }
-        })
-        // "$ref" is always alone
-        if ("$ref" in jsonSchema) {
-            for (const key of Object.keys(jsonSchema)) {
-                if (key !== "$ref") {
-                    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-                    delete jsonSchema[key]
-                }
             }
         }
-    } else if (Array.isArray(jsonSchema)) {
-        jsonSchema.forEach(value => fixConfigSchema(value))
+    }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Safe use of any for JSON structure
+function fixConfigSchemaArray(jsonSchema: any[]) {
+    for (const value of jsonSchema) {
+        fixConfigSchema(value)
     }
 }
 
@@ -187,6 +203,8 @@ async function main(): Promise<UpdateKing> {
             updates.push(`${plugin.name} to v${latest.version}`)
         }
     }
+
+    sh(`npm install`)
 
     setGithubOutput("dprint_plugin_updates", updates.join(", "))
 

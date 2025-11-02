@@ -55,13 +55,13 @@ tester.run("dprint/typescript", dprintRules.typescript, {
                 },
                 {
                     messageId: "replaceCode",
-                    data: { newText: '"\\""', oldText: '"\'"' },
+                    data: { newText: String.raw`"\""`, oldText: '"\'"' },
                     column: 15,
                     endColumn: 16,
                 },
                 {
                     messageId: "replaceCode",
-                    data: { newText: '"\\""', oldText: '"\'"' },
+                    data: { newText: String.raw`"\""`, oldText: '"\'"' },
                     column: 22,
                     endColumn: 23,
                 },

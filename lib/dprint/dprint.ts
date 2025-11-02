@@ -9,10 +9,10 @@ type ConfigType = string | number | boolean
 
 interface Plugin {
     getPath?(): string
-    getBuffer?(): Buffer
+    getBuffer?(): BufferSource
 }
 
-function loadPlugin(module: string): Buffer | undefined {
+function loadPlugin(module: string): BufferSource | undefined {
     let plugin: Plugin | undefined = undefined
     try {
         plugin = require(module) as Plugin
@@ -20,14 +20,14 @@ function loadPlugin(module: string): Buffer | undefined {
         // plugin unavailable
     }
     if (plugin?.getPath) {
-        return fs.readFileSync(plugin.getPath())
+        return Buffer.from(fs.readFileSync(plugin.getPath()))
     } else if (plugin?.getBuffer) {
         return plugin.getBuffer()
     }
     return undefined
 }
 
-function loadWasm(module: string, wasmFile: string): Buffer | undefined {
+function loadWasm(module: string, wasmFile: string): BufferSource | undefined {
     let wasmPath: string | undefined = undefined
     try {
         wasmPath = require.resolve([module, wasmFile].filter(s => s?.length).join("/"))
@@ -35,7 +35,7 @@ function loadWasm(module: string, wasmFile: string): Buffer | undefined {
         // plugin unavailable
     }
     if (wasmPath?.length) {
-        return fs.readFileSync(wasmPath)
+        return Buffer.from(fs.readFileSync(wasmPath))
     }
     return undefined
 }
@@ -52,7 +52,7 @@ const pluginsName = {
     "graphql": "dprint-plugin-graphql",
 } as const
 
-const plugins: Readonly<Record<string, () => Buffer | undefined>> = {
+const plugins: Readonly<Record<string, () => BufferSource | undefined>> = {
     "typescript": () => loadPlugin(pluginsName["typescript"]),
     "json": () => loadPlugin(pluginsName["json"]),
     "markdown": () => loadPlugin(pluginsName["markdown"]),
@@ -99,7 +99,7 @@ function getFormatter(filePath: string, configName: string, configFile: string, 
         const fileExtensions = fileMatchingInfo.fileExtensions || []
         const fileNames = fileMatchingInfo.fileNames || []
         const basename = path.basename(filePath)
-        if (fileExtensions.some(ext => basename.endsWith("." + ext)) || fileNames.some(file => file === basename)) {
+        if (fileExtensions.some(ext => basename.endsWith("." + ext)) || fileNames.includes(basename)) {
             return formatter
         } else if (isPluginName(configName) && log) {
             console.warn("File %s not supported by %s", filePath, pluginsName[configName])

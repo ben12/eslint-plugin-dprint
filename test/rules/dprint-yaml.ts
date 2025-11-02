@@ -48,7 +48,7 @@ tester.run("dprint-plugin-yaml", dprintRules.yaml, {
             errors: [
                 {
                     messageId: "replaceCode",
-                    data: { newText: '"\\""', oldText: '"\'"' },
+                    data: { newText: String.raw`"\""`, oldText: '"\'"' },
                     line: 2,
                     column: 9,
                     endLine: 2,
@@ -56,7 +56,7 @@ tester.run("dprint-plugin-yaml", dprintRules.yaml, {
                 },
                 {
                     messageId: "replaceCode",
-                    data: { newText: '"\\""', oldText: '"\'"' },
+                    data: { newText: String.raw`"\""`, oldText: '"\'"' },
                     line: 2,
                     column: 22,
                     endLine: 2,
