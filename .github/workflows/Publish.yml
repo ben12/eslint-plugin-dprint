@@ -4,10 +4,15 @@ on:
     types: [released]
   workflow_dispatch:
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   publish:
     name: Publish Package to npmjs
     runs-on: ubuntu-latest
+    environment: NPM
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -30,5 +35,3 @@ jobs:
         npm run -s build
     - name: Publish
       run: npm publish
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

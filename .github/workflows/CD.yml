@@ -4,15 +4,10 @@ on:
   schedule:
   - cron: 0 0 * * 0
 
-permissions:
-  id-token: write
-  contents: read
-
 jobs:
   follow:
     name: Follow dprint-plugin-typescript Updates
     runs-on: ubuntu-latest
-    environment: NPM
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -51,9 +46,8 @@ jobs:
         --notes "🚀 Update ${{ steps.updateStep.outputs.dprint_plugin_updates }}"
         --title "Version ${{ steps.versionStep.outputs.version }}"
       if: ${{ success() && steps.updateStep.outputs.updated == 'yes' && steps.versionStep.outputs.version }}
-    - name: Create Release
+    - name: Publish Package
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: >-
-        gh workflow run Publish.yml
+      run: gh workflow run Publish.yml
       if: ${{ success() && steps.updateStep.outputs.updated == 'yes' && steps.versionStep.outputs.version }}
