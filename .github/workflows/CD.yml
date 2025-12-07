@@ -4,21 +4,28 @@ on:
   schedule:
   - cron: 0 0 * * 0
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   follow:
     name: Follow dprint-plugin-typescript Updates
     runs-on: ubuntu-latest
+    environment: NPM
     steps:
     - name: Checkout
       uses: actions/checkout@v4
     - name: Install Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: 18.x
+        node-version: 22.x
         registry-url: "https://registry.npmjs.org"
         always-auth: true
     - name: Install Packages
-      run: npm ci
+      run: |
+        npm install -g npm@^11.0.0
+        npm ci
     - name: Update dprint-plugin-typescript if needed
       id: updateStep
       run: npx ts-node scripts/update-if-needed
@@ -36,11 +43,6 @@ jobs:
         git commit -m "🚀 Update ${{ steps.updateStep.outputs.dprint_plugin_updates }}"
         npm version ${{ steps.updateStep.outputs.kind }} --no-git-tag-version
       if: ${{ success() && steps.updateStep.outputs.updated == 'yes' }}
-    - name: Publish
-      run: npm publish
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      if: ${{ success() && steps.updateStep.outputs.updated == 'yes' }}
     - name: Create Release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -48,4 +50,10 @@ jobs:
         gh release create v${{ steps.versionStep.outputs.version }}
         --notes "🚀 Update ${{ steps.updateStep.outputs.dprint_plugin_updates }}"
         --title "Version ${{ steps.versionStep.outputs.version }}"
-      if: ${{ success() && steps.versionStep.outputs.version }}
+      if: ${{ success() && steps.updateStep.outputs.updated == 'yes' && steps.versionStep.outputs.version }}
+    - name: Create Release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: >-
+        gh workflow run Publish.yml
+      if: ${{ success() && steps.updateStep.outputs.updated == 'yes' && steps.versionStep.outputs.version }}

@@ -2,6 +2,7 @@ name: Publish
 on:
   release:
     types: [released]
+  workflow_dispatch:
 
 jobs:
   publish:
@@ -13,11 +14,13 @@ jobs:
     - name: Install Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: 18.x
+        node-version: 22.x
         registry-url: "https://registry.npmjs.org"
         always-auth: true
     - name: Install Packages
-      run: npm ci
+      run: |
+        npm install -g npm@^11.0.0
+        npm ci
     - name: Test
       run: |
         npm run -s test:ci
