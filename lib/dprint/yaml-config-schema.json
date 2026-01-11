@@ -118,6 +118,26 @@
       "description": "Control whether trailing zeros should be removed or not.",
       "type": "boolean"
     },
+    "proseWrap": {
+      "description": "Control whether to wrap prose in plain scalars when they exceed the print width.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Don't change how prose is wrapped.",
+          "type": "string",
+          "enum": [
+            "preserve"
+          ]
+        },
+        {
+          "description": "Wrap prose if it exceeds the print width.",
+          "type": "string",
+          "enum": [
+            "always"
+          ]
+        }
+      ]
+    },
     "ignoreCommentDirective": {
       "description": "Text directive for ignoring formatting specific content.",
       "type": "string"

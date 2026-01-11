@@ -19,7 +19,7 @@
     "dprint-plugin-graphql": "^0.2.3",
     "dprint-plugin-malva": "^0.15.1",
     "dprint-plugin-markup": "^0.25.3",
-    "dprint-plugin-yaml": "^0.5.1",
+    "dprint-plugin-yaml": "^0.6.0",
     "eslint": ">=7.0.0"
   },
   "peerDependenciesMeta": {
@@ -73,7 +73,7 @@
     "dprint-plugin-graphql": "^0.2.3",
     "dprint-plugin-malva": "^0.15.1",
     "dprint-plugin-markup": "^0.25.3",
-    "dprint-plugin-yaml": "^0.5.1",
+    "dprint-plugin-yaml": "^0.6.0",
     "eslint": "^9.0.0",
     "mocha": "^11.0.0",
     "nyc": "^17.0.0",
