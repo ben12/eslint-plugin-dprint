@@ -122,6 +122,26 @@
         }
       ]
     },
+    "headingKind": {
+      "description": "The style of heading to use for level 1 and level 2 headings. Level 3 and higher always use ATX headings.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Uses # or ## before the heading text (ATX headings).",
+          "type": "string",
+          "enum": [
+            "atx"
+          ]
+        },
+        {
+          "description": "Uses an underline of = or - beneath the heading text (setext headings). Only applies to level 1 and 2 headings.",
+          "type": "string",
+          "enum": [
+            "setext"
+          ]
+        }
+      ]
+    },
     "deno": {
       "description": "Top level configuration that sets the configuration to what is used in Deno.",
       "type": "boolean",
@@ -164,6 +184,12 @@
     "strongKind": {
       "$ref": "#/definitions/strongKind"
     },
+    "unorderedListKind": {
+      "$ref": "#/definitions/unorderedListKind"
+    },
+    "headingKind": {
+      "$ref": "#/definitions/headingKind"
+    },
     "deno": {
       "$ref": "#/definitions/deno"
     },
@@ -182,6 +208,14 @@
     "ignoreEndDirective": {
       "description": "The text to use for an ignore end directive (ex. `<!-- dprint-ignore-end -->`).",
       "type": "string"
+    },
+    "tags": {
+      "description": "Custom tag to file extension mappings for formatting code blocks. For example: { \"markdown\": \"md\" }",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "description": "The file extension to use when formatting code blocks with this tag."
+      }
     }
   }
 }
