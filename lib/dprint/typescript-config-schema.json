@@ -1115,6 +1115,26 @@
         }
       ]
     },
+    "functionExpression.flatIife": {
+      "description": "Whether to skip indenting the body of a function expression used in an IIFE.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Does not indent the body of the function in `(function() { ... })();`.",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Indents the body as normal.",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
     "getAccessor.spaceBeforeParentheses": {
       "description": "Whether to add a space before the parentheses of a get accessor.",
       "type": "boolean",
@@ -1528,6 +1548,9 @@
     },
     "functionExpression.spaceAfterFunctionKeyword": {
       "$ref": "#/definitions/functionExpression.spaceAfterFunctionKeyword"
+    },
+    "functionExpression.flatIife": {
+      "$ref": "#/definitions/functionExpression.flatIife"
     },
     "getAccessor.spaceBeforeParentheses": {
       "$ref": "#/definitions/getAccessor.spaceBeforeParentheses"
