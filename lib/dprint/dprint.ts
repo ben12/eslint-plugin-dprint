@@ -13,11 +13,15 @@ interface Plugin {
 }
 
 /**
- * Caller-provided formatter, accepted alongside (or instead of) the configFile/config options.
+ * Caller-provided formatter, used as the pre-resolved bypass of the module-level
+ * plugin lookup. The `@dprint/*` packages expose `getPath()` and can be passed directly;
+ * the `g-plane` packages (`dprint-plugin-yaml`, `-malva`, `-markup`, `-graphql`) ship
+ * only `plugin.wasm` with no JS entrypoint, so callers must read the wasm file and
+ * pass the buffer (or a pre-built `Formatter`) instead.
  *
  * Supported shapes:
- *  - `{ getPath(): string }` — matches `@dprint/typescript`, `@dprint/json`, etc.
- *  - `{ getBuffer(): BufferSource }` — matches `dprint-plugin-yaml`, `dprint-plugin-markup`, etc.
+ *  - `{ getPath(): string }`: shape exported by current `@dprint/*` plugin packages
+ *  - `{ getBuffer(): BufferSource }`: legacy shape, used by older `@dprint/*` versions
  *  - raw wasm bytes (`Buffer` / `Uint8Array` / `ArrayBuffer`)
  *  - a pre-built `Formatter` from `@dprint/formatter`'s `createFromBuffer`
  */
@@ -100,7 +104,7 @@ const formatters: Readonly<Record<string, Formatter>> = Object.entries(plugins).
 )
 
 function isBufferSource(value: unknown): value is BufferSource {
-    return value instanceof ArrayBuffer || ArrayBuffer.isView(value as ArrayBufferView)
+    return value instanceof ArrayBuffer || ArrayBuffer.isView(value)
 }
 
 function isFormatter(value: unknown): value is Formatter {
@@ -155,9 +159,9 @@ function getFormatter(
     log: boolean,
     formatterInput: FormatterInput | undefined,
 ): Formatter | undefined {
-    const formatter = formatterInput !== undefined
-        ? resolveFormatterInput(formatterInput)
-        : formatters[configName]
+    const formatter = formatterInput === undefined
+        ? formatters[configName]
+        : resolveFormatterInput(formatterInput)
     if (formatter) {
         applyConfigIfNeeded(formatter, configFile)
         const fileMatchingInfo = formatter.getFileMatchingInfo()

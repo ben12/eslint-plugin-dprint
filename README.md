@@ -142,8 +142,8 @@ Accepted shapes for each formatter entry:
 
 - an object with `getPath(): string` (the shape exported by `@dprint/typescript`, `@dprint/json`,
   `@dprint/markdown`, `@dprint/toml`, `@dprint/dockerfile`)
-- an object with `getBuffer(): Buffer | Uint8Array` (the shape exported by `dprint-plugin-yaml`,
-  `dprint-plugin-malva`, `dprint-plugin-markup`, `dprint-plugin-graphql`)
+- an object with `getBuffer(): Buffer | Uint8Array` (legacy shape, previously used by some
+  `@dprint/*` packages)
 - a raw `Buffer` / `Uint8Array` / `ArrayBuffer` of the plugin's wasm bytes
 - a pre-built `Formatter` returned by `@dprint/formatter`'s `createFromBuffer`
 
@@ -175,6 +175,43 @@ export default defineConfig([
 The settings key is the plugin namespace (`@ben_12/dprint`). Inside `formatters`, the key is the
 rule name (`typescript`, `json`, `markdown`, `toml`, `dockerfile`, `malva`, `markup`, `yaml`,
 `graphql`).
+
+#### g-plane plugins (`yaml`, `malva`, `markup`, `graphql`)
+
+The `@dprint/*` packages can be imported and passed straight through, as in the example above.
+The g-plane packages (`dprint-plugin-yaml`, `dprint-plugin-malva`, `dprint-plugin-markup`,
+`dprint-plugin-graphql`) have no JS entrypoint and ship only `plugin.wasm`, so callers have to
+resolve and read the wasm file themselves and pass the result through `createFromBuffer` (or as
+a raw `BufferSource`). Example for `dprint-plugin-graphql`:
+
+```mjs
+import { defineConfig } from "eslint/config";
+import dprint from "@ben_12/eslint-plugin-dprint";
+import { createFromBuffer } from "@dprint/formatter";
+import fs from "node:fs";
+
+const graphqlFormatter = createFromBuffer(
+  fs.readFileSync(new URL(import.meta.resolve("dprint-plugin-graphql/plugin.wasm"))),
+);
+
+export default defineConfig([
+  {
+    files: ["**/*.graphql"],
+    plugins: { "@ben_12/dprint": dprint },
+    settings: {
+      "@ben_12/dprint": {
+        formatters: { graphql: graphqlFormatter },
+      },
+    },
+    rules: {
+      "@ben_12/dprint/graphql": ["error", { config: { /* dprint config */ } }],
+    },
+  },
+]);
+```
+
+The same pattern (with the matching package and rule name) applies to `yaml`, `malva`, and
+`markup`.
 
 For unparsed eslint file like markdown or dockerfile, you can use [@ben_12/eslint-simple-parser](https://www.npmjs.com/package/@ben_12/eslint-simple-parser) as parser.
 
