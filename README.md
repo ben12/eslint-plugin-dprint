@@ -123,6 +123,59 @@ module.exports = {
 
 Then run ESLint with `--fix`!
 
+### Providing a pre-resolved formatter via `settings`
+
+By default the plugin loads each dprint formatter at module-load time by doing a dynamic `require()`
+of the corresponding peer package (`@dprint/typescript`, `dprint-plugin-yaml`, …). That works for
+most setups, but it relies on the optional peer dependency being installed _and_ discoverable by
+Node's resolver. Some bundlers and bundled config packages (anything that does static module-graph
+analysis, e.g. [Packtory](https://github.com/lukas-bischof/packtory)) only follow real `import`
+statements, so the dprint plugins never end up in the bundle. In that case the plugin logs
+`Plugin not found: …` for every linted file and the rule silently becomes a no-op.
+
+You can avoid this by passing a pre-resolved formatter through ESLint's `settings`. Settings are not
+serialized or `structuredClone`d by ESLint, so they can carry runtime objects (modules, buffers,
+pre-built formatters). When a formatter is provided this way, the plugin uses it directly and skips
+the dynamic `require()` lookup (and the associated "Plugin not found" warning).
+
+Accepted shapes for each formatter entry:
+
+- an object with `getPath(): string` (the shape exported by `@dprint/typescript`, `@dprint/json`,
+  `@dprint/markdown`, `@dprint/toml`, `@dprint/dockerfile`)
+- an object with `getBuffer(): Buffer | Uint8Array` (the shape exported by `dprint-plugin-yaml`,
+  `dprint-plugin-malva`, `dprint-plugin-markup`, `dprint-plugin-graphql`)
+- a raw `Buffer` / `Uint8Array` / `ArrayBuffer` of the plugin's wasm bytes
+- a pre-built `Formatter` returned by `@dprint/formatter`'s `createFromBuffer`
+
+Example (flat config):
+
+```mjs
+import { defineConfig } from "eslint/config";
+import dprint from "@ben_12/eslint-plugin-dprint";
+import typescriptFormatter from "@dprint/typescript";
+
+export default defineConfig([
+  {
+    files: ["**/*.ts"],
+    plugins: { "@ben_12/dprint": dprint },
+    settings: {
+      "@ben_12/dprint": {
+        formatters: {
+          typescript: typescriptFormatter,
+        },
+      },
+    },
+    rules: {
+      "@ben_12/dprint/typescript": ["error", { config: { /* dprint config */ } }],
+    },
+  },
+]);
+```
+
+The settings key is the plugin namespace (`@ben_12/dprint`). Inside `formatters`, the key is the
+rule name (`typescript`, `json`, `markdown`, `toml`, `dockerfile`, `malva`, `markup`, `yaml`,
+`graphql`).
+
 For unparsed eslint file like markdown or dockerfile, you can use [@ben_12/eslint-simple-parser](https://www.npmjs.com/package/@ben_12/eslint-simple-parser) as parser.
 
 ```mjs

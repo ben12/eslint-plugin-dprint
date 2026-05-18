@@ -12,6 +12,21 @@ interface Plugin {
     getBuffer?(): BufferSource
 }
 
+/**
+ * Caller-provided formatter, accepted alongside (or instead of) the configFile/config options.
+ *
+ * Supported shapes:
+ *  - `{ getPath(): string }` — matches `@dprint/typescript`, `@dprint/json`, etc.
+ *  - `{ getBuffer(): BufferSource }` — matches `dprint-plugin-yaml`, `dprint-plugin-markup`, etc.
+ *  - raw wasm bytes (`Buffer` / `Uint8Array` / `ArrayBuffer`)
+ *  - a pre-built `Formatter` from `@dprint/formatter`'s `createFromBuffer`
+ */
+export type FormatterInput =
+    | { getPath(): string }
+    | { getBuffer(): BufferSource }
+    | BufferSource
+    | Formatter
+
 function loadPlugin(module: string): BufferSource | undefined {
     let plugin: Plugin | undefined = undefined
     try {
@@ -84,17 +99,67 @@ const formatters: Readonly<Record<string, Formatter>> = Object.entries(plugins).
     {} as Record<string, Formatter>,
 )
 
-/** Cache to reduce copies of config values. */
-const lastConfigFile: { [key: string]: string | undefined } = {}
+function isBufferSource(value: unknown): value is BufferSource {
+    return value instanceof ArrayBuffer || ArrayBuffer.isView(value as ArrayBufferView)
+}
 
-function getFormatter(filePath: string, configName: string, configFile: string, log = true): Formatter | undefined {
-    const formatter = formatters[configName]
-    if (formatter) {
+function isFormatter(value: unknown): value is Formatter {
+    return typeof value === "object" && value !== null &&
+        typeof (value as Formatter).formatText === "function" &&
+        typeof (value as Formatter).getPluginInfo === "function" &&
+        typeof (value as Formatter).setConfig === "function"
+}
+
+/** Cache of resolved Formatters keyed by the caller-provided FormatterInput identity. */
+const resolvedFormatters = new WeakMap<object, Formatter>()
+
+function resolveFormatterInput(input: FormatterInput): Formatter {
+    const cached = resolvedFormatters.get(input as object)
+    if (cached) {
+        return cached
+    }
+    let formatter: Formatter
+    if (isFormatter(input)) {
+        formatter = input
+    } else if (isBufferSource(input)) {
+        formatter = createFromBuffer(input)
+    } else if (typeof (input as { getPath?: () => string }).getPath === "function") {
+        formatter = createFromBuffer(Buffer.from(fs.readFileSync((input as { getPath: () => string }).getPath())))
+    } else if (typeof (input as { getBuffer?: () => BufferSource }).getBuffer === "function") {
+        formatter = createFromBuffer((input as { getBuffer: () => BufferSource }).getBuffer())
+    } else {
+        throw new TypeError(
+            "Invalid `formatter` option: expected a Formatter, BufferSource, " +
+                "or an object with getPath()/getBuffer().",
+        )
+    }
+    resolvedFormatters.set(input as object, formatter)
+    return formatter
+}
+
+/** Cache of the last configFile applied to a given Formatter, to avoid redundant setConfig calls. */
+const lastConfigFileByFormatter = new WeakMap<Formatter, string>()
+
+function applyConfigIfNeeded(formatter: Formatter, configFile: string): void {
+    if (lastConfigFileByFormatter.get(formatter) !== configFile) {
+        lastConfigFileByFormatter.set(formatter, configFile)
         const configKey = formatter.getPluginInfo().configKey
-        if (configFile !== lastConfigFile[configKey]) {
-            lastConfigFile[configKey] = configFile
-            setConfig(formatter, configKey, configFile)
-        }
+        setConfig(formatter, configKey, configFile)
+    }
+}
+
+function getFormatter(
+    filePath: string,
+    configName: string,
+    configFile: string,
+    log: boolean,
+    formatterInput: FormatterInput | undefined,
+): Formatter | undefined {
+    const formatter = formatterInput !== undefined
+        ? resolveFormatterInput(formatterInput)
+        : formatters[configName]
+    if (formatter) {
+        applyConfigIfNeeded(formatter, configFile)
         const fileMatchingInfo = formatter.getFileMatchingInfo()
         const fileExtensions = fileMatchingInfo.fileExtensions || []
         const fileNames = fileMatchingInfo.fileNames || []
@@ -115,7 +180,7 @@ function getFormatter(filePath: string, configName: string, configFile: string, 
 function getFormatterByExt(filePath: string, configFile: string, exclude: string) {
     const configNames = Object.keys(formatters).filter(name => name !== exclude)
     for (const configName of configNames) {
-        const formatter = getFormatter(filePath, configName, configFile, false)
+        const formatter = getFormatter(filePath, configName, configFile, false, undefined)
         if (formatter) {
             return [configFile, formatter] as const
         }
@@ -128,6 +193,9 @@ function getFormatterByExt(filePath: string, configFile: string, exclude: string
  * @param config The config object.
  * @param filePath The path to the file.
  * @param fileText The content of the file.
+ * @param formatterInput Optional pre-resolved dprint formatter (or its source) to use instead of the
+ *   module-level plugin lookup. When supplied, the global formatter table is bypassed and no
+ *   "Plugin not found" warning is logged.
  * @returns The formatted text or undefined. It's undefined if the formatter doesn't change the text.
  */
 export function format(
@@ -136,8 +204,9 @@ export function format(
     filePath: string,
     fileText: string,
     configName: string,
+    formatterInput?: FormatterInput,
 ): string {
-    const formatter = getFormatter(filePath, configName, configFile)
+    const formatter = getFormatter(filePath, configName, configFile, true, formatterInput)
     if (formatter) {
         const request: FormatRequest = {
             filePath,

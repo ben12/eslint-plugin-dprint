@@ -2,7 +2,7 @@ import { Rule, SourceCode } from "eslint"
 import { JSONSchema4 } from "json-schema"
 import path from "node:path"
 import dockerfileConfigSchema from "../dprint/dockerfile-config-schema.json"
-import { format } from "../dprint/dprint"
+import { format, FormatterInput } from "../dprint/dprint"
 import graphqlConfigSchema from "../dprint/graphql-config-schema.json"
 import jsonConfigSchema from "../dprint/json-config-schema.json"
 import malvaConfigSchema from "../dprint/malva-config-schema.json"
@@ -194,6 +194,34 @@ function createMessage(d: Diff): Message {
 type Options = { readonly configFile?: string; readonly config?: Record<string, unknown> }
 const defaultOptions: Options = { configFile: "dprint.json", config: {} }
 
+/**
+ * Shape of the per-plugin entry under ESLint's `settings`.
+ *
+ * Example:
+ *   settings: {
+ *     "@ben_12/dprint": {
+ *       formatters: { typescript: require("@dprint/typescript") },
+ *     },
+ *   }
+ *
+ * `settings` is deep-merged without being structured-cloned, so the formatter values
+ * can be runtime objects (modules, pre-built Formatters, raw buffers) — see
+ * `FormatterInput` in lib/dprint/dprint.ts.
+ */
+export interface DprintPluginSettings {
+    readonly formatters?: { readonly [ruleName: string]: FormatterInput | undefined }
+}
+
+const SETTINGS_KEY = "@ben_12/dprint"
+
+function readFormatterFromSettings(
+    settings: Rule.RuleContext["settings"],
+    ruleName: string,
+): FormatterInput | undefined {
+    const pluginSettings = (settings?.[SETTINGS_KEY] ?? undefined) as DprintPluginSettings | undefined
+    return pluginSettings?.formatters?.[ruleName]
+}
+
 export const dprintRules: { [name: string]: Rule.RuleModule } = configSchemas.map((
     config,
 ): { [name: string]: Rule.RuleModule } => ({
@@ -244,7 +272,15 @@ export const dprintRules: { [name: string]: Rule.RuleModule } = configSchemas.ma
                 }
 
                 // Does format
-                const formattedText = format(configFile, configOpt, filePath, fileText, config.name)
+                const formatterInput = readFormatterFromSettings(context.settings, config.name)
+                const formattedText = format(
+                    configFile,
+                    configOpt,
+                    filePath,
+                    fileText,
+                    config.name,
+                    formatterInput,
+                )
 
                 generateLintReports(fileText, formattedText, sourceCode, context)
             },
