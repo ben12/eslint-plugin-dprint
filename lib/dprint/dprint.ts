@@ -84,10 +84,14 @@ const formatters: Readonly<Record<string, Formatter>> = Object.entries(plugins).
     {} as Record<string, Formatter>,
 )
 
-/** Cache to reduce copies of config values. */
 const lastConfigFile: { [key: string]: string | undefined } = {}
 
-function getFormatter(filePath: string, configName: string, configFile: string, log = true): Formatter | undefined {
+function getFormatter(
+    filePath: string,
+    configName: string,
+    configFile: string,
+    log = true,
+): Formatter | undefined {
     const formatter = formatters[configName]
     if (formatter) {
         const configKey = formatter.getPluginInfo().configKey
@@ -117,7 +121,7 @@ function getFormatterByExt(filePath: string, configFile: string, exclude: string
     for (const configName of configNames) {
         const formatter = getFormatter(filePath, configName, configFile, false)
         if (formatter) {
-            return [configFile, formatter] as const
+            return [configName, formatter] as const
         }
     }
     return [] as const
@@ -125,14 +129,21 @@ function getFormatterByExt(filePath: string, configFile: string, exclude: string
 
 /**
  * Format the given text with the given config.
- * @param config The config object.
+ * @param configFile Path to a dprint configuration file (or empty string for none).
+ * @param overrideConfig Inline config for the originating plugin (applied per-call via FormatRequest.overrideConfig).
+ * @param hostConfigs Per-sibling-plugin config. Merged into FormatRequest.overrideConfig on each
+ *   delegated call when the originating plugin invokes a sibling via the host callback
+ *   (e.g. fenced code blocks inside markdown). Keys are plugin names ("typescript", "json", ...).
+ *   Without this, host-invoked plugins fall back to the on-disk configFile only.
  * @param filePath The path to the file.
  * @param fileText The content of the file.
- * @returns The formatted text or undefined. It's undefined if the formatter doesn't change the text.
+ * @param configName The plugin name of the originating formatter.
+ * @returns The formatted text. Returns the input fileText if no formatter applies.
  */
 export function format(
     configFile: string,
     overrideConfig: Record<string, unknown>,
+    hostConfigs: Record<string, Record<string, unknown>>,
     filePath: string,
     fileText: string,
     configName: string,
@@ -146,7 +157,7 @@ export function format(
         }
         return formatter.formatText(
             request,
-            hostRequest => formatWithHost(hostRequest, configFile, configName),
+            hostRequest => formatWithHost(hostRequest, configFile, hostConfigs, configName),
         )
     }
     return fileText
@@ -155,13 +166,20 @@ export function format(
 export function formatWithHost(
     request: FormatRequest,
     configFile: string,
+    hostConfigs: Record<string, Record<string, unknown>>,
     fromConfigName: string,
 ): string {
     const [configName, formatter] = getFormatterByExt(request.filePath, configFile, fromConfigName)
     if (configName && formatter) {
+        const hostConfig = hostConfigs[configName]
+        if (hostConfig && typeof hostConfig === "object") {
+            const overrideConfig: Record<string, unknown> = { ...request.overrideConfig }
+            extractConfig(hostConfig, overrideConfig)
+            request = { ...request, overrideConfig }
+        }
         return formatter.formatText(
             request,
-            hostRequest => formatWithHost(hostRequest, configFile, configName),
+            hostRequest => formatWithHost(hostRequest, configFile, hostConfigs, configName),
         )
     }
     return request.fileText
