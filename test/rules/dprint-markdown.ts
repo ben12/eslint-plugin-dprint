@@ -44,6 +44,16 @@ tester.run("dprint/markdown", dprintRules.markdown, {
 `,
             options: [{ configFile: "test/dprint.json", config: {} }],
         },
+        // hostConfigs applies sibling-plugin config when markdown delegates to host (TS code block).
+        // No on-disk configFile — proves hostConfigs alone is enough.
+        {
+            filename: path.join(__dirname, "test.md"),
+            code: "```ts\nconst x = 'hi';\n```\n",
+            options: [{
+                configFile: "",
+                hostConfigs: { typescript: { quoteStyle: "preferSingle" } },
+            }],
+        },
     ],
     invalid: [
         {
@@ -142,6 +152,31 @@ tester.run("dprint/markdown", dprintRules.markdown, {
                 data: {},
                 line: 6,
                 column: 4,
+            }],
+        },
+        // hostConfigs reformats embedded TS quotes from double to single, with no on-disk configFile.
+        {
+            filename: path.join(__dirname, "test.md"),
+            code: '```ts\nconst x = "hi";\n```\n',
+            output: "```ts\nconst x = 'hi';\n```\n",
+            options: [{
+                configFile: "",
+                hostConfigs: { typescript: { quoteStyle: "preferSingle" } },
+            }],
+            errors: [{
+                messageId: "replaceCode",
+                data: { oldText: '"\\""', newText: '"\'"' },
+                line: 2,
+                column: 11,
+                endLine: 2,
+                endColumn: 12,
+            }, {
+                messageId: "replaceCode",
+                data: { oldText: '"\\""', newText: '"\'"' },
+                line: 2,
+                column: 14,
+                endLine: 2,
+                endColumn: 15,
             }],
         },
     ],
