@@ -26,4 +26,32 @@ Run [dprint] to format code.
 }
 ```
 
+## Pre-resolved formatter
+
+The plugin can also be given a pre-resolved dprint formatter via ESLint's `settings`. The
+`dprint-plugin-graphql` package ships only `plugin.wasm` with no JS entrypoint, so the formatter
+has to be built from the wasm file directly. See the
+[main README](../../README.md#providing-a-pre-resolved-formatter-via-settings) for the full
+explanation and the other accepted shapes. Minimal example for this rule:
+
+```mjs
+import { createFromBuffer } from "@dprint/formatter";
+import fs from "node:fs";
+
+const graphqlFormatter = createFromBuffer(
+  fs.readFileSync(new URL(import.meta.resolve("dprint-plugin-graphql/plugin.wasm"))),
+);
+
+export default [{
+  settings: {
+    "@ben_12/dprint": {
+      formatters: { graphql: graphqlFormatter },
+    },
+  },
+  rules: {
+    "@ben_12/dprint/graphql": ["error", { config: { /* dprint config */ } }],
+  },
+}];
+```
+
 [dprint]: https://github.com/dprint/dprint
