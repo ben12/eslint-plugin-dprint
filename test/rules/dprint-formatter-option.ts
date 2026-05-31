@@ -160,6 +160,7 @@ describe("format() with formatter input (direct unit test)", () => {
             const result = format(
                 "",
                 {},
+                {},
                 path.join(__dirname, "test.ts"),
                 "console.log('x')",
                 "typescript",
@@ -180,6 +181,7 @@ describe("format() with formatter input (direct unit test)", () => {
         const out = format(
             "",
             {},
+            {},
             path.join(__dirname, "test.ts"),
             "console.log('a')",
             "typescript",
@@ -191,6 +193,7 @@ describe("format() with formatter input (direct unit test)", () => {
     it("accepts a getBuffer object", () => {
         const out = format(
             "",
+            {},
             {},
             path.join(__dirname, "test.html"),
             "<html>  <body></body></html>",
@@ -204,6 +207,7 @@ describe("format() with formatter input (direct unit test)", () => {
         const out = format(
             "",
             {},
+            {},
             path.join(__dirname, "test.ts"),
             "console.log('b')",
             "typescript",
@@ -213,7 +217,15 @@ describe("format() with formatter input (direct unit test)", () => {
     })
 
     it("accepts a pre-built Formatter", () => {
-        const out = format("", {}, path.join(__dirname, "test.ts"), "console.log('c')", "typescript", prebuiltFormatter)
+        const out = format(
+            "",
+            {},
+            {},
+            path.join(__dirname, "test.ts"),
+            "console.log('c')",
+            "typescript",
+            prebuiltFormatter,
+        )
         assert.strictEqual(out, 'console.log("c");\n')
     })
 
@@ -221,7 +233,7 @@ describe("format() with formatter input (direct unit test)", () => {
         const originalError = console.error
         console.error = () => {}
         try {
-            const out = format("", {}, path.join(__dirname, "test.ts"), "console.log('x')", "does-not-exist")
+            const out = format("", {}, {}, path.join(__dirname, "test.ts"), "console.log('x')", "does-not-exist")
             assert.strictEqual(out, "console.log('x')")
         } finally {
             console.error = originalError
