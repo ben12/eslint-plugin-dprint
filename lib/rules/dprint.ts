@@ -191,8 +191,12 @@ function createMessage(d: Diff): Message {
         createRepaceMessage(d)
 }
 
-type Options = { readonly configFile?: string; readonly config?: Record<string, unknown> }
-const defaultOptions: Options = { configFile: "dprint.json", config: {} }
+type Options = {
+    readonly configFile?: string
+    readonly config?: Record<string, unknown>
+    readonly hostConfigs?: Record<string, Record<string, unknown>>
+}
+const defaultOptions: Options = { configFile: "dprint.json", config: {}, hostConfigs: {} }
 
 /**
  * Shape of the per-plugin entry under ESLint's `settings`.
@@ -224,69 +228,91 @@ function readFormatterFromSettings(
 
 export const dprintRules: { [name: string]: Rule.RuleModule } = configSchemas.map((
     config,
-): { [name: string]: Rule.RuleModule } => ({
-    [config.name]: {
-        meta: {
-            docs: {
-                description: `Format ${config.name} with dprint`,
-                url: `https://github.com/ben12/eslint-plugin-dprint/blob/master/docs/rules/dprint-${config.name}.md`,
-                recommended: true,
-            },
-            fixable: "code",
-            messages,
-            schema: {
-                definitions: config.configSchema.definitions,
-                type: "array",
-                items: [{
-                    type: "object",
-                    properties: {
-                        configFile: {
-                            type: "string",
-                            default: "dprint.json",
-                            description: "dprint configuration file (default 'dprint.json')",
+): { [name: string]: Rule.RuleModule } => {
+    // Allow per-sibling-plugin config to flow into setConfig for host-invoked formatters
+    // (e.g. fenced code blocks inside markdown). Keys are sibling plugin names; the current
+    // plugin is excluded because its own config already goes through `config`/overrideConfig.
+    // Inner values are not strictly validated by schema — dprint's WASM setConfig handles that.
+    const hostConfigsProperties = configSchemas.reduce((acc, sibling) => {
+        if (sibling.name !== config.name) {
+            acc[sibling.name] = { type: "object", additionalProperties: true }
+        }
+        return acc
+    }, {} as Record<string, JSONSchema4>)
+
+    return {
+        [config.name]: {
+            meta: {
+                docs: {
+                    description: `Format ${config.name} with dprint`,
+                    url: `https://github.com/ben12/eslint-plugin-dprint/blob/master/docs/rules/dprint-${config.name}.md`,
+                    recommended: true,
+                },
+                fixable: "code",
+                messages,
+                schema: {
+                    definitions: config.configSchema.definitions,
+                    type: "array",
+                    items: [{
+                        type: "object",
+                        properties: {
+                            configFile: {
+                                type: "string",
+                                default: "dprint.json",
+                                description: "dprint configuration file (default 'dprint.json')",
+                            },
+                            config: {
+                                type: "object",
+                                properties: config.configSchema.properties,
+                                additionalProperties: false,
+                            },
+                            hostConfigs: {
+                                type: "object",
+                                properties: hostConfigsProperties,
+                                additionalProperties: false,
+                                description: "Config applied to sibling plugins when this plugin delegates to them " +
+                                    "(e.g. fenced code blocks). Keys are sibling plugin names.",
+                            },
                         },
-                        config: {
-                            type: "object",
-                            properties: config.configSchema.properties,
-                            additionalProperties: false,
-                        },
-                    },
-                    additionalProperties: false,
-                }],
-                additionalItems: false,
+                        additionalProperties: false,
+                    }],
+                    additionalItems: false,
+                },
+                type: "layout",
             },
-            type: "layout",
+            create: (context) => ({
+                Program() {
+                    const sourceCode = context.sourceCode ?? context.getSourceCode()
+                    const filePath = context.filename ?? context.getFilename()
+                    const fileText = sourceCode.getText()
+                    const options = (context.options[0] as Options) ?? defaultOptions
+                    const configFile = options.configFile ?? "dprint.json"
+                    const configOpt = options.config || {}
+                    const hostConfigs = options.hostConfigs || {}
+
+                    // Needs an absolute path
+                    if (!filePath || !path.isAbsolute(filePath)) {
+                        return
+                    }
+
+                    // Does format
+                    const formatterInput = readFormatterFromSettings(context.settings, config.name)
+                    const formattedText = format(
+                        configFile,
+                        configOpt,
+                        hostConfigs,
+                        filePath,
+                        fileText,
+                        config.name,
+                        formatterInput,
+                    )
+
+                    generateLintReports(fileText, formattedText, sourceCode, context)
+                },
+            }),
         },
-        create: (context) => ({
-            Program() {
-                const sourceCode = context.sourceCode ?? context.getSourceCode()
-                const filePath = context.filename ?? context.getFilename()
-                const fileText = sourceCode.getText()
-                const options = (context.options[0] as Options) ?? defaultOptions
-                const configFile = options.configFile ?? "dprint.json"
-                const configOpt = options.config || {}
-
-                // Needs an absolute path
-                if (!filePath || !path.isAbsolute(filePath)) {
-                    return
-                }
-
-                // Does format
-                const formatterInput = readFormatterFromSettings(context.settings, config.name)
-                const formattedText = format(
-                    configFile,
-                    configOpt,
-                    filePath,
-                    fileText,
-                    config.name,
-                    formatterInput,
-                )
-
-                generateLintReports(fileText, formattedText, sourceCode, context)
-            },
-        }),
-    },
-})).reduce((r1, r2) => ({ ...r1, ...r2 }), {})
+    }
+}).reduce((r1, r2) => ({ ...r1, ...r2 }), {})
 
 function generateLintReports(
     fileText: string,
