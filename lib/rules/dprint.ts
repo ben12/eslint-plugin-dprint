@@ -282,8 +282,12 @@ export const dprintRules: { [name: string]: Rule.RuleModule } = configSchemas.ma
             },
             create: (context) => ({
                 Program() {
-                    const sourceCode = context.sourceCode ?? context.getSourceCode()
-                    const filePath = context.filename ?? context.getFilename()
+                    // retrocompatibility with eslint v7
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    const sourceCode = context.sourceCode ?? (context as any).getSourceCode()
+                    // retrocompatibility with eslint v7
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    const filePath = context.filename ?? (context as any).getFilename()
                     const fileText = sourceCode.getText()
                     const options = (context.options[0] as Options) ?? defaultOptions
                     const configFile = options.configFile ?? "dprint.json"
