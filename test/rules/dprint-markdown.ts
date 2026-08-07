@@ -119,7 +119,7 @@ tester.run("dprint/markdown", dprintRules.markdown, {
             code: `\`\`\`json
 {
 "key": "value",
-"key2": "value2", //key2
+	"key2": "value2" //key2
 }
 \`\`\``,
             output: `\`\`\`json
@@ -135,18 +135,15 @@ tester.run("dprint/markdown", dprintRules.markdown, {
                 data: {},
                 line: 3,
                 column: 1,
+                endLine: 3,
+                endColumn: 1,
             }, {
-                messageId: "requireWhitespace",
+                messageId: "replaceWhitespace",
                 data: {},
                 line: 4,
                 column: 1,
-            }, {
-                messageId: "extraCode",
-                data: { text: '","' },
-                line: 4,
-                column: 17,
                 endLine: 4,
-                endColumn: 18,
+                endColumn: 2,
             }, {
                 messageId: "requireLinebreak",
                 data: {},
