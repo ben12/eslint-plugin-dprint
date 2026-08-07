@@ -47,6 +47,10 @@
     },
     "newLineKind": {
       "$ref": "#/definitions/newLineKind"
+    },
+    "healthcheckCmdNewLine": {
+      "description": "Whether to always break a HEALTHCHECK command onto its own continuation line when the instruction has options, even if it would fit on one line.",
+      "type": "boolean"
     }
   }
 }
