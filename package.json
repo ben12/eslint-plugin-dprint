@@ -52,7 +52,7 @@
     }
   },
   "dependencies": {
-    "@dprint/formatter": "^0.4.1",
+    "@dprint/formatter": "^0.5.1",
     "debug": "^4.1.1",
     "diff": "^8.0.0",
     "jsonc-parser": "^3.2.0"

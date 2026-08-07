@@ -224,10 +224,8 @@ export function format(
             fileText,
             overrideConfig,
         }
-        return formatter.formatText(
-            request,
-            hostRequest => formatWithHost(hostRequest, configFile, hostConfigs, configName),
-        )
+        formatter.setHostFormatter(hostRequest => formatWithHost(hostRequest, configFile, hostConfigs, configName))
+        return formatter.formatText(request)
     }
     return fileText
 }
@@ -246,10 +244,8 @@ export function formatWithHost(
             extractConfig(hostConfig, overrideConfig)
             request = { ...request, overrideConfig }
         }
-        return formatter.formatText(
-            request,
-            hostRequest => formatWithHost(hostRequest, configFile, hostConfigs, configName),
-        )
+        formatter.setHostFormatter(hostRequest => formatWithHost(hostRequest, configFile, hostConfigs, configName))
+        return formatter.formatText(request)
     }
     return request.fileText
 }
