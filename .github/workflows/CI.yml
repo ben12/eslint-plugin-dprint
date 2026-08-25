@@ -10,7 +10,6 @@ on:
 permissions:
   contents: read
   actions: read
-  checks: write
 
 jobs:
   lint:
@@ -23,28 +22,32 @@ jobs:
       uses: actions/setup-node@v4
       with: { node-version: 18.x }
     - name: Install Packages
-      run: npm ci
+      run: npm ci --ignore-scripts
     - name: Lint
       run: npm run -s lint
 
   test:
     name: Test
+    env:
+      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+    permissions:
+      checks: write
 
     strategy:
       matrix:
         eslint: [10.x]
         typescript-eslint: [8.x]
-        node: [22.x]
+        node: [24.x]
         os: [ubuntu-latest]
         include:
         # On other platforms
         - eslint: 10.x
           typescript-eslint: 8.x
-          node: 22.x
+          node: 24.x
           os: windows-latest
         - eslint: 10.x
           typescript-eslint: 8.x
-          node: 22.x
+          node: 24.x
           os: macos-latest
         # On old Node.js versions
         - eslint: 10.x
@@ -77,9 +80,9 @@ jobs:
       uses: actions/setup-node@v3
       with: { node-version: "${{ matrix.node }}" }
     - name: Install Packages
-      run: npm install
+      run: npm install --ignore-scripts
     - name: Install ESLint ${{ matrix.eslint }} and TypeScript-ESLint ${{ matrix.typescript-eslint }}
-      run: npm install --force --no-save eslint@${{ matrix.eslint }} @typescript-eslint/eslint-plugin@${{ matrix.typescript-eslint }}
+      run: npm install --ignore-scripts --force --no-save eslint@${{ matrix.eslint }} @typescript-eslint/eslint-plugin@${{ matrix.typescript-eslint }}
     - name: Test
       run: npm run -s test:ci:${{ matrix.eslint }} -- --reporter json --reporter-options output=reports/tests.json
     - name: Test Report
