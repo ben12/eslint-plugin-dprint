@@ -194,7 +194,7 @@ async function main(): Promise<UpdateKing> {
         )
 
         await updateConfigSchema(latest.configSchemaPath, latest.configSchemaDest)
-        sh(`npm install --save-peer ${plugin.name}@^${latest.version}`)
+        sh(`npm install --ignore-scripts --save-peer ${plugin.name}@^${latest.version}`)
 
         const pKind = calculateUpdateKind(current.version, latest.version)
         kind = Math.min(kind, pKind)
@@ -204,7 +204,7 @@ async function main(): Promise<UpdateKing> {
         }
     }
 
-    sh(`npm install`)
+    sh(`npm install --ignore-scripts`)
 
     setGithubOutput("dprint_plugin_updates", updates.join(", "))
 

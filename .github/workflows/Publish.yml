@@ -24,8 +24,8 @@ jobs:
         always-auth: true
     - name: Install Packages
       run: |
-        npm install -g npm@^11.0.0
-        npm ci
+        npm install --ignore-scripts -g npm@11
+        npm ci --ignore-scripts
     - name: Test
       run: |
         npm run -s test:ci

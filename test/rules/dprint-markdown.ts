@@ -162,14 +162,14 @@ tester.run("dprint/markdown", dprintRules.markdown, {
             }],
             errors: [{
                 messageId: "replaceCode",
-                data: { oldText: '"\\""', newText: '"\'"' },
+                data: { oldText: String.raw`"\""`, newText: `"'"` },
                 line: 2,
                 column: 11,
                 endLine: 2,
                 endColumn: 12,
             }, {
                 messageId: "replaceCode",
-                data: { oldText: '"\\""', newText: '"\'"' },
+                data: { oldText: String.raw`"\""`, newText: `"'"` },
                 line: 2,
                 column: 14,
                 endLine: 2,

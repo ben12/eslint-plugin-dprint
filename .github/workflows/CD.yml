@@ -14,13 +14,13 @@ jobs:
     - name: Install Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: 22.x
+        node-version: 24.x
         registry-url: "https://registry.npmjs.org"
         always-auth: true
     - name: Install Packages
       run: |
-        npm install -g npm@^11.0.0
-        npm ci
+        npm install --ignore-scripts -g npm@11
+        npm ci --ignore-scripts
     - name: Update dprint-plugin-typescript if needed
       id: updateStep
       run: npx ts-node scripts/update-if-needed
