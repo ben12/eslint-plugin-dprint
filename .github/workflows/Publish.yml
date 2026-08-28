@@ -23,9 +23,7 @@ jobs:
         registry-url: "https://registry.npmjs.org"
         always-auth: true
     - name: Install Packages
-      run: |
-        npm install --ignore-scripts -g npm@11
-        npm ci --ignore-scripts
+      run: npm ci --ignore-scripts
     - name: Test
       run: |
         npm run -s test:ci

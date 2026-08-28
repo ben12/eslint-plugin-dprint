@@ -86,6 +86,7 @@
     "codecov": "nyc report --reporter text-lcov | codecov --pipe --disable=gcov",
     "lint": "eslint \"**/*.ts\" \"**/*.js\" \"**/*.md\"",
     "nyc": "nyc",
+    "ts-node": "ts-node",
     "test": "npm run -s lint && npm run -s test:ci",
     "test:ci:7.x": "tsc && nyc mocha \"test/rules/**/*.ts\"",
     "test:ci:8.x": "tsc && nyc mocha \"test/rules/**/*.ts\"",

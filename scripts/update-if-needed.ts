@@ -69,7 +69,7 @@ function readCurrentVersion(plugin: PluginConfig): CurrentVersionInfo {
  */
 function readLatestVersion(plugin: PluginConfig): LatestReleaseInfo {
     const version = stdoutOf(`npm view ${plugin.name} version`)
-    if (version.matchAll(/\d+\.\d+\.\d+/g)) {
+    if (/^\d+\.\d+\.\d+$/.test(version)) {
         const schema = plugin.schema(version)
         return {
             version: version,

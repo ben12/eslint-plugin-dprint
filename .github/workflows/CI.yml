@@ -20,7 +20,7 @@ jobs:
       uses: actions/checkout@v4
     - name: Install Node.js
       uses: actions/setup-node@v4
-      with: { node-version: 18.x }
+      with: { node-version: 24.x }
     - name: Install Packages
       run: npm ci --ignore-scripts
     - name: Lint
