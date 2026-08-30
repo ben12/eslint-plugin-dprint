@@ -54,10 +54,44 @@
           ]
         },
         {
+          "description": "Maintains line breaks, but wraps a line that runs past the line width.",
+          "type": "string",
+          "enum": [
+            "maintainAndWrap"
+          ]
+        },
+        {
           "description": "Never wraps text.",
           "type": "string",
           "enum": [
             "never"
+          ]
+        },
+        {
+          "description": "Writes one sentence per line, ignoring the line width.",
+          "type": "string",
+          "enum": [
+            "sentence"
+          ]
+        }
+      ]
+    },
+    "wrapUnspacedScripts": {
+      "description": "Whether to break a line between the characters of a script written without spaces between its words, such as Chinese or Japanese, when wrapping text. Chromium and WebKit render such a break as a space, unlike Firefox, so it's off by default.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Breaks a line between the characters of a script written without spaces between its words.",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Leaves a run of a script written without spaces between its words on one line, however long it runs, and keeps any line break written within one where it was.",
+          "type": "boolean",
+          "enum": [
+            false
           ]
         }
       ]
@@ -102,27 +136,7 @@
         }
       ]
     },
-    "unorderedListKind": {
-      "description": "The character to use for unordered lists.",
-      "type": "string",
-      "oneOf": [
-        {
-          "description": "Uses dashes (-) as primary character for lists.",
-          "type": "string",
-          "enum": [
-            "dashes"
-          ]
-        },
-        {
-          "description": "Uses asterisks (*) as primary character for lists.",
-          "type": "string",
-          "enum": [
-            "asterisks"
-          ]
-        }
-      ]
-    },
-    "headingKind": {
+    "heading.kind": {
       "description": "The style of heading to use for level 1 and level 2 headings. Level 3 and higher always use ATX headings.",
       "type": "string",
       "oneOf": [
@@ -142,7 +156,47 @@
         }
       ]
     },
-    "listIndentKind": {
+    "hardBreakKind": {
+      "description": "The style of hard line break to use.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Uses a trailing backslash for hard line breaks.",
+          "type": "string",
+          "enum": [
+            "backslash"
+          ]
+        },
+        {
+          "description": "Uses two trailing spaces for hard line breaks. Note that some tools strip trailing whitespace, which would silently remove these hard line breaks.",
+          "type": "string",
+          "enum": [
+            "doubleSpace"
+          ]
+        }
+      ]
+    },
+    "list.unorderedMarker": {
+      "description": "The character to write the marker of an unordered list's items with.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Uses dashes (-) as primary character for lists.",
+          "type": "string",
+          "enum": [
+            "dashes"
+          ]
+        },
+        {
+          "description": "Uses asterisks (*) as primary character for lists.",
+          "type": "string",
+          "enum": [
+            "asterisks"
+          ]
+        }
+      ]
+    },
+    "list.indentKind": {
       "description": "The style of indentation to use for list items. CommonMark aligns to the content column after the marker. PythonMarkdown uses a fixed 4-space indent, required by tools like mkdocs-material.",
       "type": "string",
       "oneOf": [
@@ -158,6 +212,241 @@
           "type": "string",
           "enum": [
             "pythonMarkdown"
+          ]
+        }
+      ]
+    },
+    "codeBlock.skipFormat": {
+      "description": "Whether to leave the code within a code block as it was written rather than formatting it with the plugin that handles the code's language.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Leaves the code within a code block as it was written.",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Formats the code within a code block.",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "codeBlock.raiseSyntaxErrors": {
+      "description": "Whether to fail the file when the plugin that formats the code within a code block reports an error, which is what it does when the code doesn't parse, rather than leaving that code as it was written.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Fails the file when the code within a code block can't be formatted.",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Leaves the code within a code block as it was written when it can't be formatted.",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "codeBlock.preserveIndentation": {
+      "description": "Whether to keep the indentation the code within a code block was written with, rather than unindenting it.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Keeps the original indentation of code block contents.",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Removes common leading whitespace from code block contents.",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "codeBlock.preserveBlankLines": {
+      "description": "Whether to keep the blank lines at the start and end of a fenced code block, rather than trimming them.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Keeps the blank lines at the start and end of a fenced code block.",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Removes the blank lines at the start and end of a fenced code block.",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "codeBlock.useTabs": {
+      "description": "Whether the plugin that formats the code within a code block should use tabs, overriding that plugin's own `useTabs` configuration. When not specified, that plugin's configuration is left alone.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Formats the code within a code block using tabs.",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Formats the code within a code block using spaces.",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "codeBlock.indentWidth": {
+      "description": "The indentation width the plugin that formats the code within a code block should use, overriding that plugin's own `indentWidth` configuration. When not specified, that plugin's configuration is left alone.",
+      "type": "number"
+    },
+    "html.skipFormat": {
+      "description": "Whether to leave the html written within the file as it was rather than laying out its tags and their content. Html that the formatter can't take apart and put back together -- a block that a blank line has split from its closing tag, for one -- is left as it was written either way.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Leaves the html as it was written.",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Lays out the tags of the html and their content.",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "html.useTabs": {
+      "description": "Whether to indent the html written within the file with tabs.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Indents the html with tabs.",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Indents the html with spaces.",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "html.indentWidth": {
+      "description": "The number of spaces to indent the html written within the file with.",
+      "type": "number"
+    },
+    "html.selfClosingSpace": {
+      "description": "Whether to write a space before the `/>` that closes a self-closing tag, so that a tag is written as `<br />` rather than as `<br/>`.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Writes a self-closing tag as `<br />`.",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Writes a self-closing tag as `<br/>`.",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "html.preferSingleLine": {
+      "description": "Whether to write an element's content, or a tag's attributes, on the one line when they fit even where they were written across lines. Off by default, so that content and attributes written across lines are kept that way and only reindented.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Writes content and attributes on one line whenever they fit.",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Keeps content and attributes that were written across lines on lines of their own.",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "table.skipFormat": {
+      "description": "Whether to leave a table's rows as they were written rather than aligning their cells into columns.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Leaves a table's rows as they were written.",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Aligns the cells of a table into columns.",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "table.cellPadding": {
+      "description": "The padding to write around the text of a table's cells. Has no effect on a table left as it was written by `table.skipFormat`.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Pads a cell out to the width of its column, which aligns the cells of a column with each other.",
+          "type": "string",
+          "enum": [
+            "align"
+          ]
+        },
+        {
+          "description": "Writes a single space on either side of a cell's text.",
+          "type": "string",
+          "enum": [
+            "space"
+          ]
+        },
+        {
+          "description": "Writes no space around a cell's text.",
+          "type": "string",
+          "enum": [
+            "none"
           ]
         }
       ]
@@ -198,20 +487,75 @@
     "textWrap": {
       "$ref": "#/definitions/textWrap"
     },
+    "wrapUnspacedScripts": {
+      "$ref": "#/definitions/wrapUnspacedScripts"
+    },
     "emphasisKind": {
       "$ref": "#/definitions/emphasisKind"
     },
     "strongKind": {
       "$ref": "#/definitions/strongKind"
     },
-    "unorderedListKind": {
-      "$ref": "#/definitions/unorderedListKind"
+    "hardBreakKind": {
+      "$ref": "#/definitions/hardBreakKind"
     },
-    "headingKind": {
-      "$ref": "#/definitions/headingKind"
+    "maxBlankLines": {
+      "description": "The maximum number of consecutive blank lines to keep between blocks.",
+      "minimum": 1,
+      "type": "number"
     },
-    "listIndentKind": {
-      "$ref": "#/definitions/listIndentKind"
+    "heading.kind": {
+      "$ref": "#/definitions/heading.kind"
+    },
+    "heading.blankLinesAbove": {
+      "description": "The number of blank lines to write above a heading. That many are written even where `maxBlankLines` is lower, though a heading drawn up against the block above it within a list is left there, which keeps the list tight. When not specified, the blank lines that were written above a heading are kept, up to `maxBlankLines`.",
+      "minimum": 1,
+      "type": "number"
+    },
+    "list.unorderedMarker": {
+      "$ref": "#/definitions/list.unorderedMarker"
+    },
+    "list.indentKind": {
+      "$ref": "#/definitions/list.indentKind"
+    },
+    "codeBlock.skipFormat": {
+      "$ref": "#/definitions/codeBlock.skipFormat"
+    },
+    "codeBlock.raiseSyntaxErrors": {
+      "$ref": "#/definitions/codeBlock.raiseSyntaxErrors"
+    },
+    "codeBlock.preserveIndentation": {
+      "$ref": "#/definitions/codeBlock.preserveIndentation"
+    },
+    "codeBlock.preserveBlankLines": {
+      "$ref": "#/definitions/codeBlock.preserveBlankLines"
+    },
+    "codeBlock.useTabs": {
+      "$ref": "#/definitions/codeBlock.useTabs"
+    },
+    "codeBlock.indentWidth": {
+      "$ref": "#/definitions/codeBlock.indentWidth"
+    },
+    "html.skipFormat": {
+      "$ref": "#/definitions/html.skipFormat"
+    },
+    "html.useTabs": {
+      "$ref": "#/definitions/html.useTabs"
+    },
+    "html.indentWidth": {
+      "$ref": "#/definitions/html.indentWidth"
+    },
+    "html.selfClosingSpace": {
+      "$ref": "#/definitions/html.selfClosingSpace"
+    },
+    "html.preferSingleLine": {
+      "$ref": "#/definitions/html.preferSingleLine"
+    },
+    "table.skipFormat": {
+      "$ref": "#/definitions/table.skipFormat"
+    },
+    "table.cellPadding": {
+      "$ref": "#/definitions/table.cellPadding"
     },
     "deno": {
       "$ref": "#/definitions/deno"
@@ -231,6 +575,36 @@
     "ignoreEndDirective": {
       "description": "The text to use for an ignore end directive (ex. `<!-- dprint-ignore-end -->`).",
       "type": "string"
+    },
+    "headingKind": {
+      "description": "Deprecated: renamed to `heading.kind`.",
+      "deprecated": true,
+      "deprecationMessage": "Renamed to `heading.kind`.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/heading.kind"
+        }
+      ]
+    },
+    "unorderedListKind": {
+      "description": "Deprecated: renamed to `list.unorderedMarker`.",
+      "deprecated": true,
+      "deprecationMessage": "Renamed to `list.unorderedMarker`.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/list.unorderedMarker"
+        }
+      ]
+    },
+    "listIndentKind": {
+      "description": "Deprecated: renamed to `list.indentKind`.",
+      "deprecated": true,
+      "deprecationMessage": "Renamed to `list.indentKind`.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/list.indentKind"
+        }
+      ]
     },
     "tags": {
       "description": "Custom tag to file extension mappings for formatting code blocks. For example: { \"markdown\": \"md\" }",
