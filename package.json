@@ -12,7 +12,7 @@
   ],
   "peerDependencies": {
     "@dprint/dockerfile": "^0.6.0",
-    "@dprint/json": "^0.23.0",
+    "@dprint/json": "^0.24.0",
     "@dprint/markdown": "^0.24.0",
     "@dprint/toml": "^0.8.0",
     "@dprint/typescript": "^0.96.1",
@@ -61,7 +61,7 @@
     "@ben_12/eslint-plugin-dprint": "file:./test/internal-rules",
     "@ben_12/eslint-simple-parser": "^0.1.0",
     "@dprint/dockerfile": "^0.6.0",
-    "@dprint/json": "^0.23.0",
+    "@dprint/json": "^0.24.0",
     "@dprint/markdown": "^0.24.0",
     "@dprint/toml": "^0.8.0",
     "@dprint/typescript": "^0.96.1",
