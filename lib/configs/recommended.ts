@@ -21,6 +21,13 @@ export const markdownRecommended = {
     },
 }
 
+export const sqlRecommended = {
+    plugins: ["@ben_12/dprint"],
+    rules: {
+        "@ben_12/dprint/sql": "warn",
+    },
+}
+
 export const tomlRecommended = {
     plugins: ["@ben_12/dprint"],
     rules: {

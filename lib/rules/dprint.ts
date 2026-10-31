@@ -8,6 +8,7 @@ import jsonConfigSchema from "../dprint/json-config-schema.json"
 import malvaConfigSchema from "../dprint/malva-config-schema.json"
 import markdownConfigSchema from "../dprint/markdown-config-schema.json"
 import markupConfigSchema from "../dprint/markup-config-schema.json"
+import sqlConfigSchema from "../dprint/sql-config-schema.json"
 import tomlConfigSchema from "../dprint/toml-config-schema.json"
 import tsConfigSchema from "../dprint/typescript-config-schema.json"
 import yamlConfigSchema from "../dprint/yaml-config-schema.json"
@@ -18,6 +19,7 @@ const configSchemas = [
     { name: "dockerfile", configSchema: dockerfileConfigSchema as JSONSchema4 },
     { name: "json", configSchema: jsonConfigSchema as JSONSchema4 },
     { name: "markdown", configSchema: markdownConfigSchema as JSONSchema4 },
+    { name: "sql", configSchema: sqlConfigSchema as JSONSchema4 },
     { name: "toml", configSchema: tomlConfigSchema as JSONSchema4 },
     { name: "typescript", configSchema: tsConfigSchema as JSONSchema4 },
     { name: "malva", configSchema: malvaConfigSchema as JSONSchema4 },

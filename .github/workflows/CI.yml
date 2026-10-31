@@ -7,9 +7,6 @@ on:
     branches: [master]
   schedule:
   - cron: 0 0 * * 0
-permissions:
-  contents: read
-  actions: read
 
 jobs:
   lint:
@@ -31,44 +28,54 @@ jobs:
     env:
       ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
     permissions:
+      contents: read
+      actions: read
       checks: write
 
     strategy:
       matrix:
         eslint: [10.x]
         typescript-eslint: [8.x]
+        mocha: [12.x]
         node: [24.x]
         os: [ubuntu-latest]
         include:
         # On other platforms
         - eslint: 10.x
           typescript-eslint: 8.x
+          mocha: 12.x
           node: 24.x
           os: windows-latest
         - eslint: 10.x
           typescript-eslint: 8.x
+          mocha: 12.x
           node: 24.x
           os: macos-latest
         # On old Node.js versions
         - eslint: 10.x
           typescript-eslint: 8.x
+          mocha: 11.x
           node: 18.x
           os: ubuntu-latest
         - eslint: 8.x
           typescript-eslint: 6.x
+          mocha: 11.x
           node: 18.x
           os: ubuntu-latest
         # Other ESLint versions
         - eslint: 7.x
           typescript-eslint: 6.x
+          mocha: 11.x
           node: 18.x
           os: ubuntu-latest
         - eslint: 8.x
           typescript-eslint: 6.x
+          mocha: 12.x
           node: 20.x
           os: ubuntu-latest
         - eslint: 9.x
           typescript-eslint: 8.x
+          mocha: 12.x
           node: 20.x
           os: ubuntu-latest
 
@@ -81,8 +88,8 @@ jobs:
       with: { node-version: "${{ matrix.node }}" }
     - name: Install Packages
       run: npm install --ignore-scripts
-    - name: Install ESLint ${{ matrix.eslint }} and TypeScript-ESLint ${{ matrix.typescript-eslint }}
-      run: npm install --ignore-scripts --force --no-save eslint@${{ matrix.eslint }} @typescript-eslint/eslint-plugin@${{ matrix.typescript-eslint }}
+    - name: Install Mocha ${{ matrix.mocha }}, ESLint ${{ matrix.eslint }} and TypeScript-ESLint ${{ matrix.typescript-eslint }}
+      run: npm install --ignore-scripts --force --no-save mocha@${{ matrix.mocha }} eslint@${{ matrix.eslint }} @typescript-eslint/eslint-plugin@${{ matrix.typescript-eslint }}
     - name: Test
       run: npm run -s test:ci:${{ matrix.eslint }} -- --reporter json --reporter-options output=reports/tests.json
     - name: Test Report
