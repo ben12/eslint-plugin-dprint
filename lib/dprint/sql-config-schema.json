@@ -1,0 +1,177 @@
+{
+  "type": "object",
+  "definitions": {
+    "useTabs": {
+      "description": "Whether to use tabs (true) or spaces (false).",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "newLineKind": {
+      "description": "The kind of newline to use.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "For each file, uses the newline kind found at the end of the last line.",
+          "type": "string",
+          "enum": [
+            "auto"
+          ]
+        },
+        {
+          "description": "Uses carriage return, line feed.",
+          "type": "string",
+          "enum": [
+            "crlf"
+          ]
+        },
+        {
+          "description": "Uses line feed.",
+          "type": "string",
+          "enum": [
+            "lf"
+          ]
+        },
+        {
+          "description": "Uses the system standard (ex. crlf on Windows).",
+          "type": "string",
+          "enum": [
+            "system"
+          ]
+        }
+      ]
+    }
+  },
+  "properties": {
+    "lineWidth": {
+      "description": "The width of a line the printer will try to stay under. Note that the printer may exceed this width in certain cases.",
+      "type": "number"
+    },
+    "indentWidth": {
+      "description": "The number of characters for an indent.",
+      "type": "number"
+    },
+    "useTabs": {
+      "$ref": "#/definitions/useTabs"
+    },
+    "newLineKind": {
+      "$ref": "#/definitions/newLineKind"
+    },
+    "dialect": {
+      "description": "The SQL dialect the files are written in, which decides how the text is split into tokens: which characters start a comment or quote an identifier, whether a backslash escapes a quote, and so on. The generic dialect accepts the syntax of all of the others where they don't conflict.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "The syntax of all of the dialects where they don't conflict.",
+          "type": "string",
+          "enum": [
+            "generic"
+          ]
+        },
+        {
+          "description": "PostgreSQL, which also suits databases that use its syntax (ex. CockroachDB, DuckDB and Redshift).",
+          "type": "string",
+          "enum": [
+            "postgresql"
+          ]
+        },
+        {
+          "description": "MySQL and MariaDB.",
+          "type": "string",
+          "enum": [
+            "mysql"
+          ]
+        },
+        {
+          "description": "Microsoft SQL Server and Azure SQL (T-SQL).",
+          "type": "string",
+          "enum": [
+            "sqlserver"
+          ]
+        },
+        {
+          "description": "SQLite.",
+          "type": "string",
+          "enum": [
+            "sqlite"
+          ]
+        },
+        {
+          "description": "Oracle (PL/SQL).",
+          "type": "string",
+          "enum": [
+            "oracle"
+          ]
+        },
+        {
+          "description": "Google BigQuery.",
+          "type": "string",
+          "enum": [
+            "bigquery"
+          ]
+        },
+        {
+          "description": "Snowflake.",
+          "type": "string",
+          "enum": [
+            "snowflake"
+          ]
+        }
+      ]
+    },
+    "casing": {
+      "description": "The casing of keywords. Names (ex. of tables and columns) and functions are left as written.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Preserves the casing of keywords.",
+          "type": "string",
+          "enum": [
+            "preserve"
+          ]
+        },
+        {
+          "description": "Converts keywords to UPPERCASE.",
+          "type": "string",
+          "enum": [
+            "upper"
+          ]
+        },
+        {
+          "description": "Converts keywords to lowercase.",
+          "type": "string",
+          "enum": [
+            "lower"
+          ]
+        }
+      ]
+    },
+    "uppercase": {
+      "description": "Deprecated. Use 'casing' instead. Use ALL CAPS for keywords.",
+      "type": "boolean"
+    },
+    "linesBetweenQueries": {
+      "description": "The minimum number of line breaks between statements at the top level of the file. A blank line between statements is kept regardless.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "joinsAsTopLevel": {
+      "description": "Whether to write joins at the indentation of the FROM keyword rather than indented beneath it.",
+      "type": "boolean"
+    }
+  }
+}

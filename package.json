@@ -14,6 +14,7 @@
     "@dprint/dockerfile": "^0.7.0",
     "@dprint/json": "^0.25.2",
     "@dprint/markdown": "^0.28.0",
+    "@dprint/sql": "^0.4.1",
     "@dprint/toml": "^0.9.0",
     "@dprint/typescript": "^0.96.1",
     "dprint-plugin-graphql": "^0.2.3",
@@ -30,6 +31,9 @@
       "optional": true
     },
     "@dprint/markdown": {
+      "optional": true
+    },
+    "@dprint/sql": {
       "optional": true
     },
     "@dprint/toml": {
@@ -52,7 +56,7 @@
     }
   },
   "dependencies": {
-    "@dprint/formatter": "^0.5.1",
+    "@dprint/formatter": "^0.6.0",
     "debug": "^4.1.1",
     "diff": "^9.0.0",
     "jsonc-parser": "^3.2.0"
@@ -63,6 +67,7 @@
     "@dprint/dockerfile": "^0.7.0",
     "@dprint/json": "^0.25.2",
     "@dprint/markdown": "^0.28.0",
+    "@dprint/sql": "^0.4.1",
     "@dprint/toml": "^0.9.0",
     "@dprint/typescript": "^0.96.1",
     "@types/debug": "^4.1.5",
@@ -75,8 +80,8 @@
     "dprint-plugin-markup": "^0.27.6",
     "dprint-plugin-yaml": "^0.6.0",
     "eslint": "^10.8.0",
-    "mocha": "^11.0.0",
-    "nyc": "^17.0.0",
+    "mocha": "^12.0.0",
+    "nyc": "^18.0.0",
     "rimraf": "^6.0.0",
     "ts-node": "^10.0.0",
     "typescript": "~5.0.0"
