@@ -1,20 +1,20 @@
-import { execSync } from "node:child_process"
-import { writeFileSync } from "node:fs"
+import { execSync } from "node:child_process";
+import { writeFileSync } from "node:fs";
 
 export const sh = (command: string) => {
-    console.log("$", command)
-    execSync(command, { encoding: "utf8", stdio: "inherit" })
-}
+    console.log("$", command);
+    execSync(command, { encoding: "utf8", stdio: "inherit" });
+};
 
 export const stdoutOf = (command: string) => {
-    console.log("$", command, "> self")
+    console.log("$", command, "> self");
     return execSync(command, {
         encoding: "utf8",
         stdio: ["inherit", "pipe"],
         shell: "bash",
     })
-        .trim()
-}
+        .trim();
+};
 
 export const setGithubOutput = (varName: string, value: string) => {
     if (process.env.GITHUB_OUTPUT) {
@@ -22,6 +22,6 @@ export const setGithubOutput = (varName: string, value: string) => {
             process.env.GITHUB_OUTPUT,
             `${varName}=${value}\n`,
             { flag: "a+" },
-        )
+        );
     }
-}
+};

@@ -1,19 +1,77 @@
 {
   "type": "object",
+  "x-playground": {
+    "input": [
+      "{\"name\":\"inventory-service\",\"version\":\"1.4.0\",",
+      "  //where the service listens",
+      "  \"server\":{",
+      "      \"host\":\"0.0.0.0\",\"port\":8080,",
+      "      \"timeouts\":{\"readSeconds\":30,\"writeSeconds\":30}},",
+      "\"features\":[\"search\",\"export\",",
+      "\"audit-log\"],",
+      "    \"database\": {",
+      "        \"url\":\"postgres://localhost:5432/inventory\",",
+      "        \"pool\":{\"min\":2,\"max\":10}",
+      "    },",
+      "  \"retry\":{\"attempts\":3,\"backoffMs\":[100,500,2000]},",
+      "  \"logging\":{\"level\":\"info\",\"format\":\"json\",",
+      "  \"redact\":[\"password\",\"token\"]}",
+      "}"
+    ],
+    "extension": "json"
+  },
+  "x-sections": [
+    {
+      "title": "General",
+      "description": "The width, indentation, and newlines of the file.",
+      "properties": [
+        "lineWidth",
+        "indentWidth",
+        "useTabs",
+        "newLineKind",
+        "eofNewLine"
+      ]
+    },
+    {
+      "title": "Arrays and objects",
+      "description": "When arrays and objects go on a single line, and their spacing and trailing commas.",
+      "properties": [
+        "preferSingleLine",
+        "spaceSurroundingProperties",
+        "trailingCommas",
+        "jsonTrailingCommaFiles"
+      ]
+    },
+    {
+      "title": "Comments",
+      "description": "The spacing of line comments and the comment that stops a value from being formatted.",
+      "properties": [
+        "commentLine.forceSpaceAfterSlashes",
+        "ignoreNodeCommentText"
+      ]
+    },
+    {
+      "title": "package.json",
+      "description": "The conventions applied to `package.json` files.",
+      "properties": [
+        "packageJson.applyConventions"
+      ]
+    }
+  ],
   "definitions": {
     "preferSingleLine": {
       "description": "If arrays and objects should collapse to a single line if it would be below the line width.",
       "type": "boolean",
       "oneOf": [
         {
-          "description": "",
+          "description": "Puts arrays and objects that span multiple lines on a single line when they fit within the line width.",
           "type": "boolean",
           "enum": [
             true
           ]
         },
         {
-          "description": "",
+          "description": "Maintains arrays and objects being on multiple lines.",
           "type": "boolean",
           "enum": [
             false
@@ -23,31 +81,30 @@
     }
   },
   "properties": {
-    "locked": {
-      "description": "Whether the configuration is not allowed to be overriden or extended.",
-      "type": "boolean"
-    },
     "lineWidth": {
       "description": "The width of a line the printer will try to stay under. Note that the printer may exceed this width in certain cases.",
-      "type": "number"
+      "type": "integer",
+      "minimum": 1
     },
     "indentWidth": {
       "description": "The number of characters for an indent.",
-      "type": "number"
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 255
     },
     "useTabs": {
       "description": "Whether to use tabs (true) or spaces (false).",
       "type": "boolean",
       "oneOf": [
         {
-          "description": "",
+          "description": "Uses tabs for indentation.",
           "type": "boolean",
           "enum": [
             true
           ]
         },
         {
-          "description": "",
+          "description": "Uses spaces for indentation.",
           "type": "boolean",
           "enum": [
             false
@@ -78,13 +135,6 @@
           "type": "string",
           "enum": [
             "lf"
-          ]
-        },
-        {
-          "description": "Uses the system standard (ex. crlf on Windows).",
-          "type": "string",
-          "enum": [
-            "system"
           ]
         }
       ]
@@ -117,24 +167,37 @@
       ]
     },
     "commentLine.forceSpaceAfterSlashes": {
-      "description": "Forces a space after slashes.  For example: `// comment` instead of `//comment`",
+      "description": "Forces a space after the slashes of a line comment. For example: `// comment` instead of `//comment`",
       "type": "boolean",
       "oneOf": [
         {
-          "description": "",
+          "description": "Adds a space after the slashes when there isn't one.",
           "type": "boolean",
           "enum": [
             true
           ]
         },
         {
-          "description": "",
+          "description": "Maintains the text after the slashes.",
           "type": "boolean",
           "enum": [
             false
           ]
         }
-      ]
+      ],
+      "x-example": {
+        "input": [
+          "{",
+          "  //the port to listen on",
+          "  \"port\": 8080",
+          "}"
+        ],
+        "outputs": {
+          "true": "{\n  // the port to listen on\n  \"port\": 8080\n}\n",
+          "false": "{\n  //the port to listen on\n  \"port\": 8080\n}\n"
+        },
+        "extension": "json"
+      }
     },
     "preferSingleLine": {
       "$ref": "#/definitions/preferSingleLine"
@@ -163,21 +226,34 @@
             false
           ]
         }
-      ]
+      ],
+      "x-example": {
+        "input": [
+          "{",
+          "  \"point\": {\"x\": 1, \"y\": 2},",
+          "  \"size\": { \"width\": 10, \"height\": 20 }",
+          "}"
+        ],
+        "outputs": {
+          "true": "{\n  \"point\": { \"x\": 1, \"y\": 2 },\n  \"size\": { \"width\": 10, \"height\": 20 }\n}\n",
+          "false": "{\n  \"point\": {\"x\": 1, \"y\": 2},\n  \"size\": {\"width\": 10, \"height\": 20}\n}\n"
+        },
+        "extension": "json"
+      }
     },
     "packageJson.applyConventions": {
-      "description": "Whether to write a package.json file's properties in the conventional order, alphabetizing the dependency sections. A comment set off by a blank line in a dependency section heads a run, and each run is alphabetized on its own.",
+      "description": "Whether to write a `package.json` file's properties in the conventional order, alphabetizing the dependency sections. A comment set off by a blank line in a dependency section heads a run, and each run is alphabetized on its own.",
       "type": "boolean",
       "oneOf": [
         {
-          "description": "",
+          "description": "Orders the properties in the conventional order and alphabetizes the dependency sections.",
           "type": "boolean",
           "enum": [
             true
           ]
         },
         {
-          "description": "",
+          "description": "Maintains the order of the properties.",
           "type": "boolean",
           "enum": [
             false
@@ -231,14 +307,14 @@
       "type": "boolean",
       "oneOf": [
         {
-          "description": "",
+          "description": "Uses the configuration of `deno fmt` for the properties that aren't set.",
           "type": "boolean",
           "enum": [
             true
           ]
         },
         {
-          "description": "",
+          "description": "Uses the plugin's defaults.",
           "type": "boolean",
           "enum": [
             false

@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-require-imports */
-import { RuleTester } from "eslint"
-import { version } from "eslint/package.json"
-import path from "node:path"
-import { dprintRules } from "../../lib/rules/dprint"
+import { RuleTester } from "eslint";
+import { version } from "eslint/package.json";
+import path from "node:path";
+import { dprintRules } from "../../lib/rules/dprint";
 
-const eslintVersion = +version.split(".")[0]
+const eslintVersion = +version.split(".")[0];
 
 const tester = eslintVersion >= 9
     ? new RuleTester({
@@ -15,7 +15,7 @@ const tester = eslintVersion >= 9
     } as any)
     : new RuleTester({
         parser: require.resolve("@ben_12/eslint-simple-parser"),
-    } as any)
+    } as any);
 tester.run("dprint/json", dprintRules.json, {
     valid: [
         {
@@ -84,4 +84,4 @@ tester.run("dprint/json", dprintRules.json, {
             ],
         },
     ],
-})
+});

@@ -1,5 +1,169 @@
 {
   "type": "object",
+  "x-playground": {
+    "input": [
+      "import {Component,type Props} from './component.ts'",
+      "",
+      "export interface User{id:number;name:string;email?:string}",
+      "",
+      "const users:User[]=[{id:1,name:\"Alice\"},{id:2,name:\"Bob\",email:\"bob@example.com\"}]",
+      "",
+      "export class UserList extends Component<Props>{",
+      "  private readonly items=new Map<number,User>()",
+      "    constructor(props:Props){super(props);for(const user of users){this.items.set(user.id,user)}}",
+      "  find(predicate:(user:User)=>boolean):User|undefined{",
+      "return [...this.items.values()].find(predicate)",
+      "  }",
+      "}",
+      "",
+      "const names=users.filter(u=>u.email!=null).map(u=>u.name.toUpperCase())",
+      "console.log(`found ${names.length} users`,names)"
+    ],
+    "extension": "ts"
+  },
+  "x-sections": [
+    {
+      "title": "General",
+      "description": "The width, indentation, and newlines of all the code.",
+      "properties": [
+        "lineWidth",
+        "indentWidth",
+        "useTabs",
+        "newLineKind",
+        "maxBlankLines"
+      ]
+    },
+    {
+      "title": "Braces and blocks",
+      "description": "Where braces go and the blank lines within blocks and between members.",
+      "properties": [
+        "useBraces",
+        "bracePosition",
+        "singleBodyPosition",
+        "nextControlFlowPosition",
+        "blockPadding",
+        "memberSpacing"
+      ]
+    },
+    {
+      "title": "Line breaks",
+      "description": "How code that doesn't fit within the line width is split up, and when code is put back on one line.",
+      "properties": [
+        "preferHanging",
+        "preferSingleLine",
+        "operatorPosition",
+        "binaryExpression.linePerExpression",
+        "memberExpression.linePerExpression",
+        "conditionalExpression.linePerExpression",
+        "conditionalType.linePerExpression",
+        "conditionalExpression.indentBranchContent",
+        "conditionalExpression.useNestedIndentation",
+        "conditionalType.useNestedIndentation",
+        "decorators.position",
+        "functionExpression.flatIife"
+      ]
+    },
+    {
+      "title": "Semicolons, commas, and quotes",
+      "description": "The punctuation that's added or removed.",
+      "properties": [
+        "semicolons",
+        "trailingCommas",
+        "typeLiteral.separatorKind",
+        "quoteStyle",
+        "quoteProps",
+        "arrowFunction.useParentheses"
+      ]
+    },
+    {
+      "title": "Spaces",
+      "description": "The spaces around and within parentheses, braces, operators, and keywords.",
+      "properties": [
+        "spaceAround",
+        "spaceSurroundingProperties",
+        "spaceBetweenObjectClosingBraces",
+        "spaceAfterControlFlowKeyword",
+        "binaryExpression.spaceSurroundingBitwiseAndArithmeticOperator",
+        "catchClause.spaceAfterCatchKeyword",
+        "commentLine.forceSpaceAfterSlashes",
+        "constructor.spaceBeforeParentheses",
+        "constructorType.spaceAfterNewKeyword",
+        "constructSignature.spaceAfterNewKeyword",
+        "doWhileStatement.spaceAfterWhileKeyword",
+        "exportDeclaration.spaceSurroundingNamedExports",
+        "forInStatement.spaceAfterForKeyword",
+        "forOfStatement.spaceAfterForKeyword",
+        "forStatement.spaceAfterForKeyword",
+        "forStatement.spaceAfterSemicolons",
+        "functionDeclaration.spaceBeforeParentheses",
+        "functionExpression.spaceBeforeParentheses",
+        "functionExpression.spaceAfterFunctionKeyword",
+        "getAccessor.spaceBeforeParentheses",
+        "ifStatement.spaceAfterIfKeyword",
+        "importDeclaration.spaceSurroundingNamedImports",
+        "method.spaceBeforeParentheses",
+        "setAccessor.spaceBeforeParentheses",
+        "switchStatement.spaceAfterSwitchKeyword",
+        "typeAnnotation.spaceBeforeColon",
+        "typeAssertion.spaceBeforeExpression",
+        "whileStatement.spaceAfterWhileKeyword",
+        "withStatement.spaceAfterWithKeyword"
+      ]
+    },
+    {
+      "title": "Imports and exports",
+      "description": "The sorting, grouping, and line breaks of import and export declarations.",
+      "properties": [
+        "module.sortImportDeclarations",
+        "module.sortExportDeclarations",
+        "importDeclaration.sortNamedImports",
+        "exportDeclaration.sortNamedExports",
+        "importDeclaration.sortTypeOnlyImports",
+        "exportDeclaration.sortTypeOnlyExports",
+        "module.importGroups",
+        "module.typeImports",
+        "module.importGroupsNewlinesBetween",
+        "module.blankLinesAfterImports",
+        "importDeclaration.forceSingleLine",
+        "exportDeclaration.forceSingleLine",
+        "importDeclaration.forceMultiLine",
+        "exportDeclaration.forceMultiLine"
+      ]
+    },
+    {
+      "title": "JSX",
+      "description": "The formatting of JSX elements and attributes.",
+      "properties": [
+        "jsx.quoteStyle",
+        "jsx.multiLineParens",
+        "jsx.bracketPosition",
+        "jsx.forceNewLinesSurroundingContent",
+        "jsx.sortClassNames",
+        "jsxExpressionContainer.preferSingleLine",
+        "jsxSelfClosingElement.spaceBeforeSlash",
+        "jsxExpressionContainer.spaceSurroundingExpression",
+        "jsxExpressionContainer.spaceSurroundingObjectLiteral",
+        "jsxExpressionContainer.spaceSurroundingArrayLiteral"
+      ]
+    },
+    {
+      "title": "Tagged templates",
+      "description": "The formatting of tagged templates and the code embedded in them (ex. `` css`...` ``).",
+      "properties": [
+        "taggedTemplate.formatEmbedded",
+        "taggedTemplate.embeddedLanguages",
+        "taggedTemplate.spaceBeforeLiteral"
+      ]
+    },
+    {
+      "title": "Ignore comments",
+      "description": "The comments that make the formatter leave code as is.",
+      "properties": [
+        "ignoreNodeCommentText",
+        "ignoreFileCommentText"
+      ]
+    }
+  ],
   "definitions": {
     "useTabs": {
       "description": "Whether to use tabs (true) or spaces (false).",
@@ -21,7 +185,7 @@
         }
       ]
     },
-    "semiColons": {
+    "semicolons": {
       "description": "How semi-colons should be used.",
       "type": "string",
       "oneOf": [
@@ -102,6 +266,100 @@
         }
       ]
     },
+    "jsx.sortClassNames": {
+      "description": "How to sort JSX class attribute values, which is either only the kind of sorting or an object with the kind and its options.",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/jsx.sortClassNames.kind"
+        },
+        {
+          "type": "object",
+          "description": "The kind of sorting along with its options.",
+          "required": [
+            "kind"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "$ref": "#/definitions/jsx.sortClassNames.kind"
+            },
+            "functions": {
+              "description": "Leading function or tag identifiers whose string arguments and template literals should be sorted as class names (ex. `[\"cn\", \"clsx\"]`).",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "attributes": {
+              "description": "Attributes whose values should be sorted as class names in addition to `class` and `className`.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "preserveWhitespace": {
+              "description": "Whether to keep the whitespace between class names as is when sorting them.",
+              "type": "boolean"
+            },
+            "preserveDuplicates": {
+              "description": "Whether to keep duplicate class names when sorting them.",
+              "type": "boolean"
+            },
+            "prefix": {
+              "description": "The prefix the project's Tailwind classes have (ex. `tw` when classes look like `tw:flex`).",
+              "type": "string"
+            },
+            "theme": {
+              "description": "The theme variables the project adds to Tailwind's default theme and their values, which is what's in `@theme` in its CSS (ex. `{ \"--breakpoint-3xl\": \"120rem\", \"--color-brand\": \"#f00\" }`).",
+              "type": "object",
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "integer"
+                ]
+              }
+            },
+            "variants": {
+              "description": "The names of the project's custom variants in the order they're defined, which is what it has an `@custom-variant` for in its CSS.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "utilities": {
+              "description": "The names of the project's custom utilities along with the CSS properties each sets, which is what it has an `@utility` for in its CSS (ex. `{ \"btn\": [\"display\", \"padding\"], \"tab-*\": [\"tab-size\"] }`).",
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "jsx.sortClassNames.kind": {
+      "description": "How to sort JSX class attribute values.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Maintains the current class name ordering.",
+          "type": "string",
+          "enum": [
+            "maintain"
+          ]
+        },
+        {
+          "description": "Sorts class names using Tailwind CSS ordering.",
+          "type": "string",
+          "enum": [
+            "tailwind"
+          ]
+        }
+      ]
+    },
     "quoteProps": {
       "description": "Change when properties in objects are quoted.",
       "type": "string",
@@ -134,7 +392,7 @@
       "type": "string",
       "oneOf": [
         {
-          "description": "Never wrap JSX with parentheses.",
+          "description": "Never wrap JSX with parentheses and remove existing ones, except when they have comments or are needed (ex. `(<div />).props`).",
           "type": "string",
           "enum": [
             "never"
@@ -161,14 +419,14 @@
       "type": "boolean",
       "oneOf": [
         {
-          "description": "",
+          "description": "Puts the children of a JSX element on their own lines between its opening and closing tags.",
           "type": "boolean",
           "enum": [
             true
           ]
         },
         {
-          "description": "",
+          "description": "Only puts the children of a JSX element on their own lines when needed, such as when they contain another JSX element.",
           "type": "boolean",
           "enum": [
             false
@@ -203,6 +461,33 @@
         }
       ]
     },
+    "decorators.position": {
+      "description": "Whether a class or class member should be on the same or next line as its decorators.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Maintains whether it's on the same line as its decorators.",
+          "type": "string",
+          "enum": [
+            "maintain"
+          ]
+        },
+        {
+          "description": "Forces it to be on the same line as its decorators.",
+          "type": "string",
+          "enum": [
+            "sameLine"
+          ]
+        },
+        {
+          "description": "Forces it to be on the next line after its decorators.",
+          "type": "string",
+          "enum": [
+            "nextLine"
+          ]
+        }
+      ]
+    },
     "newLineKind": {
       "description": "The kind of newline to use.",
       "type": "string",
@@ -226,13 +511,6 @@
           "type": "string",
           "enum": [
             "lf"
-          ]
-        },
-        {
-          "description": "Uses the system standard (ex. crlf on Windows).",
-          "type": "string",
-          "enum": [
-            "system"
           ]
         }
       ]
@@ -418,14 +696,14 @@
       "type": "boolean",
       "oneOf": [
         {
-          "description": "",
+          "description": "Keeps as much of the code as possible on the current line and continues the rest on the next line with an indent.",
           "type": "boolean",
           "enum": [
             true
           ]
         },
         {
-          "description": "",
+          "description": "Puts each item on its own line.",
           "type": "boolean",
           "enum": [
             false
@@ -461,18 +739,58 @@
       ]
     },
     "preferSingleLine": {
-      "description": "If code should revert back from being on multiple lines to being on a single line when able.",
+      "description": "If code should revert back from being on multiple lines to being on a single line when able. This is very experimental.",
       "type": "boolean",
       "oneOf": [
         {
-          "description": "",
+          "description": "Puts code that spans multiple lines back on a single line when it fits within the line width.",
           "type": "boolean",
           "enum": [
             true
           ]
         },
         {
-          "description": "",
+          "description": "Maintains the code being on multiple lines.",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "preferSingleLineDefaultTrue": {
+      "description": "If code should revert back from being on multiple lines to being on a single line when able. Defaults to the global `preferSingleLine` value when it's set and otherwise `true`.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Puts code that spans multiple lines back on a single line when it fits within the line width.",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Maintains the code being on multiple lines.",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "jsxExpressionContainer.preferSingleLine": {
+      "description": "Whether to keep a JSX expression container's braces beside its expression when there's a newline between the open brace and the expression. Only the newline after the open brace is checked, so when this is `false` the close brace goes on its own line even if it was beside the expression. Defaults to the global `preferSingleLine` value when it's set and otherwise `true`.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Keeps the braces beside the expression even when there's a newline after the open brace. Ex. `{value}`",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Puts the braces on their own lines with the expression indented between them when there's a newline after the open brace.",
           "type": "boolean",
           "enum": [
             false
@@ -485,14 +803,14 @@
       "type": "boolean",
       "oneOf": [
         {
-          "description": "",
+          "description": "Keeps the code on a single line even when it exceeds the line width, unless it contains a line comment or a comment that spans multiple lines.",
           "type": "boolean",
           "enum": [
             true
           ]
         },
         {
-          "description": "",
+          "description": "Puts the code on multiple lines when it exceeds the line width.",
           "type": "boolean",
           "enum": [
             false
@@ -501,29 +819,96 @@
       ]
     },
     "forceMultiLineSpecifiers": {
-      "description": "If code import/export specifiers should be forced to be on multiple lines.",
+      "description": "Whether to force the named imports or exports of a declaration onto multiple lines.",
       "type": "string",
       "oneOf": [
         {
-          "description": "",
+          "description": "Puts each specifier on its own line.",
           "type": "string",
           "enum": [
             "always"
           ]
         },
         {
-          "description": "",
+          "description": "Doesn't force the specifiers onto multiple lines.",
           "type": "string",
           "enum": [
             "never"
           ]
         },
         {
-          "description": "Force multiple lines only if importing more than one thing.",
+          "description": "Puts each specifier on its own line when there's more than one.",
           "type": "string",
           "enum": [
             "whenMultiple"
           ]
+        }
+      ]
+    },
+    "importGroupMatcher": {
+      "oneOf": [
+        {
+          "description": "Built-in modules (ex. `fs`, `node:path`, `bun:test`, and `cloudflare:workers`).",
+          "type": "string",
+          "enum": [
+            "builtin"
+          ]
+        },
+        {
+          "description": "Imports that aren't built-in or relative, such as packages (ex. `react` and `@scope/pkg`).",
+          "type": "string",
+          "enum": [
+            "external"
+          ]
+        },
+        {
+          "description": "Imports from a parent directory (ex. `../utils`).",
+          "type": "string",
+          "enum": [
+            "parent"
+          ]
+        },
+        {
+          "description": "Imports from the same directory (ex. `./utils`).",
+          "type": "string",
+          "enum": [
+            "sibling"
+          ]
+        },
+        {
+          "description": "Imports of the directory's index (ex. `.` and `./index.js`).",
+          "type": "string",
+          "enum": [
+            "index"
+          ]
+        },
+        {
+          "description": "Type-only imports when `module.typeImports` is `\"separate\"`.",
+          "type": "string",
+          "enum": [
+            "type"
+          ]
+        },
+        {
+          "description": "The imports no other group takes. They go in a group at the end when no group lists this.",
+          "type": "string",
+          "enum": [
+            "unknown"
+          ]
+        },
+        {
+          "type": "object",
+          "description": "The imports whose path matches a glob pattern, which take precedence over the categories.",
+          "required": [
+            "pattern"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "pattern": {
+              "description": "A glob pattern the path of the import is matched against, where `*` doesn't match a `/` (ex. `@/**`).",
+              "type": "string"
+            }
+          }
         }
       ]
     },
@@ -546,10 +931,10 @@
           ]
         },
         {
-          "description": "Does not sort based on if a type-only named import or export.",
+          "description": "Does not sort based on if a type-only named import or export, so they're sorted inline with the others.",
           "type": "string",
           "enum": [
-            "none"
+            "inline"
           ]
         }
       ]
@@ -586,14 +971,14 @@
       "type": "boolean",
       "oneOf": [
         {
-          "description": "",
+          "description": "Uses the configuration Deno uses.",
           "type": "boolean",
           "enum": [
             true
           ]
         },
         {
-          "description": "",
+          "description": "Uses the configuration of this plugin.",
           "type": "boolean",
           "enum": [
             false
@@ -668,6 +1053,66 @@
         }
       ]
     },
+    "conditionalType.linePerExpression": {
+      "description": "Whether to force a line per expression when spanning multiple lines.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Formats with each part on a new line.",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Maintains the line breaks as written by the programmer.",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "conditionalExpression.indentBranchContent": {
+      "description": "Whether to indent the hanging content of a conditional expression's true or false part past the start of that part when its `?` or `:` starts the line (ex. the properties of `? {` are indented past the `{` instead of lined up with it). This has no effect when the indent width is greater than 2 because the content is already past the start of the part.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Indents the hanging content past the start of the part (ex. `? {` then `    prop: 1,` then `  }` at an indent width of 2).",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Indents the hanging content once from the start of the line, so it lines up with the start of the part when the indent width is 2.",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "useNestedIndentation": {
+      "description": "Whether to indent a nested conditional in the true or false part more than its parent, so it formats as a tree.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Indents nested conditionals.",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Keeps the false part of a nested conditional at the same indentation as its parent.",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
     "memberExpression.linePerExpression": {
       "description": "Whether to force a line per expression when spanning multiple lines.",
       "type": "boolean",
@@ -688,8 +1133,35 @@
         }
       ]
     },
-    "enumDeclaration.memberSpacing": {
-      "description": "How to space the members of an enum.",
+    "taggedTemplate.formatEmbedded": {
+      "description": "Whether to format the text of tagged templates whose tag is in `taggedTemplate.embeddedLanguages` (ex. `` html`...` `` and `` css`...` ``) with the plugin dprint uses for the language's file extension. A template is left as is when no plugin formats the extension.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Formats the text of the tagged templates in `taggedTemplate.embeddedLanguages`.",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Leaves the text of tagged templates as is.",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "taggedTemplate.embeddedLanguages": {
+      "description": "Map of a tagged template's tag to the file extension of the language its text is formatted as, which replaces the defaults. The styled-components patterns (ex. `` styled.div`...` `` and `` styled(Button)`...` ``) use the `css` entry. The text of css is formatted as Less by default because the placeholders of its expressions are Less variables.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "memberSpacing": {
+      "description": "How to space the members of a class, enum, interface, or type literal.",
       "type": "string",
       "oneOf": [
         {
@@ -715,12 +1187,47 @@
         }
       ]
     },
+    "blockPadding": {
+      "description": "Whether to keep blank lines at the start and end of a block.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Removes the blank lines at the start and end of a block.",
+          "type": "string",
+          "enum": [
+            "remove"
+          ]
+        },
+        {
+          "description": "Maintains the blank lines at the start and end of a block.",
+          "type": "string",
+          "enum": [
+            "maintain"
+          ]
+        },
+        {
+          "description": "Forces a blank line at the start and end of a block that isn't empty.",
+          "type": "string",
+          "enum": [
+            "always"
+          ]
+        }
+      ]
+    },
     "typeLiteral.separatorKind": {
       "description": "The kind of separator to use in type literals.",
       "type": "string",
       "oneOf": [
         {
           "description": "Use semi-colons.",
+          "type": "string",
+          "enum": [
+            "semicolon"
+          ]
+        },
+        {
+          "description": "Use semi-colons. Same as \"semicolon\".",
+          "deprecationMessage": "Use \"semicolon\" instead.",
           "type": "string",
           "enum": [
             "semiColon"
@@ -755,6 +1262,26 @@
         }
       ]
     },
+    "spaceAfterControlFlowKeyword": {
+      "description": "Whether to add a space after the keyword of a control flow statement and before its open paren. This is the default for the `spaceAfter...Keyword` options of the `if`, `for`, `for...in`, `for...of`, `while`, `do...while`, `with` and `switch` statements and the catch clause.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Ex. `if (true)`",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Ex. `if(true)`",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
     "spaceSurroundingProperties": {
       "description": "Whether to add a space surrounding the properties of single line object-like nodes.",
       "type": "boolean",
@@ -768,6 +1295,26 @@
         },
         {
           "description": "Ex. `{key: value}`",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "mappedType.spaceSurroundingProperties": {
+      "description": "Whether to add a space surrounding the properties of a single line mapped type.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Ex. `type Test = { [key in Type]: string }`",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Ex. `type Test = {[key in Type]: string}`",
           "type": "boolean",
           "enum": [
             false
@@ -835,6 +1382,26 @@
         }
       ]
     },
+    "spaceBetweenObjectClosingBraces": {
+      "description": "Whether to keep a space between the closing braces of a nested object and its parent in single-line objects, destructuring patterns, and type literals.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Ex. `const { key: { value } } = obj;`",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Ex. `const { key: { value }} = obj;`",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
     "binaryExpression.spaceSurroundingBitwiseAndArithmeticOperator": {
       "description": "Whether to surround the operator in a binary expression with spaces.",
       "type": "boolean",
@@ -848,6 +1415,26 @@
         },
         {
           "description": "Ex. `1+2`",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "catchClause.spaceAfterCatchKeyword": {
+      "description": "Whether to add a space after the `catch` keyword in a catch clause.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Ex. `catch (err)`",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Ex. `catch(err)`",
           "type": "boolean",
           "enum": [
             false
@@ -940,14 +1527,14 @@
       "type": "boolean",
       "oneOf": [
         {
-          "description": "Ex. `do {\n} while (condition);`",
+          "description": "Ex. `} while (condition);`",
           "type": "boolean",
           "enum": [
             true
           ]
         },
         {
-          "description": "Ex. `do {\n} while(condition);`",
+          "description": "Ex. `} while(condition);`",
           "type": "boolean",
           "enum": [
             false
@@ -996,18 +1583,18 @@
       ]
     },
     "forOfStatement.spaceAfterForKeyword": {
-      "description": "Whether to add a space after the `for` keyword in a \"for of\" statement.",
+      "description": "Whether to add a space after the `for` keyword, or the `await` keyword in a `for await`, in a \"for of\" statement.",
       "type": "boolean",
       "oneOf": [
         {
-          "description": "Ex. `for (const value of myArray)`",
+          "description": "Ex. `for (const value of myArray)` or `for await (const value of myArray)`",
           "type": "boolean",
           "enum": [
             true
           ]
         },
         {
-          "description": "Ex. `for(const value of myArray)`",
+          "description": "Ex. `for(const value of myArray)` or `for await(const value of myArray)`",
           "type": "boolean",
           "enum": [
             false
@@ -1035,7 +1622,7 @@
         }
       ]
     },
-    "forStatement.spaceAfterSemiColons": {
+    "forStatement.spaceAfterSemicolons": {
       "description": "Whether to add a space after the semi-colons in a \"for\" statement.",
       "type": "boolean",
       "oneOf": [
@@ -1216,7 +1803,7 @@
       ]
     },
     "jsxExpressionContainer.spaceSurroundingExpression": {
-      "description": "Whether to add a space surrounding the expression of a JSX container.",
+      "description": "Whether to add a space surrounding the expression of a JSX container. An object or array literal uses `jsxExpressionContainer.spaceSurroundingObjectLiteral` or `jsxExpressionContainer.spaceSurroundingArrayLiteral`, which default to this value.",
       "type": "boolean",
       "oneOf": [
         {
@@ -1228,6 +1815,46 @@
         },
         {
           "description": "Ex. `{myValue}`",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "jsxExpressionContainer.spaceSurroundingObjectLiteral": {
+      "description": "Whether to add a space between the braces of a JSX container and an object literal. Parens that get removed are looked through (ex. `{({ value: true })}`), but a literal with a comment beside it uses `jsxExpressionContainer.spaceSurroundingExpression`.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Ex. `{ { value: true } }`",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Ex. `{{ value: true }}`",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "jsxExpressionContainer.spaceSurroundingArrayLiteral": {
+      "description": "Whether to add a space between the braces of a JSX container and an array literal. Parens that get removed are looked through (ex. `{([value])}`), but a literal with a comment beside it uses `jsxExpressionContainer.spaceSurroundingExpression`.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Ex. `{ [value] }`",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Ex. `{[value]}`",
           "type": "boolean",
           "enum": [
             false
@@ -1275,19 +1902,39 @@
         }
       ]
     },
-    "taggedTemplate.spaceBeforeLiteral": {
-      "description": "Whether to add a space before the literal in a tagged template.",
+    "switchStatement.spaceAfterSwitchKeyword": {
+      "description": "Whether to add a space after the `switch` keyword in a switch statement.",
       "type": "boolean",
       "oneOf": [
         {
-          "description": "Ex. `html `<element />``",
+          "description": "Ex. `switch (value)`",
           "type": "boolean",
           "enum": [
             true
           ]
         },
         {
-          "description": "Ex. `html`<element />``",
+          "description": "Ex. `switch(value)`",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "taggedTemplate.spaceBeforeLiteral": {
+      "description": "Whether to add a space before the literal in a tagged template.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Ex. `` html `<element />` ``",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Ex. `` html`<element />` ``",
           "type": "boolean",
           "enum": [
             false
@@ -1354,26 +2001,45 @@
           ]
         }
       ]
+    },
+    "withStatement.spaceAfterWithKeyword": {
+      "description": "Whether to add a space after the `with` keyword in a with statement.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Ex. `with (obj)`",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Ex. `with(obj)`",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
     }
   },
   "properties": {
-    "locked": {
-      "description": "Whether the configuration is not allowed to be overridden or extended.",
-      "type": "boolean"
-    },
     "lineWidth": {
       "description": "The width of a line the printer will try to stay under. Note that the printer may exceed this width in certain cases.",
-      "type": "number"
+      "type": "integer",
+      "minimum": 1
     },
     "indentWidth": {
       "description": "The number of columns for an indent.",
-      "type": "number"
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 255
     },
     "useTabs": {
       "$ref": "#/definitions/useTabs"
     },
-    "semiColons": {
-      "$ref": "#/definitions/semiColons"
+    "semicolons": {
+      "$ref": "#/definitions/semicolons"
     },
     "quoteStyle": {
       "$ref": "#/definitions/quoteStyle"
@@ -1389,6 +2055,14 @@
     },
     "bracePosition": {
       "$ref": "#/definitions/bracePosition"
+    },
+    "blockPadding": {
+      "$ref": "#/definitions/blockPadding"
+    },
+    "maxBlankLines": {
+      "description": "The maximum number of consecutive blank lines to keep.",
+      "type": "integer",
+      "minimum": 0
     },
     "singleBodyPosition": {
       "$ref": "#/definitions/singleBodyPosition"
@@ -1417,6 +2091,21 @@
     "binaryExpression.linePerExpression": {
       "$ref": "#/definitions/binaryExpression.linePerExpression"
     },
+    "conditionalExpression.linePerExpression": {
+      "$ref": "#/definitions/conditionalExpression.linePerExpression"
+    },
+    "conditionalType.linePerExpression": {
+      "$ref": "#/definitions/conditionalType.linePerExpression"
+    },
+    "conditionalExpression.indentBranchContent": {
+      "$ref": "#/definitions/conditionalExpression.indentBranchContent"
+    },
+    "conditionalExpression.useNestedIndentation": {
+      "$ref": "#/definitions/useNestedIndentation"
+    },
+    "conditionalType.useNestedIndentation": {
+      "$ref": "#/definitions/useNestedIndentation"
+    },
     "jsx.bracketPosition": {
       "$ref": "#/definitions/jsx.bracketPosition"
     },
@@ -1426,6 +2115,9 @@
     "jsxSelfClosingElement.bracketPosition": {
       "$ref": "#/definitions/jsx.bracketPosition"
     },
+    "decorators.position": {
+      "$ref": "#/definitions/decorators.position"
+    },
     "jsx.forceNewLinesSurroundingContent": {
       "$ref": "#/definitions/jsx.forceNewLinesSurroundingContent"
     },
@@ -1434,6 +2126,9 @@
     },
     "jsx.multiLineParens": {
       "$ref": "#/definitions/jsx.multiLineParens"
+    },
+    "jsx.sortClassNames": {
+      "$ref": "#/definitions/jsx.sortClassNames"
     },
     "memberExpression.linePerExpression": {
       "$ref": "#/definitions/memberExpression.linePerExpression"
@@ -1447,8 +2142,29 @@
     "typeLiteral.separatorKind.multiLine": {
       "$ref": "#/definitions/typeLiteral.separatorKind"
     },
+    "taggedTemplate.formatEmbedded": {
+      "$ref": "#/definitions/taggedTemplate.formatEmbedded"
+    },
+    "taggedTemplate.embeddedLanguages": {
+      "$ref": "#/definitions/taggedTemplate.embeddedLanguages"
+    },
+    "memberSpacing": {
+      "$ref": "#/definitions/memberSpacing"
+    },
+    "classDeclaration.memberSpacing": {
+      "$ref": "#/definitions/memberSpacing"
+    },
+    "classExpression.memberSpacing": {
+      "$ref": "#/definitions/memberSpacing"
+    },
     "enumDeclaration.memberSpacing": {
-      "$ref": "#/definitions/enumDeclaration.memberSpacing"
+      "$ref": "#/definitions/memberSpacing"
+    },
+    "interfaceDeclaration.memberSpacing": {
+      "$ref": "#/definitions/memberSpacing"
+    },
+    "typeLiteral.memberSpacing": {
+      "$ref": "#/definitions/memberSpacing"
     },
     "spaceAround": {
       "$ref": "#/definitions/spaceAround"
@@ -1495,8 +2211,17 @@
     "whileStatement.spaceAround": {
       "$ref": "#/definitions/spaceAround"
     },
+    "withStatement.spaceAround": {
+      "$ref": "#/definitions/spaceAround"
+    },
+    "spaceAfterControlFlowKeyword": {
+      "$ref": "#/definitions/spaceAfterControlFlowKeyword"
+    },
     "spaceSurroundingProperties": {
       "$ref": "#/definitions/spaceSurroundingProperties"
+    },
+    "mappedType.spaceSurroundingProperties": {
+      "$ref": "#/definitions/mappedType.spaceSurroundingProperties"
     },
     "objectExpression.spaceSurroundingProperties": {
       "$ref": "#/definitions/objectExpression.spaceSurroundingProperties"
@@ -1507,8 +2232,14 @@
     "typeLiteral.spaceSurroundingProperties": {
       "$ref": "#/definitions/typeLiteral.spaceSurroundingProperties"
     },
+    "spaceBetweenObjectClosingBraces": {
+      "$ref": "#/definitions/spaceBetweenObjectClosingBraces"
+    },
     "binaryExpression.spaceSurroundingBitwiseAndArithmeticOperator": {
       "$ref": "#/definitions/binaryExpression.spaceSurroundingBitwiseAndArithmeticOperator"
+    },
+    "catchClause.spaceAfterCatchKeyword": {
+      "$ref": "#/definitions/catchClause.spaceAfterCatchKeyword"
     },
     "commentLine.forceSpaceAfterSlashes": {
       "$ref": "#/definitions/commentLine.forceSpaceAfterSlashes"
@@ -1537,8 +2268,8 @@
     "forStatement.spaceAfterForKeyword": {
       "$ref": "#/definitions/forStatement.spaceAfterForKeyword"
     },
-    "forStatement.spaceAfterSemiColons": {
-      "$ref": "#/definitions/forStatement.spaceAfterSemiColons"
+    "forStatement.spaceAfterSemicolons": {
+      "$ref": "#/definitions/forStatement.spaceAfterSemicolons"
     },
     "functionDeclaration.spaceBeforeParentheses": {
       "$ref": "#/definitions/functionDeclaration.spaceBeforeParentheses"
@@ -1567,11 +2298,20 @@
     "jsxExpressionContainer.spaceSurroundingExpression": {
       "$ref": "#/definitions/jsxExpressionContainer.spaceSurroundingExpression"
     },
+    "jsxExpressionContainer.spaceSurroundingObjectLiteral": {
+      "$ref": "#/definitions/jsxExpressionContainer.spaceSurroundingObjectLiteral"
+    },
+    "jsxExpressionContainer.spaceSurroundingArrayLiteral": {
+      "$ref": "#/definitions/jsxExpressionContainer.spaceSurroundingArrayLiteral"
+    },
     "method.spaceBeforeParentheses": {
       "$ref": "#/definitions/method.spaceBeforeParentheses"
     },
     "setAccessor.spaceBeforeParentheses": {
       "$ref": "#/definitions/setAccessor.spaceBeforeParentheses"
+    },
+    "switchStatement.spaceAfterSwitchKeyword": {
+      "$ref": "#/definitions/switchStatement.spaceAfterSwitchKeyword"
     },
     "taggedTemplate.spaceBeforeLiteral": {
       "$ref": "#/definitions/taggedTemplate.spaceBeforeLiteral"
@@ -1585,11 +2325,123 @@
     "whileStatement.spaceAfterWhileKeyword": {
       "$ref": "#/definitions/whileStatement.spaceAfterWhileKeyword"
     },
+    "withStatement.spaceAfterWithKeyword": {
+      "$ref": "#/definitions/withStatement.spaceAfterWithKeyword"
+    },
     "module.sortImportDeclarations": {
       "$ref": "#/definitions/sortOrder"
     },
+    "module.blankLinesAfterImports": {
+      "description": "The number of blank lines to force after the import declarations at the top of a module. When not set, maintains the blank lines up to `maxBlankLines`.",
+      "type": "integer",
+      "minimum": 0
+    },
     "module.sortExportDeclarations": {
       "$ref": "#/definitions/sortOrder"
+    },
+    "module.importGroups": {
+      "description": "Ordered list of import groups, separated by blank lines. Empty disables the feature. A group's patterns take the imports they match wherever the group is listed, the categories take the rest, and the list sets the output order.",
+      "type": "array",
+      "examples": [
+        [
+          {
+            "match": "builtin"
+          },
+          {
+            "match": "external"
+          },
+          {
+            "match": {
+              "pattern": "@/**"
+            }
+          },
+          {
+            "match": [
+              "parent",
+              "sibling",
+              "index"
+            ]
+          }
+        ]
+      ],
+      "items": {
+        "type": "object",
+        "required": [
+          "match"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "match": {
+            "description": "The imports in the group, as a category, a pattern, or a list of them.",
+            "oneOf": [
+              {
+                "$ref": "#/definitions/importGroupMatcher"
+              },
+              {
+                "type": "array",
+                "description": "A list of categories and patterns whose imports go in the same group.",
+                "items": {
+                  "$ref": "#/definitions/importGroupMatcher"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "module.typeImports": {
+      "description": "How `module.importGroups` classifies type-only imports (ex. `import type { Foo } from \"./foo\";`).",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Classifies type-only imports as the `type` category, so they can be put in their own group.",
+          "type": "string",
+          "enum": [
+            "separate"
+          ]
+        },
+        {
+          "description": "Classifies type-only imports by their path like the other imports.",
+          "type": "string",
+          "enum": [
+            "interleave"
+          ]
+        }
+      ]
+    },
+    "module.importGroupsNewlinesBetween": {
+      "description": "How to put blank lines between the imports when `module.importGroups` is set. Mirrors the `newlines-between` option of ESLint's `import/order` rule.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Puts one blank line between groups and removes the blank lines within a group.",
+          "type": "string",
+          "enum": [
+            "always"
+          ]
+        },
+        {
+          "description": "Puts one blank line between groups and keeps the blank lines within a group.",
+          "type": "string",
+          "enum": [
+            "alwaysAndInsideGroups"
+          ]
+        },
+        {
+          "description": "Removes the blank lines between all the imports.",
+          "type": "string",
+          "enum": [
+            "never"
+          ]
+        },
+        {
+          "description": "Neither adds nor removes blank lines.",
+          "type": "string",
+          "enum": [
+            "ignore"
+          ]
+        }
+      ]
     },
     "exportDeclaration.sortNamedExports": {
       "$ref": "#/definitions/sortOrder"
@@ -1626,8 +2478,80 @@
     "whileStatement.useBraces": {
       "$ref": "#/definitions/useBraces"
     },
+    "withStatement.useBraces": {
+      "$ref": "#/definitions/useBraces"
+    },
     "arrowFunction.bracePosition": {
       "$ref": "#/definitions/bracePosition"
+    },
+    "classDeclaration.blockPadding": {
+      "$ref": "#/definitions/blockPadding"
+    },
+    "classExpression.blockPadding": {
+      "$ref": "#/definitions/blockPadding"
+    },
+    "enumDeclaration.blockPadding": {
+      "$ref": "#/definitions/blockPadding"
+    },
+    "interfaceDeclaration.blockPadding": {
+      "$ref": "#/definitions/blockPadding"
+    },
+    "moduleDeclaration.blockPadding": {
+      "$ref": "#/definitions/blockPadding"
+    },
+    "arrowFunction.blockPadding": {
+      "$ref": "#/definitions/blockPadding"
+    },
+    "constructor.blockPadding": {
+      "$ref": "#/definitions/blockPadding"
+    },
+    "doWhileStatement.blockPadding": {
+      "$ref": "#/definitions/blockPadding"
+    },
+    "forInStatement.blockPadding": {
+      "$ref": "#/definitions/blockPadding"
+    },
+    "forOfStatement.blockPadding": {
+      "$ref": "#/definitions/blockPadding"
+    },
+    "forStatement.blockPadding": {
+      "$ref": "#/definitions/blockPadding"
+    },
+    "functionDeclaration.blockPadding": {
+      "$ref": "#/definitions/blockPadding"
+    },
+    "functionExpression.blockPadding": {
+      "$ref": "#/definitions/blockPadding"
+    },
+    "getAccessor.blockPadding": {
+      "$ref": "#/definitions/blockPadding"
+    },
+    "ifStatement.blockPadding": {
+      "$ref": "#/definitions/blockPadding"
+    },
+    "method.blockPadding": {
+      "$ref": "#/definitions/blockPadding"
+    },
+    "setAccessor.blockPadding": {
+      "$ref": "#/definitions/blockPadding"
+    },
+    "staticBlock.blockPadding": {
+      "$ref": "#/definitions/blockPadding"
+    },
+    "switchCase.blockPadding": {
+      "$ref": "#/definitions/blockPadding"
+    },
+    "switchStatement.blockPadding": {
+      "$ref": "#/definitions/blockPadding"
+    },
+    "tryStatement.blockPadding": {
+      "$ref": "#/definitions/blockPadding"
+    },
+    "whileStatement.blockPadding": {
+      "$ref": "#/definitions/blockPadding"
+    },
+    "withStatement.blockPadding": {
+      "$ref": "#/definitions/blockPadding"
     },
     "classDeclaration.bracePosition": {
       "$ref": "#/definitions/bracePosition"
@@ -1692,6 +2616,9 @@
     "whileStatement.bracePosition": {
       "$ref": "#/definitions/bracePosition"
     },
+    "withStatement.bracePosition": {
+      "$ref": "#/definitions/bracePosition"
+    },
     "forInStatement.singleBodyPosition": {
       "$ref": "#/definitions/singleBodyPosition"
     },
@@ -1705,6 +2632,9 @@
       "$ref": "#/definitions/singleBodyPosition"
     },
     "whileStatement.singleBodyPosition": {
+      "$ref": "#/definitions/singleBodyPosition"
+    },
+    "withStatement.singleBodyPosition": {
       "$ref": "#/definitions/singleBodyPosition"
     },
     "ifStatement.nextControlFlowPosition": {
@@ -1759,6 +2689,9 @@
       "$ref": "#/definitions/operatorPosition"
     },
     "conditionalType.operatorPosition": {
+      "$ref": "#/definitions/operatorPosition"
+    },
+    "unionAndIntersectionType.operatorPosition": {
       "$ref": "#/definitions/operatorPosition"
     },
     "arguments.preferHanging": {
@@ -1833,6 +2766,9 @@
     "whileStatement.preferHanging": {
       "$ref": "#/definitions/preferHanging"
     },
+    "withStatement.preferHanging": {
+      "$ref": "#/definitions/preferHanging"
+    },
     "arrayExpression.preferSingleLine": {
       "$ref": "#/definitions/preferSingleLine"
     },
@@ -1858,19 +2794,22 @@
       "$ref": "#/definitions/preferSingleLine"
     },
     "exportDeclaration.preferSingleLine": {
-      "$ref": "#/definitions/preferSingleLine"
+      "$ref": "#/definitions/preferSingleLineDefaultTrue"
     },
     "forStatement.preferSingleLine": {
       "$ref": "#/definitions/preferSingleLine"
     },
     "importDeclaration.preferSingleLine": {
-      "$ref": "#/definitions/preferSingleLine"
+      "$ref": "#/definitions/preferSingleLineDefaultTrue"
     },
     "jsxAttributes.preferSingleLine": {
       "$ref": "#/definitions/preferSingleLine"
     },
     "jsxElement.preferSingleLine": {
       "$ref": "#/definitions/preferSingleLine"
+    },
+    "jsxExpressionContainer.preferSingleLine": {
+      "$ref": "#/definitions/jsxExpressionContainer.preferSingleLine"
     },
     "mappedType.preferSingleLine": {
       "$ref": "#/definitions/preferSingleLine"

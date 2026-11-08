@@ -1,11 +1,11 @@
-import axios from "axios"
-import * as JSONC from "jsonc-parser"
-import fs from "node:fs"
-import path from "node:path"
-import { setGithubOutput, sh, stdoutOf } from "./lib/utils"
+import axios from "axios";
+import * as JSONC from "jsonc-parser";
+import fs from "node:fs";
+import path from "node:path";
+import { setGithubOutput, sh, stdoutOf } from "./lib/utils";
 
-const RootPath = path.resolve(__dirname, "..")
-const LibDprintPath = path.join(RootPath, "lib/dprint")
+const RootPath = path.resolve(__dirname, "..");
+const LibDprintPath = path.join(RootPath, "lib/dprint");
 
 enum UpdateKing {
     major,
@@ -15,8 +15,8 @@ enum UpdateKing {
 }
 
 interface PluginConfig {
-    name: string
-    schema: (version: string) => { source: string; destination: string }
+    name: string;
+    schema: (version: string) => { source: string; destination: string };
 }
 
 function createPluginConfig(
@@ -32,7 +32,7 @@ function createPluginConfig(
             source: `https://plugins.dprint.dev/${org}/${plugin}/${versionPrefix}${version}/schema.json`,
             destination: path.join(LibDprintPath, `${shortName}-config-schema.json`),
         }),
-    }
+    };
 }
 
 const plugins: PluginConfig[] = [
@@ -45,22 +45,22 @@ const plugins: PluginConfig[] = [
     createPluginConfig("markup", "g-plane", "markup_fmt", "dprint-plugin-markup", "v"),
     createPluginConfig("yaml", "g-plane", "pretty_yaml", "dprint-plugin-yaml", "v"),
     createPluginConfig("graphql", "g-plane", "pretty_graphql", "dprint-plugin-graphql", "v"),
-]
+];
 
 type CurrentVersionInfo = {
-    version: string
-}
+    version: string;
+};
 type LatestReleaseInfo = {
-    configSchemaPath: string
-    configSchemaDest: string
-    version: string
-}
+    configSchemaPath: string;
+    configSchemaDest: string;
+    version: string;
+};
 
 /**
  * Read the current version information.
  */
 function readCurrentVersion(plugin: PluginConfig): CurrentVersionInfo {
-    return { version: stdoutOf(`npm ls --depth=0 | grep ${plugin.name} | sed -E 's/.*?@\\^?([^@]+)$/\\1/g'`) }
+    return { version: stdoutOf(`npm ls --depth=0 | grep ${plugin.name} | sed -E 's/.*?@\\^?([^@]+)$/\\1/g'`) };
 }
 
 /**
@@ -68,17 +68,17 @@ function readCurrentVersion(plugin: PluginConfig): CurrentVersionInfo {
  * It's came from `https://github.com/dprint/dprint-plugin-typescript` repository.
  */
 function readLatestVersion(plugin: PluginConfig): LatestReleaseInfo {
-    const version = stdoutOf(`npm view ${plugin.name} version`)
+    const version = stdoutOf(`npm view ${plugin.name} version`);
     if (/^\d+\.\d+\.\d+$/.test(version)) {
-        const schema = plugin.schema(version)
+        const schema = plugin.schema(version);
         return {
             version: version,
             configSchemaPath: schema.source,
             configSchemaDest: schema.destination,
-        }
+        };
     }
 
-    throw new Error(`Stable release was not found !`)
+    throw new Error(`Stable release was not found !`);
 }
 
 /**
@@ -87,7 +87,7 @@ function readLatestVersion(plugin: PluginConfig): LatestReleaseInfo {
  * @param srcPath The path to the source code of the config schema.
  */
 async function updateConfigSchema(srcPath: string, destPath: string): Promise<void> {
-    console.log("Update %o => %o", srcPath, path.relative(process.cwd(), destPath))
+    console.log("Update %o => %o", srcPath, path.relative(process.cwd(), destPath));
 
     const originalContent = await new Promise<string>((resolve, fail) =>
         axios({
@@ -96,21 +96,21 @@ async function updateConfigSchema(srcPath: string, destPath: string): Promise<vo
             method: "get",
         }).then(response => resolve(response.data))
             .catch(err => fail(new Error(err?.message ?? err?.response?.status)))
-    )
+    );
 
-    const jsonSchema = JSONC.parse(originalContent)
-    fixConfigSchema(jsonSchema)
+    const jsonSchema = JSONC.parse(originalContent);
+    fixConfigSchema(jsonSchema);
 
-    fs.writeFileSync(destPath, JSON.stringify(jsonSchema, undefined, 2))
+    fs.writeFileSync(destPath, JSON.stringify(jsonSchema, undefined, 2));
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Safe use of any for JSON structure
 function fixConfigSchema(jsonSchema: any) {
     if (jsonSchema !== null && typeof jsonSchema === "object") {
-        fixConfigSchemaKey(jsonSchema)
-        fixConfigSchemaRef(jsonSchema)
+        fixConfigSchemaKey(jsonSchema);
+        fixConfigSchemaRef(jsonSchema);
     } else if (Array.isArray(jsonSchema)) {
-        fixConfigSchemaArray(jsonSchema)
+        fixConfigSchemaArray(jsonSchema);
     }
 }
 
@@ -119,14 +119,14 @@ function fixConfigSchemaKey(jsonSchema: any) {
     for (const [key, value] of Object.entries(jsonSchema)) {
         if (["$schema", "$id", "default"].includes(key)) {
             // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-            delete jsonSchema[key]
+            delete jsonSchema[key];
         } else if ("const" === key) {
             // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-            delete jsonSchema[key]
-            jsonSchema["type"] = typeof value
-            jsonSchema["enum"] = [value]
+            delete jsonSchema[key];
+            jsonSchema["type"] = typeof value;
+            jsonSchema["enum"] = [value];
         } else {
-            fixConfigSchema(value)
+            fixConfigSchema(value);
         }
     }
 }
@@ -138,7 +138,7 @@ function fixConfigSchemaRef(jsonSchema: any) {
         for (const key of Object.keys(jsonSchema)) {
             if (key !== "$ref") {
                 // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-                delete jsonSchema[key]
+                delete jsonSchema[key];
             }
         }
     }
@@ -147,7 +147,7 @@ function fixConfigSchemaRef(jsonSchema: any) {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Safe use of any for JSON structure
 function fixConfigSchemaArray(jsonSchema: any[]) {
     for (const value of jsonSchema) {
-        fixConfigSchema(value)
+        fixConfigSchema(value);
     }
 }
 
@@ -158,68 +158,68 @@ function fixConfigSchemaArray(jsonSchema: any[]) {
  * @param version2 Another vresion text to compare.
  */
 function calculateUpdateKind(version1: string, version2: string): UpdateKing {
-    const [major1, minor1] = version1.split(".")
-    const [major2, minor2] = version2.split(".")
+    const [major1, minor1] = version1.split(".");
+    const [major2, minor2] = version2.split(".");
 
     if (major1 !== major2) {
-        return UpdateKing.major
+        return UpdateKing.major;
     }
     if (minor1 !== minor2) {
-        return UpdateKing.minor
+        return UpdateKing.minor;
     }
-    return UpdateKing.patch
+    return UpdateKing.patch;
 }
 
 /**
  * Main logic.
  */
 async function main(): Promise<UpdateKing> {
-    let kind = UpdateKing.none
-    const updates = []
+    let kind = UpdateKing.none;
+    const updates = [];
     for (const plugin of plugins) {
-        const current = readCurrentVersion(plugin)
-        const latest = readLatestVersion(plugin)
+        const current = readCurrentVersion(plugin);
+        const latest = readLatestVersion(plugin);
 
         if (latest.version === current.version) {
             console.log(
                 "The current version is %o; no update found.",
                 current.version,
-            )
-            continue
+            );
+            continue;
         }
         console.log(
             "The current version is %o, the latest release is %o; need to upgrade that.",
             current.version,
             latest.version,
-        )
+        );
 
-        await updateConfigSchema(latest.configSchemaPath, latest.configSchemaDest)
-        sh(`npm install --ignore-scripts --save-peer ${plugin.name}@^${latest.version}`)
+        await updateConfigSchema(latest.configSchemaPath, latest.configSchemaDest);
+        sh(`npm install --ignore-scripts --save-peer ${plugin.name}@^${latest.version}`);
 
-        const pKind = calculateUpdateKind(current.version, latest.version)
-        kind = Math.min(kind, pKind)
+        const pKind = calculateUpdateKind(current.version, latest.version);
+        kind = Math.min(kind, pKind);
 
         if (pKind !== UpdateKing.none) {
-            updates.push(`${plugin.name} to v${latest.version}`)
+            updates.push(`${plugin.name} to v${latest.version}`);
         }
     }
 
-    sh(`npm install --ignore-scripts`)
+    sh(`npm install --ignore-scripts`);
 
-    setGithubOutput("dprint_plugin_updates", updates.join(", "))
+    setGithubOutput("dprint_plugin_updates", updates.join(", "));
 
-    return kind
+    return kind;
 }
 
 main()
     .catch(error => {
-        console.error(error)
-        process.exitCode = 1
-        return UpdateKing.none
+        console.error(error);
+        process.exitCode = 1;
+        return UpdateKing.none;
     })
     .then(updateKind => {
-        const updated = updateKind !== UpdateKing.none
+        const updated = updateKind !== UpdateKing.none;
 
-        setGithubOutput("updated", updated ? "yes" : "no")
-        setGithubOutput("kind", UpdateKing[updateKind])
-    })
+        setGithubOutput("updated", updated ? "yes" : "no");
+        setGithubOutput("kind", UpdateKing[updateKind]);
+    });

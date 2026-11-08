@@ -1,4 +1,4 @@
-import { disableTypescriptConflictRules } from "./configs/disable-conflict-rules"
+import { disableTypescriptConflictRules } from "./configs/disable-conflict-rules";
 import {
     dockerfileRecommended,
     graphqlRecommended,
@@ -9,8 +9,8 @@ import {
     tomlRecommended,
     typescriptRecommended,
     yamlRecommended,
-} from "./configs/recommended"
-import { dprintRules } from "./rules/dprint"
+} from "./configs/recommended";
+import { dprintRules } from "./rules/dprint";
 
 export = {
     configs: {
@@ -26,4 +26,4 @@ export = {
         "graphql-recommended": graphqlRecommended,
     },
     rules: dprintRules,
-}
+};

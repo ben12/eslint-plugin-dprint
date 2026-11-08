@@ -1,19 +1,96 @@
 {
   "type": "object",
+  "x-playground": {
+    "input": [
+      "#inventory service settings",
+      "title='Inventory Service'",
+      "  version=\"1.4.0\"",
+      "tags=[\"api\",\"inventory\",",
+      "\"internal\"]",
+      "",
+      "[server]",
+      "host=\"0.0.0.0\"",
+      "port   =   8080",
+      "  timeouts={read=30,write=30}",
+      "",
+      "[database]",
+      "url = 'postgres://localhost:5432/inventory'",
+      "pool = { min=2,max=10 }",
+      "",
+      "",
+      "[[workers]]",
+      "name=\"indexer\"",
+      "schedule = \"*/5 * * * *\"",
+      "[[workers]]",
+      "name   = \"mailer\"",
+      "retryDelays=[100,500,",
+      "  2000]"
+    ],
+    "extension": "toml"
+  },
+  "x-sections": [
+    {
+      "title": "General",
+      "description": "The width, indentation, and newlines of the file.",
+      "properties": [
+        "lineWidth",
+        "indentWidth",
+        "useTabs",
+        "newLineKind"
+      ]
+    },
+    {
+      "title": "Tables",
+      "description": "The indentation of table headers and their entries.",
+      "properties": [
+        "indentTables",
+        "indentEntries"
+      ]
+    },
+    {
+      "title": "Arrays and inline tables",
+      "description": "When arrays and inline tables go on a single line, and their spacing and trailing commas.",
+      "properties": [
+        "preferSingleLine",
+        "trailingCommas",
+        "array.spaceSurroundingBrackets",
+        "inlineTable.spaceSurroundingBraces"
+      ]
+    },
+    {
+      "title": "Values and comments",
+      "description": "The quotes of strings and the spacing of key/value pairs and comments.",
+      "properties": [
+        "quoteStyle",
+        "spaceSurroundingEquals",
+        "comment.forceLeadingSpace"
+      ]
+    },
+    {
+      "title": "Sorting",
+      "description": "The order of the entries of tables and inline tables and the values of arrays.",
+      "properties": [
+        "sortKeys",
+        "sortArrays",
+        "sortInlineTables",
+        "cargo.applyConventions"
+      ]
+    }
+  ],
   "definitions": {
     "useTabs": {
       "description": "Whether to use tabs (true) or spaces (false).",
       "type": "boolean",
       "oneOf": [
         {
-          "description": "",
+          "description": "Uses tabs for indentation.",
           "type": "boolean",
           "enum": [
             true
           ]
         },
         {
-          "description": "",
+          "description": "Uses spaces for indentation.",
           "type": "boolean",
           "enum": [
             false
@@ -44,13 +121,6 @@
           "type": "string",
           "enum": [
             "lf"
-          ]
-        },
-        {
-          "description": "Uses the system standard (ex. crlf on Windows).",
-          "type": "string",
-          "enum": [
-            "system"
           ]
         }
       ]
@@ -181,14 +251,14 @@
       "type": "boolean",
       "oneOf": [
         {
-          "description": "",
+          "description": "Sorts the entries of each table.",
           "type": "boolean",
           "enum": [
             true
           ]
         },
         {
-          "description": "",
+          "description": "Maintains the order of the entries.",
           "type": "boolean",
           "enum": [
             false
@@ -201,14 +271,14 @@
       "type": "boolean",
       "oneOf": [
         {
-          "description": "",
+          "description": "Sorts the values of each array.",
           "type": "boolean",
           "enum": [
             true
           ]
         },
         {
-          "description": "",
+          "description": "Maintains the order of the values.",
           "type": "boolean",
           "enum": [
             false
@@ -221,14 +291,14 @@
       "type": "boolean",
       "oneOf": [
         {
-          "description": "",
+          "description": "Sorts the entries of each inline table.",
           "type": "boolean",
           "enum": [
             true
           ]
         },
         {
-          "description": "",
+          "description": "Maintains the order of the entries.",
           "type": "boolean",
           "enum": [
             false
@@ -241,14 +311,14 @@
       "type": "boolean",
       "oneOf": [
         {
-          "description": "",
+          "description": "Puts arrays and inline tables that span multiple lines on a single line when they fit within the line width.",
           "type": "boolean",
           "enum": [
             true
           ]
         },
         {
-          "description": "",
+          "description": "Maintains arrays and inline tables being on multiple lines.",
           "type": "boolean",
           "enum": [
             false
@@ -261,14 +331,14 @@
       "type": "boolean",
       "oneOf": [
         {
-          "description": "",
+          "description": "Puts an array that spans multiple lines on a single line when it fits within the line width.",
           "type": "boolean",
           "enum": [
             true
           ]
         },
         {
-          "description": "",
+          "description": "Maintains an array being on multiple lines.",
           "type": "boolean",
           "enum": [
             false
@@ -281,14 +351,14 @@
       "type": "boolean",
       "oneOf": [
         {
-          "description": "",
+          "description": "Puts an inline table that spans multiple lines on a single line.",
           "type": "boolean",
           "enum": [
             true
           ]
         },
         {
-          "description": "",
+          "description": "Maintains an inline table being on multiple lines.",
           "type": "boolean",
           "enum": [
             false
@@ -357,18 +427,18 @@
       ]
     },
     "cargo.applyConventions": {
-      "description": "Whether to apply sorting to a Cargo.toml file.",
+      "description": "Whether to apply sorting to a `Cargo.toml` file.",
       "type": "boolean",
       "oneOf": [
         {
-          "description": "",
+          "description": "Sorts the package section, the dependency sections, and the workspace members in the conventional order.",
           "type": "boolean",
           "enum": [
             true
           ]
         },
         {
-          "description": "",
+          "description": "Maintains the order of the entries.",
           "type": "boolean",
           "enum": [
             false
@@ -378,17 +448,16 @@
     }
   },
   "properties": {
-    "locked": {
-      "description": "Whether the configuration is not allowed to be overriden or extended.",
-      "type": "boolean"
-    },
     "lineWidth": {
       "description": "The width of a line the printer will try to stay under. Note that the printer may exceed this width in certain cases.",
-      "type": "number"
+      "type": "integer",
+      "minimum": 1
     },
     "indentWidth": {
       "description": "The number of characters for an indent.",
-      "type": "number"
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 255
     },
     "useTabs": {
       "$ref": "#/definitions/useTabs"
@@ -424,24 +493,7 @@
       "$ref": "#/definitions/preferSingleLine"
     },
     "array.preferSingleLine": {
-      "description": "Whether to collapse an array written over several lines onto a single line when it fits. A comment written within it keeps it expanded. Defaults to whatever `preferSingleLine` is set to.",
-      "type": "boolean",
-      "oneOf": [
-        {
-          "description": "",
-          "type": "boolean",
-          "enum": [
-            true
-          ]
-        },
-        {
-          "description": "",
-          "type": "boolean",
-          "enum": [
-            false
-          ]
-        }
-      ]
+      "$ref": "#/definitions/array.preferSingleLine"
     },
     "inlineTable.preferSingleLine": {
       "$ref": "#/definitions/inlineTable.preferSingleLine"

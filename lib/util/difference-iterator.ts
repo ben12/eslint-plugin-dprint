@@ -1,73 +1,73 @@
-import { Change, diffChars } from "diff"
-import { isWhitespace } from "./predicate"
+import { Change, diffChars } from "diff";
+import { isWhitespace } from "./predicate";
 
 /** The difference type for add. */
 export type AddDiff = {
-    type: "add"
-    range: readonly [number, number]
-    newText: string
-    oldText: undefined
-}
+    type: "add";
+    range: readonly [number, number];
+    newText: string;
+    oldText: undefined;
+};
 /** The difference type for remove. */
 export type RemoveDiff = {
-    type: "remove"
-    range: readonly [number, number]
-    newText: undefined
-    oldText: string
-}
+    type: "remove";
+    range: readonly [number, number];
+    newText: undefined;
+    oldText: string;
+};
 /** The difference type for replace. */
 export type ReplaceDiff = {
-    type: "replace"
-    range: readonly [number, number]
-    newText: string
-    oldText: string
-}
+    type: "replace";
+    range: readonly [number, number];
+    newText: string;
+    oldText: string;
+};
 /** The difference type. */
-export type Diff = AddDiff | RemoveDiff | ReplaceDiff
+export type Diff = AddDiff | RemoveDiff | ReplaceDiff;
 
 /** The defference iterator. */
 export class DifferenceIterator {
     public static iterate(oldStr: string, newStr: string): Generator<Diff> {
-        return new DifferenceIterator(oldStr, newStr).iterate()
+        return new DifferenceIterator(oldStr, newStr).iterate();
     }
 
     /** All changes that the `diffChars()` function detected. */
-    private readonly changes: readonly Change[]
+    private readonly changes: readonly Change[];
     /** The current index in `this.changes`. */
-    private i = 0
+    private i = 0;
     /** The current index in the original source code text. */
-    private loc = 0
+    private loc = 0;
 
     /** Initialize this instance. */
     private constructor(oldStr: string, newStr: string) {
-        this.changes = diffChars(oldStr, newStr)
+        this.changes = diffChars(oldStr, newStr);
     }
 
     /** Iterate differences. */
     private *iterate(): Generator<Diff> {
         while (this.i < this.changes.length) {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const change = this.changeAt(this.i)!
+            const change = this.changeAt(this.i)!;
 
             if (change.added) {
-                yield this.handleAdd(change)
+                yield this.handleAdd(change);
             } else if (change.removed) {
-                yield this.handleRemove(change)
+                yield this.handleRemove(change);
             } else {
-                this.i += 1
-                this.loc += change.value.length
+                this.i += 1;
+                this.loc += change.value.length;
             }
         }
     }
 
     /** Handle the current change (`current.added === true`). */
     private handleAdd(current: Change): Diff {
-        const next1 = this.changeAt(this.i + 1)
-        const next2 = this.changeAt(this.i + 2)
+        const next1 = this.changeAt(this.i + 1);
+        const next2 = this.changeAt(this.i + 2);
 
         // Merge the sequence "added → removed" as a replacement.
         if (next1?.removed) {
-            return this.newReplacedDiff(2, next1.value, current.value)
+            return this.newReplacedDiff(2, next1.value, current.value);
         }
 
         // Merge the following sequences as a replacement:
@@ -91,7 +91,7 @@ export class DifferenceIterator {
                     3,
                     next1.value,
                     current.value + next1.value + next2.value,
-                )
+                );
             }
 
             // "added → as-is → removed" and the middle is whitespaces and the first and the last contains the same content.
@@ -104,21 +104,21 @@ export class DifferenceIterator {
                     3,
                     next1.value + next2.value,
                     current.value + next1.value,
-                )
+                );
             }
         }
 
-        return this.newAddedDiff(1, current.value)
+        return this.newAddedDiff(1, current.value);
     }
 
     /** Handle the current change (`current.removed === true`). */
     private handleRemove(current: Change): Diff {
-        const next1 = this.changeAt(this.i + 1)
-        const next2 = this.changeAt(this.i + 2)
+        const next1 = this.changeAt(this.i + 1);
+        const next2 = this.changeAt(this.i + 2);
 
         // Merge the sequence "removed → added" as a replacement.
         if (next1?.added) {
-            return this.newReplacedDiff(2, current.value, next1.value)
+            return this.newReplacedDiff(2, current.value, next1.value);
         }
 
         // Merge the following sequences as a replacement:
@@ -142,7 +142,7 @@ export class DifferenceIterator {
                     3,
                     current.value + next1.value + next2.value,
                     next1.value,
-                )
+                );
             }
 
             // "removed → as-is → added" and the middle is whitespaces and the first and the last contains the same content.
@@ -155,36 +155,36 @@ export class DifferenceIterator {
                     3,
                     current.value + next1.value,
                     next1.value + next2.value,
-                )
+                );
             }
         }
 
         // It's a removal.
-        return this.newRemovedDiff(1, current.value)
+        return this.newRemovedDiff(1, current.value);
     }
 
     /** Get the change at `i`. */
     private changeAt(i: number): Change | undefined {
-        return i >= 0 && i < this.changes.length ? this.changes[i] : undefined
+        return i >= 0 && i < this.changes.length ? this.changes[i] : undefined;
     }
 
     /** Create a diff object that type is `added`, and advance the cursor. */
     private newAddedDiff(numChanges: number, newText: string): AddDiff {
-        const range = [this.loc, this.loc] as const
+        const range = [this.loc, this.loc] as const;
 
-        this.i += numChanges
+        this.i += numChanges;
 
-        return { range, newText, oldText: undefined, type: "add" }
+        return { range, newText, oldText: undefined, type: "add" };
     }
 
     /** Create a diff object that type is `removed`, and advance the cursor. */
     private newRemovedDiff(numChanges: number, oldText: string): RemoveDiff {
-        const range = [this.loc, this.loc + oldText.length] as const
+        const range = [this.loc, this.loc + oldText.length] as const;
 
-        this.i += numChanges
-        this.loc += oldText.length
+        this.i += numChanges;
+        this.loc += oldText.length;
 
-        return { range, newText: undefined, oldText, type: "remove" }
+        return { range, newText: undefined, oldText, type: "remove" };
     }
 
     /** Create a diff object that type is `replaced`, and advance the cursor. */
@@ -193,11 +193,11 @@ export class DifferenceIterator {
         oldText: string,
         newText: string,
     ): ReplaceDiff {
-        const range = [this.loc, this.loc + oldText.length] as const
+        const range = [this.loc, this.loc + oldText.length] as const;
 
-        this.i += numChanges
-        this.loc += oldText.length
+        this.i += numChanges;
+        this.loc += oldText.length;
 
-        return { range, newText, oldText, type: "replace" }
+        return { range, newText, oldText, type: "replace" };
     }
 }

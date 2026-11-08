@@ -1,5 +1,32 @@
 {
   "type": "object",
+  "x-playground": {
+    "input": [
+      "# syntax=docker/dockerfile:1",
+      "ARG   NODE_VERSION=22",
+      "",
+      "FROM    node:${NODE_VERSION}-alpine   AS   build",
+      "WORKDIR   /app",
+      "COPY   package.json   package-lock.json   ./",
+      "RUN   npm   ci",
+      "COPY   .   .",
+      "RUN npm run build \\",
+      "      && npm prune   --omit=dev",
+      "",
+      "",
+      "FROM   node:${NODE_VERSION}-alpine",
+      "ENV   NODE_ENV production",
+      "ENV PORT=8080   LOG_LEVEL=info",
+      "WORKDIR /app",
+      "COPY   --from=build   /app/dist   ./dist",
+      "COPY --from=build /app/node_modules ./node_modules",
+      "USER    node",
+      "EXPOSE   8080",
+      "HEALTHCHECK   --interval=30s   --timeout=3s   CMD   wget -q -O- http://localhost:8080/health || exit 1",
+      "CMD   [ \"node\" ,\"dist/server.js\" ]"
+    ],
+    "extension": "dockerfile"
+  },
   "definitions": {
     "newLineKind": {
       "description": "The kind of newline to use.",
@@ -25,40 +52,58 @@
           "enum": [
             "lf"
           ]
-        },
-        {
-          "description": "Uses the system standard (ex. crlf on Windows).",
-          "type": "string",
-          "enum": [
-            "system"
-          ]
         }
       ]
     }
   },
   "properties": {
-    "locked": {
-      "description": "Whether the configuration is not allowed to be overridden or extended.",
-      "type": "boolean"
-    },
     "lineWidth": {
       "description": "The width of a line the printer will try to stay under. Note that the printer may exceed this width in certain cases.",
-      "type": "number"
+      "type": "integer",
+      "minimum": 1
     },
     "newLineKind": {
       "$ref": "#/definitions/newLineKind"
     },
     "healthcheckCmdNewLine": {
-      "description": "Whether to always break a HEALTHCHECK command onto its own continuation line when the instruction has options, even if it would fit on one line.",
-      "type": "boolean"
+      "description": "Whether to always break a `HEALTHCHECK` command onto its own continuation line when the instruction has options, even if it would fit on one line.",
+      "type": "boolean",
+      "x-example": {
+        "input": [
+          "HEALTHCHECK --interval=30s --timeout=3s CMD curl -f http://localhost/ || exit 1"
+        ],
+        "outputs": {
+          "true": "HEALTHCHECK --interval=30s --timeout=3s \\\n  CMD curl -f http://localhost/ || exit 1\n",
+          "false": "HEALTHCHECK --interval=30s --timeout=3s CMD curl -f http://localhost/ || exit 1\n"
+        },
+        "extension": "dockerfile"
+      }
     },
     "indentStages": {
-      "description": "Whether to indent the body of each build stage—the instructions and comments that follow a FROM—by indentWidth spaces. The indentation is always spaces; useTabs is not honored.",
-      "type": "boolean"
+      "description": "Whether to indent the body of each build stage (the instructions and comments that follow a `FROM`) by `indentWidth` spaces. The indentation is always spaces; `useTabs` is not honored.",
+      "type": "boolean",
+      "x-example": {
+        "input": [
+          "FROM node:22 AS build",
+          "WORKDIR /app",
+          "RUN npm ci",
+          "",
+          "FROM node:22-alpine",
+          "COPY --from=build /app /app",
+          "CMD [\"node\", \"/app/server.js\"]"
+        ],
+        "outputs": {
+          "true": "FROM node:22 AS build\n  WORKDIR /app\n  RUN npm ci\n\nFROM node:22-alpine\n  COPY --from=build /app /app\n  CMD [\"node\", \"/app/server.js\"]\n",
+          "false": "FROM node:22 AS build\nWORKDIR /app\nRUN npm ci\n\nFROM node:22-alpine\nCOPY --from=build /app /app\nCMD [\"node\", \"/app/server.js\"]\n"
+        },
+        "extension": "dockerfile"
+      }
     },
     "indentWidth": {
-      "description": "The number of spaces for an indent. Only used when indentStages is enabled.",
-      "type": "number"
+      "description": "The number of spaces for an indent. Only used when `indentStages` is enabled.",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 255
     }
   }
 }

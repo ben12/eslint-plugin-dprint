@@ -3,7 +3,7 @@
  * @param s The text to check.
  */
 export function isWhitespace(s: string): boolean {
-    return /^\s+$/u.test(s)
+    return /^\s+$/u.test(s);
 }
 
 /**
@@ -11,5 +11,5 @@ export function isWhitespace(s: string): boolean {
  * @param s The text to check.
  */
 export function hasLinebreak(s: string): boolean {
-    return /[\r\n]/u.test(s)
+    return /[\r\n]/u.test(s);
 }

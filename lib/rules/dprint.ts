@@ -1,18 +1,18 @@
-import { Rule, SourceCode } from "eslint"
-import { JSONSchema4 } from "json-schema"
-import path from "node:path"
-import dockerfileConfigSchema from "../dprint/dockerfile-config-schema.json"
-import { format, FormatterInput } from "../dprint/dprint"
-import graphqlConfigSchema from "../dprint/graphql-config-schema.json"
-import jsonConfigSchema from "../dprint/json-config-schema.json"
-import malvaConfigSchema from "../dprint/malva-config-schema.json"
-import markdownConfigSchema from "../dprint/markdown-config-schema.json"
-import markupConfigSchema from "../dprint/markup-config-schema.json"
-import tomlConfigSchema from "../dprint/toml-config-schema.json"
-import tsConfigSchema from "../dprint/typescript-config-schema.json"
-import yamlConfigSchema from "../dprint/yaml-config-schema.json"
-import { AddDiff, Diff, DifferenceIterator, RemoveDiff, ReplaceDiff } from "../util/difference-iterator"
-import { hasLinebreak, isWhitespace } from "../util/predicate"
+import { Rule, SourceCode } from "eslint";
+import { JSONSchema4 } from "json-schema";
+import path from "node:path";
+import dockerfileConfigSchema from "../dprint/dockerfile-config-schema.json";
+import { format, FormatterInput } from "../dprint/dprint";
+import graphqlConfigSchema from "../dprint/graphql-config-schema.json";
+import jsonConfigSchema from "../dprint/json-config-schema.json";
+import malvaConfigSchema from "../dprint/malva-config-schema.json";
+import markdownConfigSchema from "../dprint/markdown-config-schema.json";
+import markupConfigSchema from "../dprint/markup-config-schema.json";
+import tomlConfigSchema from "../dprint/toml-config-schema.json";
+import tsConfigSchema from "../dprint/typescript-config-schema.json";
+import yamlConfigSchema from "../dprint/yaml-config-schema.json";
+import { AddDiff, Diff, DifferenceIterator, RemoveDiff, ReplaceDiff } from "../util/difference-iterator";
+import { hasLinebreak, isWhitespace } from "../util/predicate";
 
 const configSchemas = [
     { name: "dockerfile", configSchema: dockerfileConfigSchema as JSONSchema4 },
@@ -24,7 +24,7 @@ const configSchemas = [
     { name: "markup", configSchema: markupConfigSchema as JSONSchema4 },
     { name: "yaml", configSchema: yamlConfigSchema as JSONSchema4 },
     { name: "graphql", configSchema: graphqlConfigSchema as JSONSchema4 },
-]
+];
 
 const messages = {
     requireLinebreak: "Require line break(s).",
@@ -38,41 +38,41 @@ const messages = {
     moveCodeToNextLine: "Move code {{text}} to the next line.",
     moveCodeToPrevLine: "Move code {{text}} to the previous line.",
     moveCode: "Require tweaking whitespaces around code {{text}}.",
-} as const
+} as const;
 
 /** The message IDs. */
-type MessageId = keyof typeof messages
+type MessageId = keyof typeof messages;
 /** The message. */
 type Message = {
-    messageId: MessageId
-    data: Record<string, string>
-}
+    messageId: MessageId;
+    data: Record<string, string>;
+};
 
 /**
  * Count line breaks in the head whitespace sequence.
  * @param s The text to check.
  */
 function getLineNumberOfFirstCode(s: string): number {
-    const m = /^\s+/u.exec(s)
+    const m = /^\s+/u.exec(s);
     if (!m) {
-        return 0
+        return 0;
     }
 
-    const Linebreak = /\r\n|[\r\n]/gu
-    let count = 0
+    const Linebreak = /\r\n|[\r\n]/gu;
+    let count = 0;
     while (Linebreak.exec(m[0]) != null) {
-        count += 1
+        count += 1;
     }
 
-    return count
+    return count;
 }
 
 function isAddDiff(d: Diff): d is AddDiff {
-    return d.type === "add"
+    return d.type === "add";
 }
 
 function isRemoveDiff(d: Diff): d is RemoveDiff {
-    return d.type === "remove"
+    return d.type === "remove";
 }
 
 /**
@@ -86,12 +86,12 @@ function createAddMessage(d: AddDiff): Message {
                 ? "requireLinebreak"
                 : "requireWhitespace",
             data: {},
-        }
+        };
     }
     return {
         messageId: "requireCode",
         data: { text: JSON.stringify(d.newText.trim()) },
-    }
+    };
 }
 
 /**
@@ -105,12 +105,12 @@ function createRemoveMessage(d: RemoveDiff): Message {
                 ? "extraLinebreak"
                 : "extraWhitespace",
             data: {},
-        }
+        };
     }
     return {
         messageId: "extraCode",
         data: { text: JSON.stringify(d.oldText.trim()) },
-    }
+    };
 }
 
 /**
@@ -119,22 +119,22 @@ function createRemoveMessage(d: RemoveDiff): Message {
  */
 function createWhitespaceMessage(d: ReplaceDiff): Message | false {
     if (isWhitespace(d.oldText) && isWhitespace(d.newText)) {
-        const oldHasLinebreak = hasLinebreak(d.oldText)
-        const newHasLinebreak = hasLinebreak(d.newText)
+        const oldHasLinebreak = hasLinebreak(d.oldText);
+        const newHasLinebreak = hasLinebreak(d.newText);
         if (!oldHasLinebreak && newHasLinebreak) {
             return {
                 messageId: "requireLinebreak",
                 data: {},
-            }
+            };
         }
         return {
             messageId: oldHasLinebreak && !newHasLinebreak
                 ? "extraLinebreak"
                 : "replaceWhitespace",
             data: {},
-        }
+        };
     }
-    return false
+    return false;
 }
 
 /**
@@ -143,22 +143,22 @@ function createWhitespaceMessage(d: ReplaceDiff): Message | false {
  */
 function createMoveMessage(d: ReplaceDiff): Message | false {
     if (d.oldText.trim() === d.newText.trim()) {
-        const oldLine = getLineNumberOfFirstCode(d.oldText)
-        const newLine = getLineNumberOfFirstCode(d.newText)
+        const oldLine = getLineNumberOfFirstCode(d.oldText);
+        const newLine = getLineNumberOfFirstCode(d.newText);
         if (newLine > oldLine) {
             return {
                 messageId: "moveCodeToNextLine",
                 data: { text: JSON.stringify(d.oldText.trim()) },
-            }
+            };
         }
         return {
             messageId: newLine < oldLine
                 ? "moveCodeToPrevLine"
                 : "moveCode",
             data: { text: JSON.stringify(d.oldText.trim()) },
-        }
+        };
     }
-    return false
+    return false;
 }
 
 /**
@@ -172,7 +172,7 @@ function createRepaceMessage(d: ReplaceDiff): Message {
             newText: JSON.stringify(d.newText),
             oldText: JSON.stringify(d.oldText),
         },
-    }
+    };
 }
 
 /**
@@ -181,22 +181,22 @@ function createRepaceMessage(d: ReplaceDiff): Message {
  */
 function createMessage(d: Diff): Message {
     if (isAddDiff(d)) {
-        return createAddMessage(d)
+        return createAddMessage(d);
     }
     if (isRemoveDiff(d)) {
-        return createRemoveMessage(d)
+        return createRemoveMessage(d);
     }
     return createWhitespaceMessage(d) ||
         createMoveMessage(d) ||
-        createRepaceMessage(d)
+        createRepaceMessage(d);
 }
 
 type Options = {
-    readonly configFile?: string
-    readonly config?: Record<string, unknown>
-    readonly hostConfigs?: Record<string, Record<string, unknown>>
-}
-const defaultOptions: Options = { configFile: "dprint.json", config: {}, hostConfigs: {} }
+    readonly configFile?: string;
+    readonly config?: Record<string, unknown>;
+    readonly hostConfigs?: Record<string, Record<string, unknown>>;
+};
+const defaultOptions: Options = { configFile: "dprint.json", config: {}, hostConfigs: {} };
 
 /**
  * Shape of the per-plugin entry under ESLint's `settings`.
@@ -213,17 +213,17 @@ const defaultOptions: Options = { configFile: "dprint.json", config: {}, hostCon
  * `FormatterInput` in lib/dprint/dprint.ts.
  */
 export interface DprintPluginSettings {
-    readonly formatters?: { readonly [ruleName: string]: FormatterInput | undefined }
+    readonly formatters?: { readonly [ruleName: string]: FormatterInput | undefined };
 }
 
-const SETTINGS_KEY = "@ben_12/dprint"
+const SETTINGS_KEY = "@ben_12/dprint";
 
 function readFormatterFromSettings(
     settings: Rule.RuleContext["settings"],
     ruleName: string,
 ): FormatterInput | undefined {
-    const pluginSettings = (settings?.[SETTINGS_KEY] ?? undefined) as DprintPluginSettings | undefined
-    return pluginSettings?.formatters?.[ruleName]
+    const pluginSettings = (settings?.[SETTINGS_KEY] ?? undefined) as DprintPluginSettings | undefined;
+    return pluginSettings?.formatters?.[ruleName];
 }
 
 export const dprintRules: { [name: string]: Rule.RuleModule } = configSchemas.map((
@@ -235,10 +235,10 @@ export const dprintRules: { [name: string]: Rule.RuleModule } = configSchemas.ma
     // Inner values are not strictly validated by schema — dprint's WASM setConfig handles that.
     const hostConfigsProperties = configSchemas.reduce((acc, sibling) => {
         if (sibling.name !== config.name) {
-            acc[sibling.name] = { type: "object", additionalProperties: true }
+            acc[sibling.name] = { type: "object", additionalProperties: true };
         }
-        return acc
-    }, {} as Record<string, JSONSchema4>)
+        return acc;
+    }, {} as Record<string, JSONSchema4>);
 
     return {
         [config.name]: {
@@ -284,23 +284,23 @@ export const dprintRules: { [name: string]: Rule.RuleModule } = configSchemas.ma
                 Program() {
                     // retrocompatibility with eslint v7
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    const sourceCode = context.sourceCode ?? (context as any).getSourceCode()
+                    const sourceCode = context.sourceCode ?? (context as any).getSourceCode();
                     // retrocompatibility with eslint v7
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    const filePath = context.filename ?? (context as any).getFilename()
-                    const fileText = sourceCode.getText()
-                    const options = (context.options[0] as Options) ?? defaultOptions
-                    const configFile = options.configFile ?? "dprint.json"
-                    const configOpt = options.config || {}
-                    const hostConfigs = options.hostConfigs || {}
+                    const filePath = context.filename ?? (context as any).getFilename();
+                    const fileText = sourceCode.getText();
+                    const options = (context.options[0] as Options) ?? defaultOptions;
+                    const configFile = options.configFile ?? "dprint.json";
+                    const configOpt = options.config || {};
+                    const hostConfigs = options.hostConfigs || {};
 
                     // Needs an absolute path
                     if (!filePath || !path.isAbsolute(filePath)) {
-                        return
+                        return;
                     }
 
                     // Does format
-                    const formatterInput = readFormatterFromSettings(context.settings, config.name)
+                    const formatterInput = readFormatterFromSettings(context.settings, config.name);
                     const formattedText = format(
                         configFile,
                         configOpt,
@@ -309,14 +309,14 @@ export const dprintRules: { [name: string]: Rule.RuleModule } = configSchemas.ma
                         fileText,
                         config.name,
                         formatterInput,
-                    )
+                    );
 
-                    generateLintReports(fileText, formattedText, sourceCode, context)
+                    generateLintReports(fileText, formattedText, sourceCode, context);
                 },
             }),
         },
-    }
-}).reduce((r1, r2) => ({ ...r1, ...r2 }), {})
+    };
+}).reduce((r1, r2) => ({ ...r1, ...r2 }), {});
 
 function generateLintReports(
     fileText: string,
@@ -333,8 +333,8 @@ function generateLintReports(
             : {
                 start: sourceCode.getLocFromIndex(d.range[0]),
                 end: sourceCode.getLocFromIndex(d.range[1]),
-            }
-        const { messageId, data } = createMessage(d)
+            };
+        const { messageId, data } = createMessage(d);
 
         context.report({
             loc,
@@ -342,15 +342,15 @@ function generateLintReports(
             data,
 
             fix(fixer) {
-                const range = d.range as [number, number]
+                const range = d.range as [number, number];
                 if (d.type === "add") {
-                    return fixer.insertTextAfterRange(range, d.newText)
+                    return fixer.insertTextAfterRange(range, d.newText);
                 }
                 if (d.type === "remove") {
-                    return fixer.removeRange(range)
+                    return fixer.removeRange(range);
                 }
-                return fixer.replaceTextRange(range, d.newText)
+                return fixer.replaceTextRange(range, d.newText);
             },
-        })
+        });
     }
 }
