@@ -39,6 +39,7 @@ const plugins: PluginConfig[] = [
     createPluginConfig("dockerfile"),
     createPluginConfig("json"),
     createPluginConfig("markdown"),
+    createPluginConfig("sql"),
     createPluginConfig("toml"),
     createPluginConfig("typescript"),
     createPluginConfig("malva", "g-plane", "malva", "dprint-plugin-malva", "v"),

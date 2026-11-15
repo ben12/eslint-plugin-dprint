@@ -12,6 +12,9 @@
     "json": {
         "commentLine.forceSpaceAfterSlashes": false
     },
+    "sql": {
+        "casing": "lower"
+    },
     "toml": {
         "comment.forceLeadingSpace": false
     },

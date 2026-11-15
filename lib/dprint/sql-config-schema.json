@@ -1,0 +1,214 @@
+{
+  "type": "object",
+  "x-playground": {
+    "input": [
+      "create table orders (id integer primary key, customer_id integer not null references customers(id),",
+      "  status varchar(20) default 'pending', total decimal(10,2), created_at timestamp);",
+      "",
+      "insert into orders (customer_id,status,total) values (1,'paid',25.50),(2,'pending',99.99);",
+      "",
+      "with recent as (select customer_id, sum(total) as spent from orders where created_at > current_date - interval '30 days' group by customer_id)",
+      "select c.name,c.email,r.spent,",
+      "case when r.spent > 1000 then 'gold' when r.spent > 100 then 'silver' else 'bronze' end as tier",
+      "from customers c inner join recent r on r.customer_id = c.id left join addresses a on a.customer_id = c.id",
+      "where c.active = true and (a.country = 'CA' or a.country is null)",
+      "order by r.spent desc limit 10;",
+      "",
+      "update orders set status='shipped' where id in (select order_id from shipments where shipped_at is not null);"
+    ],
+    "extension": "sql"
+  },
+  "definitions": {
+    "useTabs": {
+      "description": "Whether to use tabs (true) or spaces (false).",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Uses tabs for indentation.",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Uses spaces for indentation.",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "newLineKind": {
+      "description": "The kind of newline to use.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "For each file, uses the newline kind found at the end of the last line.",
+          "type": "string",
+          "enum": [
+            "auto"
+          ]
+        },
+        {
+          "description": "Uses carriage return, line feed.",
+          "type": "string",
+          "enum": [
+            "crlf"
+          ]
+        },
+        {
+          "description": "Uses line feed.",
+          "type": "string",
+          "enum": [
+            "lf"
+          ]
+        }
+      ]
+    }
+  },
+  "properties": {
+    "lineWidth": {
+      "description": "The width of a line the printer will try to stay under. Note that the printer may exceed this width in certain cases.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "indentWidth": {
+      "description": "The number of characters for an indent.",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 255
+    },
+    "useTabs": {
+      "$ref": "#/definitions/useTabs"
+    },
+    "newLineKind": {
+      "$ref": "#/definitions/newLineKind"
+    },
+    "dialect": {
+      "description": "The SQL dialect the files are written in, which decides how the text is split into tokens: which characters start a comment or quote an identifier, whether a backslash escapes a quote, and so on. The generic dialect accepts the syntax of all of the others where they don't conflict.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "The syntax of all of the dialects where they don't conflict.",
+          "type": "string",
+          "enum": [
+            "generic"
+          ]
+        },
+        {
+          "description": "PostgreSQL, which also suits databases that use its syntax (ex. CockroachDB, DuckDB and Redshift).",
+          "type": "string",
+          "enum": [
+            "postgresql"
+          ]
+        },
+        {
+          "description": "MySQL and MariaDB.",
+          "type": "string",
+          "enum": [
+            "mysql"
+          ]
+        },
+        {
+          "description": "Microsoft SQL Server and Azure SQL (T-SQL).",
+          "type": "string",
+          "enum": [
+            "sqlserver"
+          ]
+        },
+        {
+          "description": "SQLite.",
+          "type": "string",
+          "enum": [
+            "sqlite"
+          ]
+        },
+        {
+          "description": "Oracle (PL/SQL).",
+          "type": "string",
+          "enum": [
+            "oracle"
+          ]
+        },
+        {
+          "description": "Google BigQuery.",
+          "type": "string",
+          "enum": [
+            "bigquery"
+          ]
+        },
+        {
+          "description": "Snowflake.",
+          "type": "string",
+          "enum": [
+            "snowflake"
+          ]
+        }
+      ]
+    },
+    "casing": {
+      "description": "The casing of keywords. Names (ex. of tables and columns) and functions are left as written.",
+      "type": "string",
+      "oneOf": [
+        {
+          "description": "Preserves the casing of keywords.",
+          "type": "string",
+          "enum": [
+            "preserve"
+          ]
+        },
+        {
+          "description": "Converts keywords to UPPERCASE.",
+          "type": "string",
+          "enum": [
+            "upper"
+          ]
+        },
+        {
+          "description": "Converts keywords to lowercase.",
+          "type": "string",
+          "enum": [
+            "lower"
+          ]
+        }
+      ],
+      "x-example": {
+        "input": [
+          "Select name, count(*) AS total",
+          "from users Inner Join orders on orders.user_id = users.id",
+          "Where active = TRUE group by name;"
+        ],
+        "outputs": {
+          "preserve": "Select name, count(*) AS total\nfrom users\n  Inner Join orders on orders.user_id = users.id\nWhere active = TRUE\ngroup by name;\n",
+          "upper": "SELECT name, count(*) AS total\nFROM users\n  INNER JOIN orders ON orders.user_id = users.id\nWHERE active = TRUE\nGROUP BY name;\n",
+          "lower": "select name, count(*) as total\nfrom users\n  inner join orders on orders.user_id = users.id\nwhere active = true\ngroup by name;\n"
+        },
+        "extension": "sql"
+      }
+    },
+    "uppercase": {
+      "description": "Deprecated. Use `casing` instead. Use ALL CAPS for keywords.",
+      "type": "boolean"
+    },
+    "linesBetweenQueries": {
+      "description": "The minimum number of line breaks between statements at the top level of the file. A blank line between statements is kept regardless.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "joinsAsTopLevel": {
+      "description": "Whether to write joins at the indentation of the `FROM` keyword rather than indented beneath it.",
+      "type": "boolean",
+      "x-example": {
+        "input": [
+          "SELECT u.name, o.total FROM users u INNER JOIN orders o ON o.user_id = u.id LEFT JOIN payments p ON p.order_id = o.id;"
+        ],
+        "outputs": {
+          "true": "SELECT u.name, o.total\nFROM users u\nINNER JOIN orders o ON o.user_id = u.id\nLEFT JOIN payments p ON p.order_id = o.id;\n",
+          "false": "SELECT u.name, o.total\nFROM users u\n  INNER JOIN orders o ON o.user_id = u.id\n  LEFT JOIN payments p ON p.order_id = o.id;\n"
+        },
+        "extension": "sql"
+      }
+    }
+  }
+}
