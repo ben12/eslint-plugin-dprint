@@ -2,7 +2,7 @@
     "lineWidth": 120,
     "typescript": {
         "indentWidth": 4,
-        "semiColons": "asi",
+        "semicolons": "asi",
         "operatorPosition": "sameLine",
         "conditionalExpression.operatorPosition": "nextLine",
         "quoteStyle": "preferDouble"
