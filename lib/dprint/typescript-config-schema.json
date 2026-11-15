@@ -52,6 +52,9 @@
         "preferHanging",
         "preferSingleLine",
         "operatorPosition",
+        "arguments.linePerArgument",
+        "arrayExpression.linePerElement",
+        "parameters.linePerParameter",
         "binaryExpression.linePerExpression",
         "memberExpression.linePerExpression",
         "conditionalExpression.linePerExpression",
@@ -151,6 +154,7 @@
       "description": "The formatting of tagged templates and the code embedded in them (ex. `` css`...` ``).",
       "properties": [
         "taggedTemplate.formatEmbedded",
+        "taggedTemplate.reportEmbeddedErrors",
         "taggedTemplate.embeddedLanguages",
         "taggedTemplate.spaceBeforeLiteral"
       ]
@@ -1013,6 +1017,46 @@
         }
       ]
     },
+    "arguments.linePerArgument": {
+      "description": "Whether to force a line per argument when the arguments of a call span multiple lines.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Formats with each argument on a new line.",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Maintains the line breaks between the arguments as written by the programmer. A line that exceeds the line width is still split up.",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "arrayExpression.linePerElement": {
+      "description": "Whether to force a line per element when an array expression spans multiple lines.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Formats with each element on a new line.",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Maintains the line breaks between the elements as written by the programmer. A line that exceeds the line width is still split up.",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
     "binaryExpression.linePerExpression": {
       "description": "Whether to force a line per expression when spanning multiple lines.",
       "type": "boolean",
@@ -1133,6 +1177,26 @@
         }
       ]
     },
+    "parameters.linePerParameter": {
+      "description": "Whether to force a line per parameter when the parameters of a function span multiple lines.",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Formats with each parameter on a new line.",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Maintains the line breaks between the parameters as written by the programmer. A line that exceeds the line width is still split up.",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
     "taggedTemplate.formatEmbedded": {
       "description": "Whether to format the text of tagged templates whose tag is in `taggedTemplate.embeddedLanguages` (ex. `` html`...` `` and `` css`...` ``) with the plugin dprint uses for the language's file extension. A template is left as is when no plugin formats the extension.",
       "type": "boolean",
@@ -1146,6 +1210,26 @@
         },
         {
           "description": "Leaves the text of tagged templates as is.",
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ]
+    },
+    "taggedTemplate.reportEmbeddedErrors": {
+      "description": "Whether a tagged template whose embedded text fails to format (ex. a syntax error in `` css`...` ``) is a formatting error. An error might be from the placeholders of the expressions not being valid where the expressions are (ex. `` html`<div style=\"height: ${h}%\"></div>` ``).",
+      "type": "boolean",
+      "oneOf": [
+        {
+          "description": "Reports an error when the text of a template fails to format.",
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        {
+          "description": "Leaves a template whose text fails to format as is.",
           "type": "boolean",
           "enum": [
             false
@@ -2088,6 +2172,12 @@
     "arrowFunction.useParentheses": {
       "$ref": "#/definitions/arrowFunction.useParentheses"
     },
+    "arguments.linePerArgument": {
+      "$ref": "#/definitions/arguments.linePerArgument"
+    },
+    "arrayExpression.linePerElement": {
+      "$ref": "#/definitions/arrayExpression.linePerElement"
+    },
     "binaryExpression.linePerExpression": {
       "$ref": "#/definitions/binaryExpression.linePerExpression"
     },
@@ -2133,6 +2223,9 @@
     "memberExpression.linePerExpression": {
       "$ref": "#/definitions/memberExpression.linePerExpression"
     },
+    "parameters.linePerParameter": {
+      "$ref": "#/definitions/parameters.linePerParameter"
+    },
     "typeLiteral.separatorKind": {
       "$ref": "#/definitions/typeLiteral.separatorKind"
     },
@@ -2144,6 +2237,9 @@
     },
     "taggedTemplate.formatEmbedded": {
       "$ref": "#/definitions/taggedTemplate.formatEmbedded"
+    },
+    "taggedTemplate.reportEmbeddedErrors": {
+      "$ref": "#/definitions/taggedTemplate.reportEmbeddedErrors"
     },
     "taggedTemplate.embeddedLanguages": {
       "$ref": "#/definitions/taggedTemplate.embeddedLanguages"
