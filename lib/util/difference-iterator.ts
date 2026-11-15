@@ -28,7 +28,48 @@ export type Diff = AddDiff | RemoveDiff | ReplaceDiff
 /** The defference iterator. */
 export class DifferenceIterator {
     public static iterate(oldStr: string, newStr: string): Generator<Diff> {
-        return new DifferenceIterator(oldStr, newStr).iterate()
+        return DifferenceIterator.mergeContiguous(oldStr, new DifferenceIterator(oldStr, newStr).iterate())
+    }
+
+    /**
+     * Merge differences touching each other (one starting where the previous one ends) into a single one.
+     * ESLint treats them as overlapping (`lastPos >= start`) and skips the second fix,
+     * which would apply only a subset of interdependent fixes and corrupt the code.
+     * Differences are ordered and never really overlap, so only the touching case can occur.
+     */
+    private static *mergeContiguous(oldStr: string, diffs: Iterable<Diff>): Generator<Diff> {
+        let pending: Diff | undefined
+        for (const d of diffs) {
+            if (pending?.range[1] === d.range[0]) {
+                pending = DifferenceIterator.createDiff(
+                    oldStr,
+                    pending.range[0],
+                    d.range[1],
+                    (pending.newText ?? "") + (d.newText ?? ""),
+                )
+            } else {
+                if (pending) {
+                    yield pending
+                }
+                pending = d
+            }
+        }
+        if (pending) {
+            yield pending
+        }
+    }
+
+    /** Create a diff object of the appropriate type for replacing `oldStr[start, end)` by `newText`. */
+    private static createDiff(oldStr: string, start: number, end: number, newText: string): Diff {
+        const range = [start, end] as const
+        const oldText = oldStr.slice(start, end)
+        if (oldText === "") {
+            return { range, newText, oldText: undefined, type: "add" }
+        }
+        if (newText === "") {
+            return { range, newText: undefined, oldText, type: "remove" }
+        }
+        return { range, newText, oldText, type: "replace" }
     }
 
     /** All changes that the `diffChars()` function detected. */

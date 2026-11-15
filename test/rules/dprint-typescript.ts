@@ -279,5 +279,54 @@ tester.run("dprint/typescript", dprintRules.typescript, {
                 },
             ],
         },
+        {
+            filename: path.join(__dirname, "test.ts"),
+            ...(
+                eslintVersion >= 9
+                    ? {
+                        languageOptions: {
+                            parser: require("@typescript-eslint/parser"),
+                        },
+                    } as any
+                    : {
+                        parser: require.resolve("@typescript-eslint/parser"),
+                    } as any
+            ),
+            // https://github.com/ben12/eslint-plugin-dprint/issues/20
+            // Diffs touching each other (one starting where the previous one ends) must be merged:
+            // ESLint treats them as overlapping and applies only some of them (`} from` -> `} rom`).
+            code: `import {
+} from '@vue/shared'
+import {
+  type DebuggerOptions,
+  EffectFlags,
+  type EffectScheduler,
+  ReactiveEffect,
+  pauseTracking,
+  resetTracking,
+} from './effect'
+import { isReactive, isShallow } from './reactive'
+import { type Ref, isRef } from './ref'
+import { getCurrentScope } from './effectScope'
+`,
+            output: `import {} from "@vue/shared";
+import {
+  type DebuggerOptions,
+  EffectFlags,
+  type EffectScheduler,
+  pauseTracking,
+  ReactiveEffect,
+  resetTracking,
+} from "./effect";
+import { getCurrentScope } from "./effectScope";
+import { isReactive, isShallow } from "./reactive";
+import { isRef, type Ref } from "./ref";
+`,
+            options: [{
+                configFile: "",
+                config: {},
+            }],
+            errors: 23,
+        },
     ],
 })
