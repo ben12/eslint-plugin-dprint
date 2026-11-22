@@ -529,6 +529,69 @@
     "ignoreFileCommentDirective": {
       "description": "Text directive for ignoring formatting a whole file.",
       "type": "string"
+    },
+    "extensions": {
+      "description": "Adds or overrides extensions with specified languages.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "oneOf": [
+          {
+            "type": "string",
+            "enum": [
+              "html"
+            ]
+          },
+          {
+            "type": "string",
+            "enum": [
+              "vue"
+            ]
+          },
+          {
+            "type": "string",
+            "enum": [
+              "svelte"
+            ]
+          },
+          {
+            "type": "string",
+            "enum": [
+              "astro"
+            ]
+          },
+          {
+            "type": "string",
+            "enum": [
+              "angular"
+            ]
+          },
+          {
+            "type": "string",
+            "enum": [
+              "jinja"
+            ]
+          },
+          {
+            "type": "string",
+            "enum": [
+              "vento"
+            ]
+          },
+          {
+            "type": "string",
+            "enum": [
+              "mustache"
+            ]
+          },
+          {
+            "type": "string",
+            "enum": [
+              "xml"
+            ]
+          }
+        ]
+      }
     }
   }
 }
